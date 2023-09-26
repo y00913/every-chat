@@ -1,54 +1,53 @@
-//package com.example.everychat.config;
-//
-//import com.fasterxml.jackson.databind.ObjectMapper;
-//import com.fasterxml.jackson.databind.SerializationFeature;
-//import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-//import lombok.extern.slf4j.Slf4j;
-//import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
-//import org.springframework.amqp.rabbit.connection.ConnectionFactory;
-//import org.springframework.amqp.rabbit.core.RabbitTemplate;
-//import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
-//import org.springframework.beans.factory.annotation.Value;
-//import org.springframework.context.annotation.Bean;
-//import org.springframework.context.annotation.Configuration;
-//import org.springframework.messaging.Message;
-//import org.springframework.messaging.MessageChannel;
-//import org.springframework.messaging.simp.config.ChannelRegistration;
-//import org.springframework.messaging.simp.config.MessageBrokerRegistry;
-//import org.springframework.messaging.support.ChannelInterceptor;
-//import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
-//import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
-//import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
-//
-//@Slf4j
-//@Configuration
-//@EnableWebSocketMessageBroker
-//public class StompConfig implements WebSocketMessageBrokerConfigurer {
-//    @Value("${host}")
-//    private String Host;
-//    @Value("${relayPort}")
-//    private int relayPort;
-//    @Value("${clientId}")
-//    private String clientId;
-//    @Value("${clientPw}")
-//    private String clientPw;
-//
-//    @Override
-//    public void configureMessageBroker(MessageBrokerRegistry registry){
-//        registry.setApplicationDestinationPrefixes("/pub")
-//                .enableStompBrokerRelay("/topic")
-//                .setRelayHost(Host)
-////                .setVirtualHost("/")
+package com.example.everychat.config;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
+import org.springframework.amqp.rabbit.connection.ConnectionFactory;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.messaging.Message;
+import org.springframework.messaging.MessageChannel;
+import org.springframework.messaging.simp.config.ChannelRegistration;
+import org.springframework.messaging.simp.config.MessageBrokerRegistry;
+import org.springframework.messaging.support.ChannelInterceptor;
+import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
+import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
+import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
+
+@Slf4j
+@Configuration
+@EnableWebSocketMessageBroker
+public class StompConfig implements WebSocketMessageBrokerConfigurer {
+    @Value("${host}")
+    private String Host;
+    @Value("${relayPort}")
+    private int relayPort;
+    @Value("${clientId}")
+    private String clientId;
+    @Value("${clientPw}")
+    private String clientPw;
+
+    @Override
+    public void configureMessageBroker(MessageBrokerRegistry registry){
+        registry.setApplicationDestinationPrefixes("/pub")
+                .enableStompBrokerRelay("/topic")
+                .setRelayHost(Host)
+                .setVirtualHost("/")
 //                .setRelayPort(relayPort)
-//                .setClientLogin(clientId)
-//                .setClientPasscode(clientPw);
-//    }
-//
-//    @Override
-//    public void registerStompEndpoints(StompEndpointRegistry registry){
-//        registry.addEndpoint("/ws").setAllowedOriginPatterns("*");
-////                .withSockJS();
-//    }
+                .setClientLogin(clientId)
+                .setClientPasscode(clientPw);
+    }
+
+    @Override
+    public void registerStompEndpoints(StompEndpointRegistry registry){
+        registry.addEndpoint("/ws").setAllowedOriginPatterns("*").withSockJS();
+    }
 //
 //    @Override
 //    public void configureClientInboundChannel(ChannelRegistration registration) {
@@ -103,5 +102,5 @@
 //    public JavaTimeModule dateTimeModule(){
 //        return new JavaTimeModule();
 //    }
-//
-//}
+
+}
