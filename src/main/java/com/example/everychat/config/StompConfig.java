@@ -39,7 +39,7 @@ public class StompConfig implements WebSocketMessageBrokerConfigurer {
                 .enableStompBrokerRelay("/topic")
                 .setRelayHost(Host)
                 .setVirtualHost("/")
-//                .setRelayPort(relayPort)
+                .setRelayPort(relayPort)
                 .setClientLogin(clientId)
                 .setClientPasscode(clientPw);
     }
@@ -48,59 +48,59 @@ public class StompConfig implements WebSocketMessageBrokerConfigurer {
     public void registerStompEndpoints(StompEndpointRegistry registry){
         registry.addEndpoint("/ws").setAllowedOriginPatterns("*").withSockJS();
     }
-//
-//    @Override
-//    public void configureClientInboundChannel(ChannelRegistration registration) {
-//        registration.interceptors(new ChannelInterceptor() {
-//            @Override
-//            public Message<?> preSend(Message<?> message, MessageChannel channel) {
-//                log.info("message inbound : {}", message);
-//                return message;
-//            }
-//        });
-//    }
-//
-//    @Override
-//    public void configureClientOutboundChannel(ChannelRegistration registration) {
-//        registration.interceptors(new ChannelInterceptor() {
-//            @Override
-//            public Message<?> preSend(Message<?> message, MessageChannel channel) {
-//                log.info("message outbound : {}", message);
-//                return message;
-//            }
-//        });
-//    }
-//
-//    @Bean
-//    public ConnectionFactory connectionFactory(){
-//        CachingConnectionFactory cachingConnectionFactory = new CachingConnectionFactory();
-//        cachingConnectionFactory.setHost(Host);
-//        return cachingConnectionFactory;
-//    }
-//
-//    @Bean
-//    public RabbitTemplate rabbitTemplate(ConnectionFactory connectionFactory) {
-//        RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
-//        rabbitTemplate.setMessageConverter(jsonMessageConverter());
-//        rabbitTemplate.setEncoding("utf8");
-//        return rabbitTemplate;
-//    }
-//
-//    @Bean
-//    public Jackson2JsonMessageConverter jsonMessageConverter(){
-//        //LocalDateTime serializable을 위해
-//        ObjectMapper objectMapper = new ObjectMapper();
-//        objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, true);
-//        objectMapper.registerModule(dateTimeModule());
-//
-//        Jackson2JsonMessageConverter converter = new Jackson2JsonMessageConverter(objectMapper);
-//
-//        return converter;
-//    }
-//
-//    @Bean
-//    public JavaTimeModule dateTimeModule(){
-//        return new JavaTimeModule();
-//    }
+
+    @Override
+    public void configureClientInboundChannel(ChannelRegistration registration) {
+        registration.interceptors(new ChannelInterceptor() {
+            @Override
+            public Message<?> preSend(Message<?> message, MessageChannel channel) {
+                log.info("message inbound : {}", message);
+                return message;
+            }
+        });
+    }
+
+    @Override
+    public void configureClientOutboundChannel(ChannelRegistration registration) {
+        registration.interceptors(new ChannelInterceptor() {
+            @Override
+            public Message<?> preSend(Message<?> message, MessageChannel channel) {
+                log.info("message outbound : {}", message);
+                return message;
+            }
+        });
+    }
+
+    @Bean
+    public ConnectionFactory connectionFactory(){
+        CachingConnectionFactory cachingConnectionFactory = new CachingConnectionFactory();
+        cachingConnectionFactory.setHost(Host);
+        return cachingConnectionFactory;
+    }
+
+    @Bean
+    public RabbitTemplate rabbitTemplate(ConnectionFactory connectionFactory) {
+        RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
+        rabbitTemplate.setMessageConverter(jsonMessageConverter());
+        rabbitTemplate.setEncoding("utf8");
+        return rabbitTemplate;
+    }
+
+    @Bean
+    public Jackson2JsonMessageConverter jsonMessageConverter(){
+        //LocalDateTime serializable을 위해
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, true);
+        objectMapper.registerModule(dateTimeModule());
+
+        Jackson2JsonMessageConverter converter = new Jackson2JsonMessageConverter(objectMapper);
+
+        return converter;
+    }
+
+    @Bean
+    public JavaTimeModule dateTimeModule(){
+        return new JavaTimeModule();
+    }
 
 }
