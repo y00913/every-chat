@@ -1,17 +1,25 @@
-package com.example.everychat.dto;
+package com.example.everychat.domain;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Builder
+@Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ChatDto {
+public class Message {
+    @Id
+    private String id;
     private String type;
     private String sender;
     private String channelId;
     private String message;
+    private LocalDateTime createAt;
 }

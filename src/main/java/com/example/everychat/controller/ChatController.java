@@ -14,7 +14,7 @@ public class ChatController {
 
     private final SimpMessageSendingOperations simpMessageSendingOperations;
 
-    @MessageMapping("/test")
+    @MessageMapping("/chat")
     public void message(ChatDto message){
         simpMessageSendingOperations.convertAndSend("/topic/" + message.getChannelId(), message);
     }
