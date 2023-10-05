@@ -1,6 +1,6 @@
 package com.example.everychat.controller;
 
-import com.example.everychat.dto.ChatDto;
+import com.example.everychat.dto.MessageDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
@@ -15,7 +15,7 @@ public class ChatController {
     private final SimpMessageSendingOperations simpMessageSendingOperations;
 
     @MessageMapping("/chat")
-    public void message(ChatDto message){
+    public void message(MessageDto message){
         simpMessageSendingOperations.convertAndSend("/topic/" + message.getChannelId(), message);
     }
 

@@ -1,20 +1,17 @@
-package com.example.everychat.domain;
+package com.example.everychat.dto;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Builder
-@Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Member {
-    @Id
-    private String id;
+public class MessageDto {
+    private String type;
+    private String sender;
     private String channelId;
-    private String memberId;
+    private String message;
 }
