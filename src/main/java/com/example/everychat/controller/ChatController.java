@@ -27,7 +27,7 @@ public class ChatController {
 
     @GetMapping("/channel")
     public Object getChannelList(){
-        Object data = chatService.getChannelList()
+        Object data = chatService.getChannelList();
         return getResponseMessage(StatusEnum.OK, "채널 리스트", data);
     }
 

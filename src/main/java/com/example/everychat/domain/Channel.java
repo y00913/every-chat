@@ -18,6 +18,5 @@ public class Channel {
     @Id
     private String id;
     private String channelName;
-    private Integer memberCount;
     private LocalDateTime createAt;
 }
