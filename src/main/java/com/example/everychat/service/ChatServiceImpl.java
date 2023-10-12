@@ -42,6 +42,8 @@ public class ChatServiceImpl implements ChatService {
                 .createAt(LocalDateTime.now())
                 .build();
 
+        log.info(channel.toString());
+
         channelRepository.save(channel);
     }
 
@@ -52,6 +54,7 @@ public class ChatServiceImpl implements ChatService {
                 .channelId(messageDto.getChannelId())
                 .type(messageDto.getType())
                 .sender(messageDto.getSender())
+                .message(messageDto.getMessage())
                 .createAt(LocalDateTime.now())
                 .build();
 
