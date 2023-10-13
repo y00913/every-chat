@@ -1,26 +1,50 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <body>
+
+  </body>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Stomp from 'webstomp-client'
+import SockJS from 'sockjs-client'
 
 export default {
   name: 'App',
+  created() {
+    this.connect();
+  },
+  methods: {
+    connect() {
+      const serverURL = "http://localhost:8080/ws";
+      let socket = new SockJS(serverURL);
+      this.stompClient = Stomp.over(socket);
+
+      console.log('소켓 연결 시도');
+
+      this.stompClient.connect(
+        {},
+        // eslint-disable-next-line
+        frame => {
+          // this.connected = true;
+
+          console.log('소켓 연결 성공');
+
+          this.stompClient.subscribe("/topic/e54ec9db-c36a-40d5-a380-4e26f3f1544e", res => {
+            console.log('구독으로 받은 메세지', res.body);
+          });
+        },
+        error => {
+          console.log('소켓 연결 실패', error);
+          // this.connected = false;
+        }
+      );
+    }
+  },
   components: {
-    HelloWorld
   }
 }
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+
 </style>
