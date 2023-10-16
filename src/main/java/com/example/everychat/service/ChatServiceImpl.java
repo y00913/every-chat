@@ -58,7 +58,7 @@ public class ChatServiceImpl implements ChatService {
                 .createAt(LocalDateTime.now())
                 .build();
 
-        messageRepository.save(message);
+//        messageRepository.save(message);
 
         simpMessageSendingOperations.convertAndSend("/topic/" + message.getChannelId(), message);
     }
