@@ -1,8 +1,17 @@
 <template>
   <body>
+    <div class="black-bg" v-show="popState">
+      <div class="white-bg">
+        <form v-on:submit.prevent="handlePop">
+        <p>닉네임</p>
+        <input v-model="sender" type="text">
+        <button v-on:keyup.enter="submit">확인</button>
+        </form>
+      </div>
+    </div>
+
+    <h1>채팅</h1>
     <form v-on:submit.prevent="sendMessage">
-      유저이름 :
-      <input v-model="sender" type="text">
       메세지 :
       <input v-model="message" type="text">
 
@@ -10,8 +19,7 @@
     </form>
 
     <div v-for="(item, idx) in reciveList" :key="idx">
-      <h4> 유저이름 : {{ item.sender }} </h4>
-      <h4> 내용 : {{ item.message }} </h4>
+      <h4> {{ item.sender }} : {{ item.message }} </h4>
     </div>
   </body>
 </template>
@@ -26,7 +34,8 @@ export default {
     return {
       sender: "",
       message: "",
-      reciveList: []
+      reciveList: [],
+      popState: true
     }
   },
   created() {
@@ -77,6 +86,9 @@ export default {
           // this.connected = false;
         }
       );
+    },
+    handlePop() {
+      this.popState = !this.popState;
     }
   },
   components: {
@@ -84,4 +96,22 @@ export default {
 }
 </script>
 
-<style></style>
+<style>
+body {
+  text-align: center;
+}
+
+.black-bg {
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  padding: 20px;
+}
+
+.white-bg {
+  width: 50%;
+  background: white;
+  border-radius: 8px;
+  padding: 20px;
+}</style>
