@@ -94,12 +94,16 @@ export default {
     }
   },
   watch: {
-    scrollToBottom() {
-      this.$nextTick(() => {
-        let messages = this.$refs.messages;
+    reciveList: {
+      handler() {
+        this.$nextTick(() => {
+          let messages = this.$refs.messages;
 
-        messages.scrollTo({ top: messages.scrollHeight, behavior: 'smooth' });
-      })
+          messages.scrollTo({ top: messages.scrollHeight, behavior: 'smooth' });
+        })
+      },
+
+      deep: true
     }
   },
   components: {
@@ -154,5 +158,4 @@ body {
   height: 50vh;
   overflow-y: auto;
 }
-
 </style>
