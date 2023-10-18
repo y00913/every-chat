@@ -13,8 +13,8 @@
     <h1>채팅</h1>
 
     <div class="chat-box scrollbar" ref="messages">
-      <div v-for="(item, idx) in reciveList" :key="idx">
-        <h4> {{ item.sender }} : {{ item.message }} </h4>
+      <div v-for="(item, idx) in reciveList" :key="idx" class="chatting">
+        {{ item.sender }} : {{ item.message }}
       </div>
     </div>
 
@@ -119,6 +119,7 @@ body {
   align-items: center;
   text-align: center;
   margin: 0;
+  font-family: 'mabi';
 }
 
 .input-chat {
@@ -150,7 +151,7 @@ body {
 }
 
 .chat-box {
-  border-radius: 2em;
+  border-radius: 0.5em;
   padding: 10px;
   border: 2px solid #b3b0b0;
   margin: 50px;
@@ -159,23 +160,33 @@ body {
   overflow-y: auto;
 }
 
+.chatting {
+  margin: 20px;
+  /* float: left; */
+}
+
 .scrollbar { 
   width: 25vw;
   height: 50vh;
-  overflow-y: scroll; /*  */
+  overflow-y: scroll;
 }
 
-/* 스크롤바의 폭 너비 */
 .scrollbar::-webkit-scrollbar {
-    width: 10px;  
+  width: 10px;
 }
-
+ 
 .scrollbar::-webkit-scrollbar-thumb {
-    background: rgba(220, 20, 60); /* 스크롤바 색상 */
-    border-radius: 10px; /* 스크롤바 둥근 테두리 */
+  background: #666;
+  border-radius: 20px;
 }
 
 .scrollbar::-webkit-scrollbar-track {
-    background: rgba(220, 20, 60, .1);  /*스크롤바 뒷 배경 색상*/
+  background: #ddd;
+  border-radius: 20px;
+}
+
+@font-face {
+  font-family: "mabi";
+  src: url('./assets/Mabinogi_Classic_TTF.ttf') format('truetype')
 }
 </style>
