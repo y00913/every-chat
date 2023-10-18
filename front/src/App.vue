@@ -3,24 +3,26 @@
     <div class="black-bg" v-show="popState">
       <div class="white-bg">
         <form v-on:submit.prevent="handlePop">
-        <p>닉네임</p>
-        <input v-model="sender" type="text">
-        <button v-on:keyup.enter="submit">확인</button>
+          <p>닉네임</p>
+          <input v-model="sender" type="text">
+          <button v-on:keyup.enter="submit">확인</button>
         </form>
       </div>
     </div>
 
     <h1>채팅</h1>
-    <form v-on:submit.prevent="sendMessage">
-      메세지 :
-      <input v-model="message" type="text">
 
+    <div class="chat-box" ref="messages">
+      <div v-for="(item, idx) in reciveList" :key="idx">
+        <h4> {{ item.sender }} : {{ item.message }} </h4>
+      </div>
+    </div>
+
+    <form v-on:submit.prevent="sendMessage">
+      <input v-model="message" type="text" class="input-chat">
+      <p></p>
       <button v-on:keyup.enter="submit">완료</button>
     </form>
-
-    <div v-for="(item, idx) in reciveList" :key="idx">
-      <h4> {{ item.sender }} : {{ item.message }} </h4>
-    </div>
   </body>
 </template>
 
@@ -91,6 +93,15 @@ export default {
       this.popState = !this.popState;
     }
   },
+  watch: {
+    scrollToBottom() {
+      this.$nextTick(() => {
+        let messages = this.$refs.messages;
+
+        messages.scrollTo({ top: messages.scrollHeight, behavior: 'smooth' });
+      })
+    }
+  },
   components: {
   }
 }
@@ -98,20 +109,50 @@ export default {
 
 <style>
 body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   text-align: center;
+  margin: 0;
+}
+
+.input-chat {
+  width: 25vw;
+  height: 3vh;
 }
 
 .black-bg {
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   background: rgba(0, 0, 0, 0.5);
   position: fixed;
   padding: 20px;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
 }
 
 .white-bg {
-  width: 50%;
+  width: 30vw;
+  height: 10vh;
   background: white;
   border-radius: 8px;
+  position: fixed;
   padding: 20px;
-}</style>
+  left: 50%;
+  transform: translate(-50%, 0);
+}
+
+.chat-box {
+  border-radius: 2em;
+  padding: 10px;
+  border: 2px solid #b3b0b0;
+  margin: 50px;
+  width: 25vw;
+  height: 50vh;
+  overflow-y: auto;
+}
+
+</style>
