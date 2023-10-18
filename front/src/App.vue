@@ -4,7 +4,7 @@
       <div class="white-bg">
         <form v-on:submit.prevent="handlePop">
           <p>닉네임</p>
-          <input v-model="sender" type="text">
+          <input v-model="sender" type="text"> <p></p>
           <button v-on:keyup.enter="submit">확인</button>
         </form>
       </div>
@@ -183,6 +183,30 @@ body {
 .scrollbar::-webkit-scrollbar-track {
   background: #ddd;
   border-radius: 20px;
+}
+
+button {
+  color: #444444;
+  background: #F3F3F3;
+  border: 2px #DADADA solid;
+  padding: 8px 20px;
+  border-radius: 1em;
+  font-weight: bold;
+  font-size: 10pt;
+  outline: none;
+  font-family: 'mabi';
+  cursor: pointer;
+}
+
+button:hover {
+  border: 2px #C6C6C6 solid;
+  box-shadow: 1px 1px 1px #EAEAEA;
+  color: #333333;
+  background: #F7F7F7;
+}
+
+button:active {
+  box-shadow: inset 1px 1px 1px #DFDFDF;
 }
 
 @font-face {
