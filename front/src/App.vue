@@ -10,7 +10,7 @@
       </div>
     </div>
 
-    <h1>채팅</h1>
+    <h1>에브리 챗 :)</h1>
 
     <div class="chat-box scrollbar" ref="messages">
       <div v-for="(item, idx) in reciveList" :key="idx" class="chatting">
@@ -23,6 +23,12 @@
       <p></p>
       <button v-on:keyup.enter="submit">완료</button>
     </form>
+
+    <div>
+      <p style="font-weight: bold; margin-top: 4.5vw;">
+        made by <a v-bind:href="`https://velog.io/@y00913`" target="_blank" style="text-decoration: none;">y00913</a>
+      </p>
+    </div>
   </body>
 </template>
 
@@ -73,8 +79,6 @@ export default {
         {},
         // eslint-disable-next-line
         frame => {
-          // this.connected = true;
-
           console.log('소켓 연결 성공');
 
           this.stompClient.subscribe("/topic/e54ec9db-c36a-40d5-a380-4e26f3f1544e", res => {
@@ -85,7 +89,6 @@ export default {
         },
         error => {
           console.log('소켓 연결 실패', error);
-          // this.connected = false;
         }
       );
     },
@@ -141,7 +144,8 @@ body {
 
 .white-bg {
   width: 30vw;
-  height: 10vh;
+  min-height: 10vh;
+  height: auto;
   background: white;
   border-radius: 8px;
   position: fixed;
@@ -156,7 +160,7 @@ body {
   border: 2px solid #b3b0b0;
   margin: 50px;
   width: 25vw;
-  height: 50vh;
+  height: 55vh;
   overflow-y: auto;
 }
 
@@ -166,8 +170,6 @@ body {
 }
 
 .scrollbar { 
-  width: 25vw;
-  height: 50vh;
   overflow-y: scroll;
 }
 
