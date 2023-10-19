@@ -4,7 +4,7 @@
       <div class="white-bg">
         <form v-on:submit.prevent="handlePop">
           <p>닉네임</p>
-          <input v-model="sender" type="text"> <p></p>
+          <input v-model="sender" type="text" autofocus> <p></p>
           <button v-on:keyup.enter="submit">확인</button>
         </form>
       </div>
@@ -19,7 +19,7 @@
     </div>
 
     <form v-on:submit.prevent="sendMessage">
-      <input v-model="message" type="text" class="input-chat">
+      <input v-model="message" type="text" class="input-chat" autofocus>
       <p></p>
       <button v-on:keyup.enter="submit">완료</button>
     </form>
