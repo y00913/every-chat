@@ -7,6 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface MessageRepository extends JpaRepository<Message, String> {
 
-    Page<Message> findAllByOrderByCreateAtAsc(Pageable pageable);
+    Page<Message> findAllByOrderByCreateAtDesc(Pageable pageable);
 
 }

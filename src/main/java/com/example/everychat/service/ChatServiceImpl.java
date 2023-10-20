@@ -16,8 +16,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Primary
 @Service
@@ -68,7 +70,8 @@ public class ChatServiceImpl implements ChatService {
     @Transactional
     @Override
     public Object getMessagePaging(int page){
-        Page<Message> messages = messageRepository.findAllByOrderByCreateAtAsc(PageRequest.of(page, 10));
-        return messages;
+        Page<Message> messagePage = messageRepository.findAllByOrderByCreateAtDesc(PageRequest.of(page, 10));
+        List<Message> messageList = messagePage.getContent().stream().sorted(Comparator.comparing(Message::getCreateAt)).collect(Collectors.toList());
+        return messageList;
     }
 }
