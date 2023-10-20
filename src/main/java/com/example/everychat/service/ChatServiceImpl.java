@@ -9,6 +9,8 @@ import com.example.everychat.vo.ChannelVo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Primary;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -58,8 +60,15 @@ public class ChatServiceImpl implements ChatService {
                 .createAt(LocalDateTime.now())
                 .build();
 
-//        messageRepository.save(message);
+        messageRepository.save(message);
 
         simpMessageSendingOperations.convertAndSend("/topic/" + message.getChannelId(), message);
+    }
+
+    @Transactional
+    @Override
+    public Object getMessagePaging(int page){
+        Page<Message> messages = messageRepository.findAllByOrderByCreateAtAsc(PageRequest.of(page, 10));
+        return messages;
     }
 }

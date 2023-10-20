@@ -35,4 +35,11 @@ public class ChatController {
         return getResponseMessage(StatusEnum.OK, "채널 생성 완료");
     }
 
+    @GetMapping("/message/{page}")
+    public Object getMessage(@PathVariable int page){
+        Object messages = chatService.getMessagePaging(page);
+
+        return getResponseMessage(StatusEnum.OK, "메세지 페이징 리스트", messages);
+    }
+
 }
