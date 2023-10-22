@@ -4,7 +4,8 @@
       <div class="white-bg">
         <form v-on:submit.prevent="handlePop">
           <p>닉네임</p>
-          <input v-model="sender" type="text" autofocus> <p></p>
+          <input v-model="sender" type="text" autofocus>
+          <p></p>
           <button v-on:keyup.enter="submit">확인</button>
         </form>
       </div>
@@ -13,7 +14,17 @@
     <h1>에브리 챗 :)</h1>
 
     <div class="chat-box scrollbar" ref="messages">
-      <div v-for="(item, idx) in reciveList" :key="idx" class="chatting">
+      <div v-show="!isEnd">
+        <form v-on:submit.prevent="getMessage">
+          <button>지난 채팅 더보기</button>
+        </form>
+      </div>
+
+      <div v-for="(item, idx) in previousList" :key="idx" class="previous-chatting"> 
+        {{ item.sender }} : {{ item.message }}
+      </div>
+
+      <div v-for="(item, idx) in reciveList" :key="idx" class="recive-chatting">
         {{ item.sender }} : {{ item.message }}
       </div>
     </div>
@@ -35,18 +46,24 @@
 <script>
 import Stomp from 'webstomp-client'
 import SockJS from 'sockjs-client'
+import axios from "axios"
 
 export default {
   name: 'App',
   data() {
     return {
+      url: "http://218.237.234.37:8082",
       sender: "",
       message: "",
       reciveList: [],
-      popState: true
+      previousList: [],
+      popState: true,
+      messagePage: 0,
+      isEnd: false
     }
   },
   created() {
+    this.getMessage();
     this.connect();
   },
   methods: {
@@ -69,7 +86,7 @@ export default {
       }
     },
     connect() {
-      const serverURL = "http://218.237.234.37:8082/ws";
+      const serverURL = this.url + "/ws";
       let socket = new SockJS(serverURL);
       this.stompClient = Stomp.over(socket);
 
@@ -94,6 +111,17 @@ export default {
     },
     handlePop() {
       this.popState = !this.popState;
+    },
+    async getMessage() {
+      const response = await axios.get(this.url + "/message/" + this.messagePage);
+
+      if (response.data.data.length == 0) {
+        this.isEnd = true;
+        return;
+      }
+
+      this.previousList.unshift(...response.data.data);
+      this.messagePage++;
     }
   },
   watch: {
@@ -161,22 +189,26 @@ body {
   margin: 50px;
   width: 25vw;
   height: 55vh;
-  overflow-y: auto;
 }
 
-.chatting {
+.previous-chatting {
   margin: 20px;
-  /* float: left; */
+  color: #acaaaa;
 }
 
-.scrollbar { 
-  overflow-y: scroll;
+.recive-chatting {
+  margin: 20px;
+}
+
+.scrollbar {
+  overflow: hidden;
+  overflow-y: auto;
 }
 
 .scrollbar::-webkit-scrollbar {
   width: 10px;
 }
- 
+
 .scrollbar::-webkit-scrollbar-thumb {
   background: #666;
   border-radius: 20px;
