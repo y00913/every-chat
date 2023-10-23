@@ -1,18 +1,18 @@
 <template>
-  <Header>
-    <Header/>
-  </Header>
-  <body>
-    <Chat/>
-  </body>
-  <footer>
-    <Footer/>
-  </footer>
+  <div id="app">
+    <Header></Header>
+
+    <body>
+      <ChatLayout />
+    </body>
+
+    <Footer></Footer>
+  </div>
 </template>
 
 <script>
 import Header from './components/Header.vue'
-import Chat from './components/Chat.vue'
+import ChatLayout from './components/Chat.vue'
 import Footer from './components/Footer.vue'
 
 export default {
@@ -28,14 +28,14 @@ export default {
   },
   components: {
     Header,
-    Chat,
+    ChatLayout,
     Footer,
   }
 }
 </script>
 
 <style>
-body {
+#app {
   font-family: 'mabi';
 }
 
