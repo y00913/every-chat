@@ -91,11 +91,9 @@ export default {
         frame => {
           console.log('소켓 연결 성공');
 
-          setTimeout(() => {
-            this.stompClient.subscribe("/topic/e54ec9db-c36a-40d5-a380-4e26f3f1544e", res => {
-              this.reciveList.push(JSON.parse(res.body));
-            });
-          }, 1);
+          this.stompClient.subscribe("/topic/e54ec9db-c36a-40d5-a380-4e26f3f1544e", res => {
+            this.reciveList.push(JSON.parse(res.body));
+          });
         },
         error => {
           console.log('소켓 연결 실패', error);
