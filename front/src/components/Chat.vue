@@ -4,7 +4,7 @@
       <div class="white-bg">
         <form v-on:submit.prevent="handlePop">
           <p>닉네임을 입력해주세요.</p>
-          <input v-model="sender" type="text" autofocus>
+          <input v-model="sender" type="text" autofocus required>
           <p></p>
           <button v-on:keyup.enter="submit">확인</button>
         </form>
@@ -28,7 +28,7 @@
     </div>
 
     <form v-on:submit.prevent="sendMessage">
-      <input v-model="message" type="text" class="input-chat" autofocus>
+      <input v-model="message" type="text" class="input-chat" required>
       <p></p>
       <button v-on:keyup.enter="submit">입력</button>
     </form>
@@ -95,7 +95,7 @@ export default {
             this.stompClient.subscribe("/topic/e54ec9db-c36a-40d5-a380-4e26f3f1544e", res => {
               this.reciveList.push(JSON.parse(res.body));
             });
-          }, 500);
+          }, 1);
         },
         error => {
           console.log('소켓 연결 실패', error);
