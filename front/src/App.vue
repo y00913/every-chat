@@ -3,7 +3,7 @@
     <Header></Header>
 
     <body>
-      <ChatLayout />
+      <router-view />
     </body>
 
     <Footer></Footer>
@@ -12,7 +12,6 @@
 
 <script>
 import Header from './components/Header.vue'
-import ChatLayout from './components/Chat.vue'
 import Footer from './components/Footer.vue'
 
 export default {
@@ -28,7 +27,6 @@ export default {
   },
   components: {
     Header,
-    ChatLayout,
     Footer,
   }
 }
