@@ -41,11 +41,11 @@ import SockJS from 'sockjs-client'
 import axios from "axios"
 
 export default {
+  props : ["channelId"],
   name: 'App',
   data() {
     return {
       url: "http://everychat.kro.kr:8082",
-      // url: "http://localhost:8080",
       sender: "",
       message: "",
       reciveList: [],
@@ -70,7 +70,7 @@ export default {
 
       if (this.stompClient && this.stompClient.connected) {
         const msg = {
-          channelId: "e54ec9db-c36a-40d5-a380-4e26f3f1544e",
+          channelId: ["channelId"],
           type: "message",
           sender: this.sender,
           message: this.message
@@ -91,7 +91,7 @@ export default {
         frame => {
           console.log('소켓 연결 성공');
 
-          this.stompClient.subscribe("/topic/e54ec9db-c36a-40d5-a380-4e26f3f1544e", res => {
+          this.stompClient.subscribe("/topic/" + ["channelId"], res => {
             this.reciveList.push(JSON.parse(res.body));
           });
         },
@@ -125,15 +125,20 @@ export default {
 
           messages.scrollTo({ top: messages.scrollHeight, behavior: 'smooth' });
         })
-      },
-
-      deep: true
+      }
+    },
+    $route (to, from) {
+      console.log(to.path);
+      console.log(from.path);
+      this.stompClient.disconnect();
     }
   },
 }
 </script>
   
 <style>
+@import "../assets/css/MainBox.css";
+
 body {
   display: flex;
   flex-direction: column;
@@ -172,15 +177,6 @@ body {
   transform: translate(-50%, 0);
 }
 
-.chat-box {
-  border-radius: 0.5em;
-  padding: 10px;
-  border: 2px solid #b3b0b0;
-  margin: 50px;
-  width: 25vw;
-  height: 55vh;
-}
-
 .previous-chatting {
   margin: 20px;
   color: #acaaaa;
@@ -188,25 +184,6 @@ body {
 
 .recive-chatting {
   margin: 20px;
-}
-
-.scrollbar {
-  overflow: hidden;
-  overflow-y: auto;
-}
-
-.scrollbar::-webkit-scrollbar {
-  width: 10px;
-}
-
-.scrollbar::-webkit-scrollbar-thumb {
-  background: #666;
-  border-radius: 20px;
-}
-
-.scrollbar::-webkit-scrollbar-track {
-  background: #ddd;
-  border-radius: 20px;
 }
 
 button {

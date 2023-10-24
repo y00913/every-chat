@@ -39,6 +39,6 @@ export default {
 
 @font-face {
   font-family: "mabi";
-  src: url('./assets/Mabinogi_Classic_TTF.ttf') format('truetype')
+  src: url('./assets/font/Mabinogi_Classic_TTF.ttf') format('truetype')
 }
 </style>
