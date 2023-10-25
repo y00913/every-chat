@@ -55,7 +55,8 @@ export default {
       messagePage: 0,
       isEnd: false,
       channelName: this.$route.params.channelName,
-      channelId: this.$route.params.channelId
+      channelId: this.$route.params.channelId,
+      pageSize: 0
     }
   },
   created() {
@@ -114,13 +115,13 @@ export default {
     async getMessage() {
       const response = await axios.get(this.url + "/message/" + this.messagePage);
 
-      if (response.data.data.length == 0) {
+      this.previousList.unshift(...response.data.data.messageList);
+      this.messagePage++;
+
+      if (response.data.data.pageSize == this.messagePage) {
         this.isEnd = true;
         return;
       }
-
-      this.previousList.unshift(...response.data.data);
-      this.messagePage++;
     },
     exitRoom() {
       this.stompClient.disconnect();
