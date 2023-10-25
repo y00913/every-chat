@@ -7,7 +7,12 @@ const router = createRouter({
     history: createWebHistory(),
     routes: [
         { path: "/", name: "Room", component: RoomPage },
-        { path: "/chat/:channelId", name: "Chat", component: ChatPage },
+        { 
+            path: "/chat/:channelName/:channelId", 
+            name: "Chat",
+            component: ChatPage ,
+            props: true,
+        },
         {
             path: "/:pathMatch(.*)",
             name: "not-found",

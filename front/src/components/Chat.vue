@@ -12,10 +12,13 @@
     </div>
 
     <div class="chat-box scrollbar" ref="messages">
+      <div class="exit" v-show="!popState">
+        <button @click="exitRoom">나가기</button>
+      </div>
+
+
       <div v-show="!isEnd">
-        <form v-on:submit.prevent="getMessage">
-          <button>지난 채팅 더보기</button>
-        </form>
+        <button @click="getMessage">지난 채팅 더보기</button>
       </div>
 
       <div v-for="(item, idx) in previousList" :key="idx" class="previous-chatting" ref="previous-chatting">
@@ -41,7 +44,6 @@ import SockJS from 'sockjs-client'
 import axios from "axios"
 
 export default {
-  props : ["channelId"],
   name: 'App',
   data() {
     return {
@@ -52,7 +54,9 @@ export default {
       previousList: [],
       popState: true,
       messagePage: 0,
-      isEnd: false
+      isEnd: false,
+      channelName: this.$route.params.channelName,
+      channelId: this.$route.params.channelId
     }
   },
   created() {
@@ -70,7 +74,7 @@ export default {
 
       if (this.stompClient && this.stompClient.connected) {
         const msg = {
-          channelId: ["channelId"],
+          channelId: this.channelId,
           type: "message",
           sender: this.sender,
           message: this.message
@@ -91,9 +95,12 @@ export default {
         frame => {
           console.log('소켓 연결 성공');
 
-          this.stompClient.subscribe("/topic/" + ["channelId"], res => {
-            this.reciveList.push(JSON.parse(res.body));
-          });
+          setTimeout(() => {
+            this.stompClient.subscribe("/topic/" + this.channelId, res => {
+              this.reciveList.push(JSON.parse(res.body));
+            });
+          }, 500);
+
         },
         error => {
           console.log('소켓 연결 실패', error);
@@ -115,6 +122,10 @@ export default {
 
       this.previousList.unshift(...response.data.data);
       this.messagePage++;
+    },
+    exitRoom() {
+      this.stompClient.disconnect();
+      this.$router.push('/');
     }
   },
   watch: {
@@ -126,11 +137,6 @@ export default {
           messages.scrollTo({ top: messages.scrollHeight, behavior: 'smooth' });
         })
       }
-    },
-    $route (to, from) {
-      console.log(to.path);
-      console.log(from.path);
-      this.stompClient.disconnect();
     }
   },
 }
@@ -209,5 +215,19 @@ button:hover {
 button:active {
   box-shadow: inset 1px 1px 1px #DFDFDF;
 }
+
+.exit {
+  float: left;
+  position: fixed
+}
+
+/* .chat-menu {
+  width: 25vw;
+  height: 5vh;
+  border-radius: 0.5em;
+  border: 2px solid #b3b0b0;
+  margin-bottom: 2vh;
+} */
+
 </style>
   

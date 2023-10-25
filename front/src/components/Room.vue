@@ -1,7 +1,7 @@
 <template>
     <div class="chat-box scrollbar">
         <div v-for="(item, idx) in roomList" :key="idx">
-            <router-link to="/chat/{{ item.channelName }}">{{ item.channelName }}</router-link>
+            <router-link :to="'/chat/' + item.channelName + '/' + item.id">{{ item.channelName }}</router-link>
         </div>
     </div>
 </template>
