@@ -3,6 +3,8 @@ package com.example.everychat.service;
 import com.example.everychat.domain.Channel;
 import com.example.everychat.domain.Message;
 import com.example.everychat.dto.MessageDto;
+import com.example.everychat.dto.PagingChannelDto;
+import com.example.everychat.dto.PagingMessageDto;
 import com.example.everychat.repository.ChannelRepository;
 import com.example.everychat.repository.MessageRepository;
 import com.example.everychat.vo.ChannelVo;
@@ -17,7 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.Comparator;
-import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -34,8 +35,13 @@ public class ChatServiceImpl implements ChatService {
     @Override
     public Object getChannelList(int page) {
         Page<Channel> channelList = channelRepository.findAllByOrderByCreateAtDesc(PageRequest.of(page, 10));
+        PagingChannelDto pagingChannelDto = PagingChannelDto.builder()
+                .channelList(channelList.getContent())
+                .pageNumber(channelList.getNumber())
+                .pageSize(channelList.getTotalPages())
+                .build();
 
-        return channelList;
+        return pagingChannelDto;
     }
 
     @Transactional
@@ -71,7 +77,11 @@ public class ChatServiceImpl implements ChatService {
     @Override
     public Object getMessagePaging(int page){
         Page<Message> messagePage = messageRepository.findAllByOrderByCreateAtDesc(PageRequest.of(page, 10));
-        List<Message> messageList = messagePage.getContent().stream().sorted(Comparator.comparing(Message::getCreateAt)).collect(Collectors.toList());
-        return messageList;
+        PagingMessageDto pagingMessageDto = PagingMessageDto.builder()
+                .messageList(messagePage.getContent().stream().sorted(Comparator.comparing(Message::getCreateAt)).collect(Collectors.toList()))
+                .pageNumber(messagePage.getNumber())
+                .pageSize(messagePage.getTotalPages())
+                .build();
+        return pagingMessageDto;
     }
 }
