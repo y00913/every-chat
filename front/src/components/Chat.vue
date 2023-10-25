@@ -16,7 +16,6 @@
         <button @click="exitRoom">나가기</button>
       </div>
 
-
       <div v-show="!isEnd">
         <button @click="getMessage">지난 채팅 더보기</button>
       </div>
@@ -136,7 +135,9 @@ export default {
 
           messages.scrollTo({ top: messages.scrollHeight, behavior: 'smooth' });
         })
-      }
+      },
+
+      deep: true
     }
   },
 }
@@ -220,14 +221,6 @@ button:active {
   float: left;
   position: fixed
 }
-
-/* .chat-menu {
-  width: 25vw;
-  height: 5vh;
-  border-radius: 0.5em;
-  border: 2px solid #b3b0b0;
-  margin-bottom: 2vh;
-} */
 
 </style>
   
