@@ -22,9 +22,9 @@ public class ChatController {
         chatService.sendMessage(message);
     }
 
-    @GetMapping("/channel")
-    public Object getChannelList(){
-        Object data = chatService.getChannelList();
+    @GetMapping("/channel/{page}")
+    public Object getChannelList(@PathVariable int page){
+        Object data = chatService.getChannelList(page);
         return getResponseMessage(StatusEnum.OK, "채널 리스트", data);
     }
 

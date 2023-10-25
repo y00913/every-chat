@@ -32,8 +32,8 @@ public class ChatServiceImpl implements ChatService {
 
     @Transactional(readOnly = true)
     @Override
-    public Object getChannelList() {
-        List<Channel> channelList = channelRepository.findAllByOrderByCreateAtDesc();
+    public Object getChannelList(int page) {
+        Page<Channel> channelList = channelRepository.findAllByOrderByCreateAtDesc(PageRequest.of(page, 10));
 
         return channelList;
     }
