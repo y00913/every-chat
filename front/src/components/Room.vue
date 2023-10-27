@@ -1,18 +1,16 @@
 <template>
     <div class="black-bg" v-show="popState">
         <div class="white-bg">
-            <form v-on:submit.prevent="handlePop">
-                <p>방 제목을 입력해주세요.</p>
-                <input v-model="roomName" type="text" required>
-                <p></p>
-                <button @click="createRoom" v-on:keyup.enter="submit">확인</button>
-            </form>
-            <button @click="handlePop">취소</button>
+            <p>방 제목을 입력해주세요.</p>
+            <input v-model="roomName" type="text" required>
+            <p></p>
+            <button @click="createRoom" v-on:keyup.enter="submit">확인</button>
+            <button class="closePop" @click="handlePop">취소</button>
         </div>
     </div>
 
     <div class="chat-box">
-        <div v-for="(item, idx) in roomList" :key="idx">
+        <div v-for="(item, idx) in roomList" :key="idx" class="room-list">
             <router-link :to="'/chat/' + item.channelName + '/' + item.id">{{ item.channelName }}</router-link>
         </div>
     </div>
@@ -22,13 +20,13 @@
     <div>
         <ul>
             <li class="previous-page">
-                <button v-show="!(pageNum == 0)" @click="getRoom(pageNum - 1)">이전</button>
+                <button v-show="!(pageNum == 0) && !popState" @click="getRoom(pageNum - 1)">이전</button>
             </li>
             <li class="page-count">
                 {{ pageNum + 1 }} / {{ pageSize }}
             </li>
             <li class="next-page">
-                <button v-show="!(pageNum == pageSize - 1)" @click="getRoom(pageNum + 1)">다음</button>
+                <button v-show="!(pageNum == pageSize - 1) && !popState" @click="getRoom(pageNum + 1)">다음</button>
             </li>
         </ul>
     </div>
@@ -63,15 +61,11 @@ export default {
 
             console.log(pageNumber + '페이지 이동');
         },
-
-        openModal() {
-            this.$store.commit('popStateChange', true);
-        },
         handlePop() {
             this.popState = !this.popState;
         },
         async createRoom() {
-            if(this.roomName == "") return;
+            if (this.roomName == "") return;
 
             const response = await axios.post(this.url + "/channel", {
                 channelName: this.roomName
@@ -80,6 +74,7 @@ export default {
             console.log(response.data);
 
             this.getRoom(0);
+            this.handlePop();
         }
     },
     components: {
@@ -109,5 +104,9 @@ li {
 
 .next-page {
     right: 45%;
+}
+
+.room-list {
+    height: 5.8vh;
 }
 </style>
