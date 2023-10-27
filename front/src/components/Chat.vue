@@ -146,6 +146,8 @@ export default {
   
 <style>
 @import "../assets/css/MainBox.css";
+@import "../assets/css/BlackBg.css";
+@import "../assets/css/WhiteBg.css";
 
 body {
   display: flex;
@@ -159,30 +161,6 @@ body {
 .input-chat {
   width: 25vw;
   height: 3vh;
-}
-
-.black-bg {
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.5);
-  position: fixed;
-  padding: 20px;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-}
-
-.white-bg {
-  width: 30vw;
-  min-height: 10vh;
-  height: auto;
-  background: white;
-  border-radius: 8px;
-  position: fixed;
-  padding: 20px;
-  left: 50%;
-  transform: translate(-50%, 0);
 }
 
 .previous-chatting {

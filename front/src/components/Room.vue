@@ -4,6 +4,10 @@
             <router-link :to="'/chat/' + item.channelName + '/' + item.id">{{ item.channelName }}</router-link>
         </div>
     </div>
+    <!-- <div>
+        <button @click="openModal()">열기</button>
+        <createRoom/>
+    </div> -->
     <div>
         <ul>
             <li class="previous-page">
@@ -22,7 +26,8 @@
 </template>
 
 <script>
-import axios from "axios"
+import axios from "axios";
+// import createRoom from "./CreateRoom.vue";
 
 export default {
     name: 'App',
@@ -41,13 +46,20 @@ export default {
         async getRoom(pageNumber) {
             this.pageNum = pageNumber;
             const response = await axios.get(this.url + "/channel/" + pageNumber);
-            // this.pageSize = response.data.data.pageSize;
+            this.pageSize = response.data.data.pageSize;
 
             this.roomList = [];
             this.roomList.push(...response.data.data.channelList);
 
             console.log(pageNumber + '페이지 이동');
+        },
+
+        openModal() {
+            this.$store.commit('popStateChange', true);
         }
+    },
+    components: {
+        // createRoom
     }
 }
 </script>
