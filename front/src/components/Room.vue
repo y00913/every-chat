@@ -1,25 +1,34 @@
 <template>
+    <div class="black-bg" v-show="popState">
+        <div class="white-bg">
+            <form v-on:submit.prevent="handlePop">
+                <p>방 제목을 입력해주세요.</p>
+                <input v-model="roomName" type="text" required>
+                <p></p>
+                <button @click="createRoom" v-on:keyup.enter="submit">확인</button>
+            </form>
+            <button @click="handlePop">취소</button>
+        </div>
+    </div>
+
     <div class="chat-box">
         <div v-for="(item, idx) in roomList" :key="idx">
             <router-link :to="'/chat/' + item.channelName + '/' + item.id">{{ item.channelName }}</router-link>
         </div>
     </div>
-    <!-- <div>
-        <button @click="openModal()">열기</button>
-        <createRoom/>
-    </div> -->
+    <div>
+        <button @click="handlePop">생성</button>
+    </div>
     <div>
         <ul>
             <li class="previous-page">
-                <button v-show="!(pageNum == 0)" 
-                @click="getRoom(pageNum - 1)">이전</button>
+                <button v-show="!(pageNum == 0)" @click="getRoom(pageNum - 1)">이전</button>
             </li>
             <li class="page-count">
                 {{ pageNum + 1 }} / {{ pageSize }}
             </li>
             <li class="next-page">
-                <button v-show="!(pageNum == pageSize - 1)"
-                @click="getRoom(pageNum + 1)">다음</button>
+                <button v-show="!(pageNum == pageSize - 1)" @click="getRoom(pageNum + 1)">다음</button>
             </li>
         </ul>
     </div>
@@ -27,7 +36,6 @@
 
 <script>
 import axios from "axios";
-// import createRoom from "./CreateRoom.vue";
 
 export default {
     name: 'App',
@@ -36,7 +44,9 @@ export default {
             url: "http://everychat.kro.kr:8082",
             roomList: [],
             pageNum: 0,
-            pageSize: 5
+            pageSize: 5,
+            popState: false,
+            roomName: ""
         }
     },
     created() {
@@ -56,16 +66,31 @@ export default {
 
         openModal() {
             this.$store.commit('popStateChange', true);
+        },
+        handlePop() {
+            this.popState = !this.popState;
+        },
+        async createRoom() {
+            if(this.roomName == "") return;
+
+            const response = await axios.post(this.url + "/channel", {
+                channelName: this.roomName
+            });
+
+            console.log(response.data);
+
+            this.getRoom(0);
         }
     },
     components: {
-        // createRoom
     }
 }
 </script>
 
 <style>
 @import "../assets/css/MainBox.css";
+@import "../assets/css/BlackBg.css";
+@import "../assets/css/WhiteBg.css";
 
 li {
     display: inline-block;

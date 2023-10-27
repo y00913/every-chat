@@ -113,7 +113,7 @@ export default {
       this.popState = !this.popState;
     },
     async getMessage() {
-      const response = await axios.get(this.url + "/message/" + this.messagePage);
+      const response = await axios.get(this.url + "/message/" + this.channelId + "/" + this.messagePage);
 
       this.previousList.unshift(...response.data.data.messageList);
       this.messagePage++;

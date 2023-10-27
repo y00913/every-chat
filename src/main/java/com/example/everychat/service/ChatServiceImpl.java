@@ -75,8 +75,8 @@ public class ChatServiceImpl implements ChatService {
 
     @Transactional
     @Override
-    public Object getMessagePaging(int page){
-        Page<Message> messagePage = messageRepository.findAllByOrderByCreateAtDesc(PageRequest.of(page, 10));
+    public Object getMessagePaging(String channelId, int page){
+        Page<Message> messagePage = messageRepository.findAllByChannelIdOrderByCreateAtDesc(channelId, PageRequest.of(page, 10));
         PagingMessageDto pagingMessageDto = PagingMessageDto.builder()
                 .messageList(messagePage.getContent().stream().sorted(Comparator.comparing(Message::getCreateAt)).collect(Collectors.toList()))
                 .pageNumber(messagePage.getNumber())
