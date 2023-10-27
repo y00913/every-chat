@@ -118,7 +118,7 @@ export default {
       this.previousList.unshift(...response.data.data.messageList);
       this.messagePage++;
 
-      if (response.data.data.pageSize == this.messagePage) {
+      if (response.data.data.pageSize == this.messagePage || response.data.data.pageSize == 0) {
         this.isEnd = true;
         return;
       }
