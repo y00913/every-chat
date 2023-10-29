@@ -6,7 +6,7 @@
           <p>닉네임을 입력해주세요.</p>
           <input v-model="sender" type="text" autofocus required>
           <p></p>
-          <button v-on:keyup.enter="submit">확인</button>
+          <button @click="sendEnter" v-on:keyup.enter="submit">확인</button>
         </form>
       </div>
     </div>
@@ -63,7 +63,6 @@ export default {
   created() {
     this.getMessage();
     this.connect();
-    this.sendEnter();
   },
   methods: {
     // eslint-disable-next-line
@@ -85,6 +84,8 @@ export default {
       }
     },
     sendEnter() {
+      if(this.sender == "") return;
+
       console.log("Send status: enter");
       if (this.stompClient && this.stompClient.connected) {
         const msg = {
