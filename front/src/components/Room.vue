@@ -11,7 +11,9 @@
 
     <div class="chat-box">
         <div v-for="(item, idx) in roomList" :key="idx" class="room-list">
-            <router-link :to="'/chat/' + item.channelName + '/' + item.id">{{ item.channelName }}</router-link>
+            <router-link :to="'/chat/' + item.channelName + '/' + item.id">
+                <button>{{ item.channelName }}</button>
+            </router-link>
         </div>
     </div>
     <div>
@@ -107,6 +109,6 @@ li {
 }
 
 .room-list {
-    height: 5.8vh;
+    height: 5.7vh;
 }
 </style>
