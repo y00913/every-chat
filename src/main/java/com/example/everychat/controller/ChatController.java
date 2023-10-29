@@ -1,6 +1,7 @@
 package com.example.everychat.controller;
 
 import com.example.everychat.dto.MessageDto;
+import com.example.everychat.enums.MessageTypeEnum;
 import com.example.everychat.enums.StatusEnum;
 import com.example.everychat.service.ChatService;
 import com.example.everychat.vo.ChannelVo;
@@ -19,7 +20,11 @@ public class ChatController {
 
     @MessageMapping("/chat")
     public void sendMessage(MessageDto message){
-        chatService.sendMessage(message);
+        if (message.getType().equals(MessageTypeEnum.MESSAGE.getLabel())) {
+            chatService.sendMessage(message);
+        } else {
+            chatService.sendStatus(message);
+        }
     }
 
     @GetMapping("/channel/{page}")

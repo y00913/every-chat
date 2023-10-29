@@ -11,10 +11,14 @@ import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
+import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.messaging.simp.config.ChannelRegistration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
+import org.springframework.messaging.simp.stomp.StompCommand;
+import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.messaging.support.ChannelInterceptor;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
@@ -32,6 +36,11 @@ public class StompConfig implements WebSocketMessageBrokerConfigurer {
     private String clientId;
     @Value("${clientPw}")
     private String clientPw;
+    private final SimpMessageSendingOperations simpMessageSendingOperations;
+
+    public StompConfig(@Lazy SimpMessageSendingOperations simpMessageSendingOperations) {
+        this.simpMessageSendingOperations = simpMessageSendingOperations;
+    }
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry){
@@ -56,6 +65,17 @@ public class StompConfig implements WebSocketMessageBrokerConfigurer {
             public Message<?> preSend(Message<?> message, MessageChannel channel) {
                 log.info("message inbound : {}", message);
                 return message;
+            }
+
+            @Override
+            public void postSend(Message message, MessageChannel channel, boolean sent) {
+                StompHeaderAccessor accessor = StompHeaderAccessor.wrap(message);
+
+                if(StompCommand.SUBSCRIBE.equals(accessor.getCommand())){
+
+                } else if(StompCommand.DISCONNECT.equals(accessor.getCommand()) || StompCommand.UNSUBSCRIBE.equals(accessor.getCommand())) {
+
+                }
             }
         });
     }

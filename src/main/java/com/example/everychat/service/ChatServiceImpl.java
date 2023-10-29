@@ -5,6 +5,8 @@ import com.example.everychat.domain.Message;
 import com.example.everychat.dto.MessageDto;
 import com.example.everychat.dto.PagingChannelDto;
 import com.example.everychat.dto.PagingMessageDto;
+import com.example.everychat.dto.RoomMemberDto;
+import com.example.everychat.enums.MessageTypeEnum;
 import com.example.everychat.repository.ChannelRepository;
 import com.example.everychat.repository.MessageRepository;
 import com.example.everychat.vo.ChannelVo;
@@ -62,7 +64,7 @@ public class ChatServiceImpl implements ChatService {
     public void sendMessage(MessageDto messageDto) {
         Message message = Message.builder().id(UUID.randomUUID().toString())
                 .channelId(messageDto.getChannelId())
-                .type(messageDto.getType())
+                .type(MessageTypeEnum.MESSAGE.getLabel())
                 .sender(messageDto.getSender())
                 .message(messageDto.getMessage())
                 .createAt(LocalDateTime.now())
@@ -71,6 +73,17 @@ public class ChatServiceImpl implements ChatService {
         messageRepository.save(message);
 
         simpMessageSendingOperations.convertAndSend("/topic/" + message.getChannelId(), message);
+    }
+
+    @Transactional
+    @Override
+    public void sendStatus(MessageDto messageDto) {
+        RoomMemberDto roomMemberDto = RoomMemberDto.builder()
+                .type(messageDto.getType())
+                .sender(messageDto.getSender())
+                .build();
+
+        simpMessageSendingOperations.convertAndSend("/topic/" + messageDto.getChannelId(), roomMemberDto);
     }
 
     @Transactional
