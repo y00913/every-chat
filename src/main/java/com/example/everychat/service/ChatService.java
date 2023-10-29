@@ -8,7 +8,6 @@ public interface ChatService {
     Object getChannelList(int page);
     void createChannel(ChannelVo channelVo);
     void sendMessage(MessageDto messageDto);
-    void sendStatus(MessageDto messageDto);
     Object getMessagePaging(String channelId, int page);
 
 }

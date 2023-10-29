@@ -56,12 +56,14 @@ export default {
       isEnd: false,
       channelName: this.$route.params.channelName,
       channelId: this.$route.params.channelId,
-      pageSize: 0
+      pageSize: 0,
+      member: [],
     }
   },
   created() {
     this.getMessage();
     this.connect();
+    this.sendEnter();
   },
   methods: {
     // eslint-disable-next-line
@@ -78,6 +80,30 @@ export default {
           type: "message",
           sender: this.sender,
           message: this.message
+        };
+        this.stompClient.send("/pub/chat", JSON.stringify(msg), {})
+      }
+    },
+    sendEnter() {
+      console.log("Send status: enter");
+      if (this.stompClient && this.stompClient.connected) {
+        const msg = {
+          channelId: this.channelId,
+          type: "enter",
+          sender: this.sender,
+          message: "채팅방에 입장하였습니다."
+        };
+        this.stompClient.send("/pub/chat", JSON.stringify(msg), {})
+      }
+    },
+    sendLeave() {
+      console.log("Send status: leave");
+      if (this.stompClient && this.stompClient.connected) {
+        const msg = {
+          channelId: this.channelId,
+          type: "leave",
+          sender: this.sender,
+          message: "채팅방에서 퇴장하였습니다."
         };
         this.stompClient.send("/pub/chat", JSON.stringify(msg), {})
       }
@@ -124,6 +150,7 @@ export default {
       }
     },
     exitRoom() {
+      this.sendLeave();
       this.stompClient.disconnect();
       this.$router.push('/');
     }
@@ -174,7 +201,7 @@ body {
 
 button {
   color: #444444;
-  /* background: #F3F3F3; */
+  background: #F3F3F3;
   border: 2px #DADADA solid;
   padding: 8px 20px;
   border-radius: 1em;
@@ -200,6 +227,5 @@ button:active {
   float: left;
   position: fixed
 }
-
 </style>
   

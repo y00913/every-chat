@@ -64,26 +64,17 @@ public class ChatServiceImpl implements ChatService {
     public void sendMessage(MessageDto messageDto) {
         Message message = Message.builder().id(UUID.randomUUID().toString())
                 .channelId(messageDto.getChannelId())
-                .type(MessageTypeEnum.MESSAGE.getLabel())
+                .type(messageDto.getType())
                 .sender(messageDto.getSender())
                 .message(messageDto.getMessage())
                 .createAt(LocalDateTime.now())
                 .build();
 
-        messageRepository.save(message);
+        if(messageDto.getType().equals(MessageTypeEnum.MESSAGE.getLabel())) {
+            messageRepository.save(message);
+        }
 
         simpMessageSendingOperations.convertAndSend("/topic/" + message.getChannelId(), message);
-    }
-
-    @Transactional
-    @Override
-    public void sendStatus(MessageDto messageDto) {
-        RoomMemberDto roomMemberDto = RoomMemberDto.builder()
-                .type(messageDto.getType())
-                .sender(messageDto.getSender())
-                .build();
-
-        simpMessageSendingOperations.convertAndSend("/topic/" + messageDto.getChannelId(), roomMemberDto);
     }
 
     @Transactional

@@ -20,11 +20,7 @@ public class ChatController {
 
     @MessageMapping("/chat")
     public void sendMessage(MessageDto message){
-        if (message.getType().equals(MessageTypeEnum.MESSAGE.getLabel())) {
-            chatService.sendMessage(message);
-        } else {
-            chatService.sendStatus(message);
-        }
+        chatService.sendMessage(message);
     }
 
     @GetMapping("/channel/{page}")
