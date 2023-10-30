@@ -1,7 +1,6 @@
 package com.example.everychat.controller;
 
 import com.example.everychat.dto.MessageDto;
-import com.example.everychat.enums.MessageTypeEnum;
 import com.example.everychat.enums.StatusEnum;
 import com.example.everychat.service.ChatService;
 import com.example.everychat.vo.ChannelVo;

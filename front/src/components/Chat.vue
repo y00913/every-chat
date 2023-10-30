@@ -12,7 +12,7 @@
     </div>
 
     <div>
-      {{ roomCount }}
+      인원 수 : {{ roomCount }}
     </div>
     <div class="chat-box scrollbar" ref="messages">
       <div class="exit" v-show="!popState">
@@ -50,6 +50,7 @@ export default {
   data() {
     return {
       url: "http://everychat.kro.kr:8082",
+      // url: "http://localhost:8080",
       sender: "",
       message: "",
       reciveList: [],
@@ -102,6 +103,8 @@ export default {
       }
     },
     sendLeave() {
+      if(this.sender == "") return;
+
       console.log("Send status: leave");
       if (this.stompClient && this.stompClient.connected) {
         const msg = {
@@ -130,6 +133,8 @@ export default {
             this.stompClient.subscribe("/topic/" + this.channelId, res => {
               this.reciveList.push(JSON.parse(res.body));
               this.roomCount = JSON.parse(res.body).count;
+
+              console.log(JSON.parse(res.body));
             });
           }, 500);
 
@@ -174,6 +179,16 @@ export default {
       deep: true
     }
   },
+  mounted() {
+    window.addEventListener('beforeunload', this.sendLeave);
+  },
+  beforeUnmount() {
+    window.removeEventListener('beforeunload', this.sendLeave);
+  },
+  beforeRouteLeave() {
+    this.sendLeave();
+    this.stompClient.disconnect();
+  }
 }
 </script>
   
