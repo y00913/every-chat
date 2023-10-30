@@ -2,6 +2,7 @@ package com.example.everychat.domain;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,4 +23,6 @@ public class Message {
     private String channelId;
     private String message;
     private LocalDateTime createAt;
+    @Transient
+    private Integer count;
 }

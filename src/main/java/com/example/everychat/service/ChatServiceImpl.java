@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.Comparator;
+import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -32,6 +33,7 @@ public class ChatServiceImpl implements ChatService {
     private final ChannelRepository channelRepository;
     private final MessageRepository messageRepository;
     private final SimpMessageSendingOperations simpMessageSendingOperations;
+    private static Map<String, Integer> roomCount;
 
     @Transactional(readOnly = true)
     @Override
@@ -70,9 +72,21 @@ public class ChatServiceImpl implements ChatService {
                 .createAt(LocalDateTime.now())
                 .build();
 
+        int next = 1;
         if(messageDto.getType().equals(MessageTypeEnum.MESSAGE.getLabel())) {
             messageRepository.save(message);
+        } else if(messageDto.getType().equals(MessageTypeEnum.ENTER.getLabel())) {
+            if(roomCount.containsKey(messageDto.getChannelId())) {
+                next = roomCount.get(messageDto.getChannelId()) + 1;
+                roomCount.replace(messageDto.getChannelId(), next);
+            } else {
+                roomCount.put(messageDto.getChannelId(), next);
+            }
+        } else {
+            next = roomCount.get(messageDto.getChannelId()) - 1;
+            roomCount.replace(messageDto.getChannelId(), next);
         }
+        message.setCount(next);
 
         simpMessageSendingOperations.convertAndSend("/topic/" + message.getChannelId(), message);
     }

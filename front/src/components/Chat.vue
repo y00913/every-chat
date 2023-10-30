@@ -11,6 +11,9 @@
       </div>
     </div>
 
+    <div>
+      {{ roomCount }}
+    </div>
     <div class="chat-box scrollbar" ref="messages">
       <div class="exit" v-show="!popState">
         <button @click="exitRoom">나가기</button>
@@ -58,6 +61,7 @@ export default {
       channelId: this.$route.params.channelId,
       pageSize: 0,
       member: [],
+      roomCount: 0,
     }
   },
   created() {
@@ -125,6 +129,7 @@ export default {
           setTimeout(() => {
             this.stompClient.subscribe("/topic/" + this.channelId, res => {
               this.reciveList.push(JSON.parse(res.body));
+              this.roomCount = JSON.parse(res.body).count;
             });
           }, 500);
 
