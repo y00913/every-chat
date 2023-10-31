@@ -10,11 +10,16 @@
     </div>
 
     <div class="chat-box">
-        <div v-for="(item, idx) in roomList" :key="idx" class="room-list">
-            <router-link :to="'/chat/' + item.channelName + '/' + item.id">
-                <button>{{ item.channelName }}</button>
-            </router-link>
-        </div>
+        <tr v-for="(item, idx) in roomList" :key="idx" class="room-list">
+            <td style="width:5vw;">
+                {{ item.createAt.substring(0, item.createAt.indexOf('T')) }}
+            </td>
+            <td style="width:15vw">
+                <router-link :to="'/chat/' + item.channelName + '/' + item.id">
+                    <button>{{ item.channelName }}</button>
+                </router-link>
+            </td>
+        </tr>
     </div>
     <div>
         <button @click="handlePop">생성</button>
