@@ -83,8 +83,6 @@ export default {
       this.message = "";
     },
     send() {
-      console.log("Send message: " + this.message);
-
       if (this.stompClient && this.stompClient.connected) {
         const msg = {
           channelId: this.channelId,
@@ -143,8 +141,6 @@ export default {
             this.stompClient.subscribe("/topic/" + this.channelId, res => {
               this.reciveList.push(JSON.parse(res.body));
               this.roomCount = JSON.parse(res.body).count;
-
-              console.log(JSON.parse(res.body));
             });
           }, 500);
 

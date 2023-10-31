@@ -6,7 +6,11 @@ import ErrorPage from "@/components/ErrorPage"
 const router = createRouter({
     history: createWebHistory(),
     routes: [
-        { path: "/", name: "Room", component: RoomPage },
+        { 
+            path: "/", 
+            name: "Room", 
+            component: RoomPage 
+        },
         { 
             path: "/chat/:channelName/:channelId", 
             name: "Chat",
@@ -17,7 +21,7 @@ const router = createRouter({
             path: "/:pathMatch(.*)",
             name: "not-found",
             component: ErrorPage
-        },
+        }
     ]
 });
 

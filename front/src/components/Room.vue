@@ -15,7 +15,7 @@
                 {{ item.createAt.substring(0, item.createAt.indexOf('T')) }}
             </td>
             <td style="width:15vw">
-                <router-link :to="'/chat/' + item.channelName + '/' + item.id">
+                <router-link :to="{name: 'Chat', params: {channelId: item.id, channelName: item.channelName}}">
                     <button>{{ item.channelName }}</button>
                 </router-link>
             </td>
