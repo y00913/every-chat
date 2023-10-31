@@ -5,8 +5,11 @@ import com.example.everychat.enums.StatusEnum;
 import com.example.everychat.service.ChatService;
 import com.example.everychat.vo.ChannelVo;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 import static com.example.everychat.enums.MakeResponse.*;
 
@@ -40,6 +43,18 @@ public class ChatController {
         Object messages = chatService.getMessagePaging(channelId, page);
 
         return getResponseMessage(StatusEnum.OK, "메세지 페이징 리스트", messages);
+    }
+
+    @DeleteMapping(value = "/channel")
+    public Object deleteRoom(@RequestHeader Map<String, String> data){
+        ResponseEntity response;
+        if(chatService.deleteRoom(data.get("channelId"), data.get("pw"))) {
+            response = getResponseMessage(StatusEnum.OK, "채널 삭제 완료", null);
+        } else {
+            response = getResponseMessage(StatusEnum.BAD_REQUEST, "채널 삭제 실패", null);
+        }
+
+        return response;
     }
 
 }

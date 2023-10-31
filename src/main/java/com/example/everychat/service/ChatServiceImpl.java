@@ -98,7 +98,7 @@ public class ChatServiceImpl implements ChatService {
         simpMessageSendingOperations.convertAndSend("/topic/" + message.getChannelId(), message);
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     @Override
     public Object getMessagePaging(String channelId, int page){
         Page<Message> messagePage = messageRepository.findAllByChannelIdOrderByCreateAtDesc(channelId, PageRequest.of(page, 10));
@@ -108,5 +108,16 @@ public class ChatServiceImpl implements ChatService {
                 .pageSize(messagePage.getTotalPages())
                 .build();
         return pagingMessageDto;
+    }
+
+    @Transactional
+    @Override
+    public boolean deleteRoom(String channelId, String pw) {
+        if(channelRepository.findById(channelId).get().getPw().equals(pw)) {
+            channelRepository.deleteById(channelId);
+            return true;
+        } else {
+            return false;
+        }
     }
 }
