@@ -76,6 +76,7 @@ public class ChatServiceImpl implements ChatService {
         int next = 1;
         if(messageDto.getType().equals(MessageTypeEnum.MESSAGE.getLabel())) {
             messageRepository.save(message);
+            next = roomCount.get(messageDto.getChannelId());
         } else if(messageDto.getType().equals(MessageTypeEnum.ENTER.getLabel())) {
             System.out.println("enter " + messageDto.getSender());
 
