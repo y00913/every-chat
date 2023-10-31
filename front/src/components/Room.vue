@@ -58,6 +58,7 @@ export default {
     },
     created() {
         this.getRoom(0);
+        this.findMyIp();
     },
     methods: {
         async getRoom(pageNumber) {
