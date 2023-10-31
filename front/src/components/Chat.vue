@@ -11,29 +11,42 @@
       </div>
     </div>
 
-    <div>
-      <h3>{{ channelName }}</h3>
+    <div class="chat-title">
+      <tr>
+        <td style="width:5vw;">
+          <button @click="exitRoom">나가기</button>
+        </td>
+        <td style="width:15vw;">
+          <div style="margin-top:5px; font-weight: bold; font-size: 20px;">
+            {{ channelName }}
+          </div>
+        </td>
+        <td style="width:5vw;">
+          <div>
+            인원 수 : {{ roomCount }}
+          </div>
+        </td>
+      </tr>
     </div>
 
-    <div>
-      인원 수 : {{ roomCount }}
-    </div>
-    
     <div class="chat-box scrollbar" ref="messages">
-      <div class="exit" v-show="!popState">
-        <button @click="exitRoom">나가기</button>
-      </div>
+      
 
       <div v-show="!isEnd">
         <button @click="getMessage">지난 채팅 더보기</button>
       </div>
 
       <div v-for="(item, idx) in previousList" :key="idx" class="previous-chatting" ref="previous-chatting">
-        {{ item.sender }} ({{ item.ip.substring(0, item.ip.indexOf('.',5)) }}) : {{ item.message }}
+        {{ item.sender }} ({{ item.ip.substring(0, item.ip.indexOf('.', 5)) }}) : {{ item.message }}
       </div>
 
       <div v-for="(item, idx) in reciveList" :key="idx" class="recive-chatting">
-        {{ item.sender }}<a style="color:#acaaaa"> ({{ item.ip.substring(0, item.ip.indexOf('.',5)) }})</a> : {{ item.message }}
+        <div :class="{ blue: item.type != 'message' }">
+          {{ item.sender }}
+          <a :class="[item.type != 'message' ? blue : grey]"> ({{ item.ip.substring(0, item.ip.indexOf('.', 5)) }})</a>
+          :
+          {{ item.message }}
+        </div>
       </div>
     </div>
 
@@ -95,7 +108,7 @@ export default {
       }
     },
     sendEnter() {
-      if(this.sender == "") return;
+      if (this.sender == "") return;
 
       console.log("Send status: enter");
       if (this.stompClient && this.stompClient.connected) {
@@ -110,7 +123,7 @@ export default {
       }
     },
     sendLeave() {
-      if(this.sender == "") return;
+      if (this.sender == "") return;
 
       console.log("Send status: leave");
       if (this.stompClient && this.stompClient.connected) {
@@ -221,9 +234,20 @@ export default {
   margin: 20px;
 }
 
-.exit {
-  float: left;
-  position: fixed
+.blue {
+  color: #4FADBD;
+}
+
+.grey {
+  color: #acaaaa;
+}
+
+.chat-title {
+  border-radius: 0.5em;
+  padding: 10px;
+  border: 2px solid #b3b0b0;
+  width: 25vw;
+  height: 3.5vh;
 }
 </style>
   
