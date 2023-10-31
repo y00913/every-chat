@@ -18,5 +18,6 @@ public class Channel {
     @Id
     private String id;
     private String channelName;
+    private String ip;
     private LocalDateTime createAt;
 }

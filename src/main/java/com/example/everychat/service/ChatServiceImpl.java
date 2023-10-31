@@ -53,6 +53,7 @@ public class ChatServiceImpl implements ChatService {
     public void createChannel(ChannelVo channelVo) {
         Channel channel = Channel.builder().id(UUID.randomUUID().toString())
                 .channelName(channelVo.getChannelName())
+                .ip(channelVo.getIp())
                 .createAt(LocalDateTime.now())
                 .build();
 

@@ -178,7 +178,6 @@ export default {
     async findMyIp() {
       const response = await axios.get('https://ipwho.is');
       this.ip = response.data.ip;
-      // '(' + response.data.ip.substring(0, response.data.ip.indexOf('.',5)) + ')';
     }
   },
   watch: {

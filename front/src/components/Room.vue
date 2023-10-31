@@ -52,7 +52,8 @@ export default {
             pageNum: 0,
             pageSize: 5,
             popState: false,
-            roomName: ""
+            roomName: "",
+            ip: "",
         }
     },
     created() {
@@ -76,13 +77,18 @@ export default {
             if (this.roomName == "") return;
 
             const response = await axios.post(this.url + "/channel", {
-                channelName: this.roomName
+                channelName: this.roomName,
+                ip: this.ip,
             });
 
             console.log(response.data);
 
             this.getRoom(0);
             this.handlePop();
+        },
+        async findMyIp() {
+            const response = await axios.get('https://ipwho.is');
+            this.ip = response.data.ip;
         }
     },
     components: {
