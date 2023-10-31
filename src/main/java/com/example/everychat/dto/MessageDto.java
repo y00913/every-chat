@@ -14,4 +14,5 @@ public class MessageDto {
     private String sender;
     private String channelId;
     private String message;
+    private String ip;
 }
