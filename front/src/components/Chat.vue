@@ -67,8 +67,8 @@ export default {
   name: 'App',
   data() {
     return {
-      // url: "http://everychat.kro.kr:8082",
-      url: "http://localhost:8080",
+      url: "http://everychat.kro.kr:8082",
+      // url: "http://localhost:8080",
       sender: "",
       message: "",
       reciveList: [],
