@@ -90,8 +90,6 @@ export default {
 
             this.roomList = [];
             this.roomList.push(...response.data.data.channelList);
-
-            console.log(pageNumber + '페이지 이동');
         },
         handleCreatePop() {
             this.createState = !this.createState;
@@ -105,9 +103,8 @@ export default {
                 ip: this.ip,
             });
 
+            this.roomName = "";
             this.pw = "";
-
-            console.log(response.data);
 
             this.getRoom(0);
             this.handleCreatePop();
@@ -124,8 +121,6 @@ export default {
                     'pw': this.pw,
                 }
             });
-
-            console.log(response);
 
             if(response.data.message == '비밀번호가 틀렸습니다.') {
                 this.deleteFail = true;
