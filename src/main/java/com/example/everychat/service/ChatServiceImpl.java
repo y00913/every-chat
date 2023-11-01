@@ -5,10 +5,10 @@ import com.example.everychat.domain.Message;
 import com.example.everychat.dto.MessageDto;
 import com.example.everychat.dto.PagingChannelDto;
 import com.example.everychat.dto.PagingMessageDto;
-import com.example.everychat.dto.RoomMemberDto;
 import com.example.everychat.enums.MessageTypeEnum;
 import com.example.everychat.repository.ChannelRepository;
 import com.example.everychat.repository.MessageRepository;
+import com.example.everychat.util.AesUtil;
 import com.example.everychat.vo.ChannelVo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -50,12 +50,15 @@ public class ChatServiceImpl implements ChatService {
 
     @Transactional
     @Override
-    public void createChannel(ChannelVo channelVo) {
+    public void createChannel(ChannelVo channelVo) throws Exception {
         Channel channel = Channel.builder().id(UUID.randomUUID().toString())
                 .channelName(channelVo.getChannelName())
                 .ip(channelVo.getIp())
+                .pw(AesUtil.encrypt(channelVo.getPw()))
                 .createAt(LocalDateTime.now())
                 .build();
+
+        log.info("채널 생성 : " + channel.getId());
 
         log.info(channel.toString());
 
@@ -112,12 +115,19 @@ public class ChatServiceImpl implements ChatService {
 
     @Transactional
     @Override
-    public boolean deleteRoom(String channelId, String pw) {
-        if(channelRepository.findById(channelId).get().getPw().equals(pw)) {
+    public boolean deleteRoom(String channelId, String pw) throws Exception {
+        Channel channel = channelRepository.findById(channelId).get();
+
+        if(pw.equals(AesUtil.decrypt(channel.getPw()))) {
             channelRepository.deleteById(channelId);
+
+            log.info("채널 삭제 : " + channelId);
             return true;
         } else {
+            log.info("채널 삭제 실패");
             return false;
         }
+
+
     }
 }

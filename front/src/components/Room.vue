@@ -1,11 +1,24 @@
 <template>
-    <div class="black-bg" v-show="popState">
+    <div class="black-bg" v-show="createState">
         <div class="white-bg">
             <p>방 제목을 입력해주세요.</p>
             <input v-model="roomName" type="text" required>
+            <p>비밀번호를 입력해주세요.</p>
+            <input v-model="pw" type="text" required>
             <p></p>
             <button @click="createRoom" v-on:keyup.enter="submit">확인</button>
-            <button class="closePop" @click="handlePop">취소</button>
+            <button @click="handleCreatePop">취소</button>
+        </div>
+    </div>
+
+    <div class="black-bg" v-show="deleteState">
+        <div class="white-bg">
+            <p v-show="!deleteFail">비밀번호를 입력해주세요.</p>
+            <p v-show="deleteFail">비밀번호가 틀렸습니다.</p>
+            <input v-model="pw" type="text" required>
+            <p></p>
+            <button @click="deleteRoom" v-on:keyup.enter="submit">확인</button>
+            <button @click="handleDeletePop">취소</button>
         </div>
     </div>
 
@@ -15,27 +28,32 @@
                 {{ item.createAt.substring(0, item.createAt.indexOf('T')) }}
             </td>
             <td style="width:15vw">
-                <router-link :to="{name: 'Chat', params: {channelId: item.id, channelName: item.channelName}}">
+                <router-link :to="{ name: 'Chat', params: { channelId: item.id, channelName: item.channelName } }">
                     <button>{{ item.channelName }}</button>
                 </router-link>
+            </td>
+            <td>
+                <button @click="handleDeletePop(), getRoomId(item.id)">
+                    X
+                </button>
             </td>
         </tr>
     </div>
     <div>
-        <button @click="handlePop">생성</button>
+        <button @click="handleCreatePop">생성</button>
     </div>
     <div>
-        <ul>
-            <li class="previous-page">
-                <button v-show="!(pageNum == 0) && !popState" @click="getRoom(pageNum - 1)">이전</button>
-            </li>
-            <li class="page-count">
+        <tr style="width:25vw">
+            <td style="width:10vw;">
+                <button v-show="!(pageNum == 0)" @click="getRoom(pageNum - 1)">이전</button>
+            </td>
+            <td style="width:5">
                 {{ pageNum + 1 }} / {{ pageSize }}
-            </li>
-            <li class="next-page">
-                <button v-show="!(pageNum == pageSize - 1) && !popState" @click="getRoom(pageNum + 1)">다음</button>
-            </li>
-        </ul>
+            </td>
+            <td style="width:10vw">
+                <button v-show="!(pageNum == pageSize - 1)" @click="getRoom(pageNum + 1)">다음</button>
+            </td>
+        </tr>
     </div>
 </template>
 
@@ -46,14 +64,18 @@ export default {
     name: 'App',
     data() {
         return {
-            url: "http://everychat.kro.kr:8082",
-            // url: "http://localhost:8080",
+            // url: "http://everychat.kro.kr:8082",
+            url: "http://localhost:8080",
             roomList: [],
             pageNum: 0,
             pageSize: 5,
-            popState: false,
+            createState: false,
+            deleteState: false,
             roomName: "",
             ip: "",
+            roomId: "",
+            pw: "",
+            deleteFail: false,
         }
     },
     created() {
@@ -71,25 +93,54 @@ export default {
 
             console.log(pageNumber + '페이지 이동');
         },
-        handlePop() {
-            this.popState = !this.popState;
+        handleCreatePop() {
+            this.createState = !this.createState;
         },
         async createRoom() {
             if (this.roomName == "") return;
 
             const response = await axios.post(this.url + "/channel", {
                 channelName: this.roomName,
+                pw: this.pw,
                 ip: this.ip,
             });
+
+            this.pw = "";
 
             console.log(response.data);
 
             this.getRoom(0);
-            this.handlePop();
+            this.handleCreatePop();
         },
         async findMyIp() {
             const response = await axios.get('https://ipwho.is');
             this.ip = response.data.ip;
+        },
+        async deleteRoom() {
+            const response = await axios.delete(this.url + "/channel", 
+            {
+                headers: {
+                    'channel-id': this.roomId,
+                    'pw': this.pw,
+                }
+            });
+
+            console.log(response);
+
+            if(response.data.message == '비밀번호가 틀렸습니다.') {
+                this.deleteFail = true;
+                return;
+            }
+
+            this.getRoom(0);
+            this.handleDeletePop();
+        },
+        handleDeletePop() {
+            this.deleteState = !this.deleteState;
+            this.deleteFail = false;
+        },
+        getRoomId(roomId){
+            this.roomId = roomId;
         }
     },
     components: {

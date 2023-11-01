@@ -32,7 +32,7 @@ public class ChatController {
     }
 
     @PostMapping("/channel")
-    public Object createChannel(@RequestBody ChannelVo channelVo){
+    public Object createChannel(@RequestBody ChannelVo channelVo) throws Exception {
         chatService.createChannel(channelVo);
 
         return getResponseMessage(StatusEnum.OK, "채널 생성 완료");
@@ -45,16 +45,14 @@ public class ChatController {
         return getResponseMessage(StatusEnum.OK, "메세지 페이징 리스트", messages);
     }
 
-    @DeleteMapping(value = "/channel")
-    public Object deleteRoom(@RequestHeader Map<String, String> data){
-        ResponseEntity response;
-        if(chatService.deleteRoom(data.get("channelId"), data.get("pw"))) {
-            response = getResponseMessage(StatusEnum.OK, "채널 삭제 완료", null);
-        } else {
-            response = getResponseMessage(StatusEnum.BAD_REQUEST, "채널 삭제 실패", null);
+    @DeleteMapping("/channel")
+    public Object deleteRoom(@RequestHeader Map<String, String> header) throws Exception {
+        String message = "비밀번호가 틀렸습니다.";
+        if(chatService.deleteRoom(header.get("channel-id"), header.get("pw"))) {
+            message = "채널 삭제 완료";
         }
 
-        return response;
+        return getResponseMessage(StatusEnum.OK, message, null);
     }
 
 }
