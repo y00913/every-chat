@@ -43,14 +43,14 @@
         <button @click="handleCreatePop">생성</button>
     </div>
     <div>
-        <tr style="width:25vw">
-            <td style="width:10vw;">
+        <tr style="width:1000px;">
+            <td style="width:200px;">
                 <button v-show="!(pageNum == 0)" @click="getRoom(pageNum - 1)">이전</button>
             </td>
-            <td style="width:5">
+            <td style="width:50px">
                 {{ pageNum + 1 }} / {{ pageSize }}
             </td>
-            <td style="width:10vw">
+            <td style="width:200px">
                 <button v-show="!(pageNum == pageSize - 1)" @click="getRoom(pageNum + 1)">다음</button>
             </td>
         </tr>
