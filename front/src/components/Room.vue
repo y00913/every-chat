@@ -24,19 +24,24 @@
 
     <div class="chat-box">
         <tr v-for="(item, idx) in roomList" :key="idx" class="room-list">
-            <td style="width:200px;">
-                {{ item.createAt.substring(0, item.createAt.indexOf('T')) }}
-            </td>
-            <td style="width:600px;">
-                <router-link :to="{ name: 'Chat', params: { channelId: item.id, channelName: item.channelName } }">
-                    <button style="width:300px">{{ item.channelName }}</button>
-                </router-link>
-            </td>
-            <td style="width:200px;">
-                <button @click="handleDeletePop(), getRoomId(item.id)">
-                    X
-                </button>
-            </td>
+            <div>
+                <td style="width:200px;">
+                    {{ item.createAt.substring(0, item.createAt.indexOf('T')) }}
+                </td>
+                <td style="width:600px;">
+                    {{ item.channelName }}
+                </td>
+                <td style="width:100px;">
+                    <router-link :to="{ name: 'Chat', params: { channelId: item.id, channelName: item.channelName } }">
+                        <button>입장</button>
+                    </router-link>
+                </td>
+                <td style="width:100px;">
+                    <button @click="handleDeletePop(), getRoomId(item.id)">
+                        삭제
+                    </button>
+                </td>
+            </div>
         </tr>
     </div>
     <div>
@@ -114,15 +119,15 @@ export default {
             this.ip = response.data.ip;
         },
         async deleteRoom() {
-            const response = await axios.delete(this.url + "/channel", 
-            {
-                headers: {
-                    'channel-id': this.roomId,
-                    'pw': this.pw,
-                }
-            });
+            const response = await axios.delete(this.url + "/channel",
+                {
+                    headers: {
+                        'channel-id': this.roomId,
+                        'pw': this.pw,
+                    }
+                });
 
-            if(response.data.message == '비밀번호가 틀렸습니다.') {
+            if (response.data.message == '비밀번호가 틀렸습니다.') {
                 this.deleteFail = true;
                 this.pw = "";
                 return;
@@ -135,7 +140,7 @@ export default {
             this.deleteState = !this.deleteState;
             this.deleteFail = false;
         },
-        getRoomId(roomId){
+        getRoomId(roomId) {
             this.roomId = roomId;
         }
     },
