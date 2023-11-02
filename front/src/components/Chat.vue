@@ -47,6 +47,10 @@
           {{ item.message }}
         </div>
       </div>
+
+      <div v-show="!this.connected">
+        연결이 해제되었습니다.
+      </div>
     </div>
 
     <form v-on:submit.prevent="sendMessage">
@@ -81,6 +85,7 @@ export default {
       member: [],
       roomCount: 0,
       ip: "",
+      connected: true,
     }
   },
   created() {
@@ -149,17 +154,15 @@ export default {
         frame => {
           console.log('소켓 연결 성공');
 
-          setTimeout(() => {
             this.stompClient.subscribe("/topic/" + this.channelId, res => {
               this.reciveList.push(JSON.parse(res.body));
               this.roomCount = JSON.parse(res.body).count;
             });
-          }, 500);
 
         },
         error => {
           console.log('소켓 연결 실패', error);
-          this.connect();
+          this.connected = false;
         },
 
       );
