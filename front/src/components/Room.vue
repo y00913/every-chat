@@ -124,6 +124,7 @@ export default {
 
             if(response.data.message == '비밀번호가 틀렸습니다.') {
                 this.deleteFail = true;
+                this.pw = "";
                 return;
             }
 
