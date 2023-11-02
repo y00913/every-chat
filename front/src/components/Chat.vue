@@ -13,23 +13,23 @@
 
     <div class="chat-box scrollbar" ref="messages">
       <div>
-      <tr>
-        <td style="width:200px;">
-          <button @click="exitRoom">나가기</button>
-        </td>
-        <td style="width:600px;">
-          <div style="margin-top:5px; font-weight: bold; font-size: 20px;">
-            {{ channelName }}
-          </div>
-        </td>
-        <td style="width:200px;">
-          <div>
-            인원 수 : {{ roomCount }}
-          </div>
-        </td>
-      </tr>
-      <hr>
-    </div>
+        <tr>
+          <td style="width:200px;">
+            <button @click="exitRoom">나가기</button>
+          </td>
+          <td style="width:600px;">
+            <div style="margin-top:5px; font-weight: bold; font-size: 20px;">
+              {{ channelName }}
+            </div>
+          </td>
+          <td style="width:200px;">
+            <div>
+              인원 수 : {{ roomCount }}
+            </div>
+          </td>
+        </tr>
+        <hr>
+      </div>
 
       <div v-show="!isEnd">
         <button @click="getMessage">지난 채팅 더보기</button>
@@ -40,9 +40,9 @@
       </div>
 
       <div v-for="(item, idx) in reciveList" :key="idx" class="recive-chatting">
-        <div :class="{ blue: item.type != 'message' }">
+        <div :class="{ 'blue': item.type !== 'message' }">
           {{ item.sender }}
-          <a :class="[item.type != 'message' ? blue : grey]"> ({{ item.ip.substring(0, item.ip.indexOf('.', 5)) }})</a>
+          <a :class="[item.type != 'message' ? 'blue' : 'grey']"> ({{ item.ip.substring(0, item.ip.indexOf('.', 5)) }})</a>
           :
           {{ item.message }}
         </div>

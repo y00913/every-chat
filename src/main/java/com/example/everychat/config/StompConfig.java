@@ -55,7 +55,10 @@ public class StompConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry){
-        registry.addEndpoint("/ws").setAllowedOriginPatterns("*").withSockJS();
+        registry.addEndpoint("/ws")
+                .setAllowedOriginPatterns("*")
+                .withSockJS()
+                .setDisconnectDelay(30 * 1000);
     }
 
     @Override
@@ -108,7 +111,6 @@ public class StompConfig implements WebSocketMessageBrokerConfigurer {
 
     @Bean
     public Jackson2JsonMessageConverter jsonMessageConverter(){
-        //LocalDateTime serializable을 위해
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, true);
         objectMapper.registerModule(dateTimeModule());
