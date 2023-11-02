@@ -24,15 +24,15 @@
 
     <div class="chat-box">
         <tr v-for="(item, idx) in roomList" :key="idx" class="room-list">
-            <td style="width:5vw;">
+            <td style="width:200px;">
                 {{ item.createAt.substring(0, item.createAt.indexOf('T')) }}
             </td>
-            <td style="width:15vw">
+            <td style="width:600px;">
                 <router-link :to="{ name: 'Chat', params: { channelId: item.id, channelName: item.channelName } }">
-                    <button>{{ item.channelName }}</button>
+                    <button style="width:300px">{{ item.channelName }}</button>
                 </router-link>
             </td>
-            <td>
+            <td style="width:200px;">
                 <button @click="handleDeletePop(), getRoomId(item.id)">
                     X
                 </button>
@@ -97,7 +97,7 @@ export default {
         async createRoom() {
             if (this.roomName == "") return;
 
-            const response = await axios.post(this.url + "/channel", {
+            await axios.post(this.url + "/channel", {
                 channelName: this.roomName,
                 pw: this.pw,
                 ip: this.ip,
@@ -168,6 +168,6 @@ li {
 }
 
 .room-list {
-    height: 5.7vh;
+    height: 68px;
 }
 </style>
