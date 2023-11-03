@@ -57,9 +57,7 @@ public class StompConfig implements WebSocketMessageBrokerConfigurer {
     public void registerStompEndpoints(StompEndpointRegistry registry){
         registry.addEndpoint("/ws")
                 .setAllowedOriginPatterns("*")
-                .withSockJS()
-                .setDisconnectDelay(3600 * 1000)
-                .setHeartbeatTime(60_000);
+                .withSockJS();
     }
 
     @Override
