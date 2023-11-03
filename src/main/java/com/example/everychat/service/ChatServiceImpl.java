@@ -82,6 +82,7 @@ public class ChatServiceImpl implements ChatService {
             messageRepository.save(message);
             next = roomCount.get(messageDto.getChannelId());
         } else if(messageDto.getType().equals(MessageTypeEnum.ENTER.getLabel())) {
+            System.out.println("channelId : " + messageDto.getChannelId());
             System.out.println("enter " + messageDto.getSender());
 
             if(roomCount.containsKey(messageDto.getChannelId())) {
@@ -91,6 +92,7 @@ public class ChatServiceImpl implements ChatService {
                 roomCount.put(messageDto.getChannelId(), next);
             }
         } else {
+            System.out.println("channelId : " + messageDto.getChannelId());
             System.out.println("leave " + messageDto.getSender());
 
             next = roomCount.get(messageDto.getChannelId()) - 1;

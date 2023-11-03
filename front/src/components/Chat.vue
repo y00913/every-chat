@@ -42,7 +42,7 @@
       <div v-for="(item, idx) in reciveList" :key="idx" class="recive-chatting">
         <div :class="{ 'blue': item.type !== 'message' }">
           {{ item.sender }}
-          <a :class="[item.type != 'message' ? 'blue' : 'grey']"> ({{ item.ip.substring(0, item.ip.indexOf('.', 5)) }})</a>
+          <a :class="[item.type != 'message' ? 'blue' : 'grey']"> ({{ item.ip.substring(0, item.ip.indexOf('.', 5))}})</a>
           :
           {{ item.message }}
         </div>
@@ -144,7 +144,8 @@ export default {
     connect() {
       const serverURL = this.url + "/ws";
       let socket = new SockJS(serverURL);
-      this.stompClient = Stomp.over(socket);
+      var options = {debug: false, protocols: ['v11.stomp', 'v12.stomp']};
+      this.stompClient = Stomp.over(socket, options);
 
       console.log('소켓 연결 시도');
 
@@ -153,12 +154,10 @@ export default {
         // eslint-disable-next-line
         frame => {
           console.log('소켓 연결 성공');
-
-            this.stompClient.subscribe("/topic/" + this.channelId, res => {
-              this.reciveList.push(JSON.parse(res.body));
-              this.roomCount = JSON.parse(res.body).count;
-            });
-
+          this.stompClient.subscribe("/topic/" + this.channelId, res => {
+            this.reciveList.push(JSON.parse(res.body));
+            this.roomCount = JSON.parse(res.body).count;
+          });
         },
         error => {
           console.log('소켓 연결 실패', error);
@@ -182,8 +181,6 @@ export default {
       }
     },
     exitRoom() {
-      this.sendLeave();
-      this.stompClient.disconnect();
       this.$router.push('/');
     },
     async findMyIp() {
