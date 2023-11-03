@@ -59,7 +59,7 @@ public class StompConfig implements WebSocketMessageBrokerConfigurer {
                 .setAllowedOriginPatterns("*")
                 .withSockJS()
                 .setDisconnectDelay(30 * 1000)
-                .setHeartbeatTime(5 * 1000);
+                .setHeartbeatTime(60_000);
     }
 
     @Override
