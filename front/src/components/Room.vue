@@ -70,7 +70,7 @@
             </div>
         </tr>
     </div>
-    <div>
+    <div style="margin-bottom: 20px;">
         <button @click="handleCreatePop">생성</button>
     </div>
     <div>
