@@ -5,6 +5,12 @@
             <input v-model="roomName" type="text" required>
             <p>비밀번호를 입력해주세요.</p>
             <input v-model="pw" type="text" required>
+            <p>입장 비밀번호를 원할 시 클릭해주세요.</p>
+            <input type="checkbox" v-model="isLock">
+            <div v-show="isLock">
+                <p>입장 비밀번호를 입력해주세요.</p>
+                <input type="text" v-model="lockPw">
+            </div>
             <p></p>
             <button @click="createRoom" v-on:keyup.enter="submit">확인</button>
             <button @click="handleCreatePop">취소</button>
@@ -41,13 +47,18 @@
                 </td>
                 <td style="width:600px;">
                     {{ item.channelName }}
-                    <!-- <div v-show="item.isLock" style="width:10px; height:10px"> <img style="object-fit:cover" :src="`https://cdn-icons-png.flaticon.com/512/5321/5321786.png`"> </div> -->
                 </td>
-                <td style="width:100px;">
+                <td style="width:20px;">
+                    <div v-show="item.isLock">
+                    <img style="width:20px; height:20px;" :src="`https://cdn.icon-icons.com/icons2/3450/PNG/512/secure_safety_password_protection_security_lock_padlock_icon_219355.png`">
+                    </div>
+                </td>
+                <td style="width:80px;">
                     <!-- <router-link :to="{ name: 'Chat', params: { channelId: item.id, channelName: item.channelName } }">
                         <button>입장</button>
                     </router-link> -->
-                    <button @click="handleEnterPop(), getRoomInfo(item.id, item.channelName), enterRoom(item.id, item.channelName, item.isLock)">
+                    <button
+                        @click="handleEnterPop(), getRoomInfo(item.id, item.channelName), enterRoom(item.id, item.channelName, item.isLock)">
                         입장
                     </button>
                 </td>
@@ -117,6 +128,7 @@ export default {
         },
         handleCreatePop() {
             this.createState = !this.createState;
+            this.initData();
         },
         async createRoom() {
             if (this.roomName == "") return;
@@ -129,11 +141,7 @@ export default {
                 lockPw: this.lockPw,
             });
 
-            this.roomName = "";
-            this.pw = "";
-            this.isLock = false;
-            this.lockPw = "";
-
+            this.initData();
             this.getRoom(0);
             this.handleCreatePop();
         },
@@ -162,29 +170,30 @@ export default {
         handleDeletePop() {
             this.deleteState = !this.deleteState;
             this.deleteFail = false;
+            this.initData();
         },
         getRoomInfo(roomId, roomName) {
             this.roomId = roomId;
             this.roomName = roomName;
         },
-        enterRoom(channelId, channelName, isLock){
-            if(!isLock) {
-            this.$router.push({ name: 'Chat', params: { channelId: channelId, channelName: channelName } });
+        enterRoom(channelId, channelName, isLock) {
+            if (!isLock) {
+                this.$router.push({ name: 'Chat', params: { channelId: channelId, channelName: channelName } });
             }
         },
-        async checkRoomPw(){
+        async checkRoomPw() {
             const response = await axios.get(this.url + "/channel/lock",
-            {
-                headers: {
-                    'channel-id': this.roomId,
-                    'lock-pw': this.pw,
+                {
+                    headers: {
+                        'channel-id': this.roomId,
+                        'lock-pw': this.pw,
+                    }
                 }
-            }
             );
 
             this.pw = "";
 
-            if(!response.data.data) {
+            if (!response.data.data) {
                 this.enterFail = true;
                 return;
             }
@@ -195,6 +204,13 @@ export default {
         handleEnterPop() {
             this.enterState = !this.enterState;
             this.enterFail = false;
+            this.initData();
+        },
+        initData() {
+            this.roomName = "";
+            this.pw = "";
+            this.isLock = false;
+            this.lockPw = "";
         }
     },
     components: {

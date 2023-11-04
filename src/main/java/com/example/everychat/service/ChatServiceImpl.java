@@ -135,6 +135,9 @@ public class ChatServiceImpl implements ChatService {
         Channel channel = channelRepository.findById(channelId).get();
 
         if(pw.equals(AesUtil.decrypt(channel.getPw()))) {
+            if(channel.getIsLock()) {
+                channelLockRepository.deleteById(channelId);
+            }
             channelRepository.deleteById(channelId);
 
             log.info("채널 삭제 : " + channelId);
