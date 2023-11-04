@@ -30,8 +30,8 @@
 
     <div class="black-bg" v-show="enterState">
         <div class="white-bg" @keyup.enter="checkRoomPw">
-            <p v-show="!enterFail">비밀번호를 입력해주세요.</p>
-            <p v-show="enterFail">비밀번호가 틀렸습니다.</p>
+            <p v-show="!enterFail">입장 비밀번호를 입력해주세요.</p>
+            <p v-show="enterFail">입장 비밀번호가 틀렸습니다.</p>
             <input v-model="pw" type="text" required>
             <p></p>
             <button @click="checkRoomPw">확인</button>
