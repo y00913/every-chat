@@ -1,6 +1,6 @@
 <template>
     <div class="black-bg" v-show="createState">
-        <div class="white-bg">
+        <div class="white-bg" @keyup.enter="createRoom">
             <p>방 제목을 입력해주세요.</p>
             <input v-model="roomName" type="text" required>
             <p>비밀번호를 입력해주세요.</p>
@@ -12,29 +12,29 @@
                 <input type="text" v-model="lockPw">
             </div>
             <p></p>
-            <button @click="createRoom" v-on:keyup.enter="submit">확인</button>
+            <button @click="createRoom">확인</button>
             <button @click="handleCreatePop">취소</button>
         </div>
     </div>
 
     <div class="black-bg" v-show="deleteState">
-        <div class="white-bg">
+        <div class="white-bg" @keyup.enter="deleteRoom">
             <p v-show="!deleteFail">비밀번호를 입력해주세요.</p>
             <p v-show="deleteFail">비밀번호가 틀렸습니다.</p>
             <input v-model="pw" type="text" required>
             <p></p>
-            <button @click="deleteRoom" v-on:keyup.enter="submit">확인</button>
+            <button @click="deleteRoom">확인</button>
             <button @click="handleDeletePop">취소</button>
         </div>
     </div>
 
     <div class="black-bg" v-show="enterState">
-        <div class="white-bg">
+        <div class="white-bg" @keyup.enter="checkRoomPw">
             <p v-show="!enterFail">비밀번호를 입력해주세요.</p>
             <p v-show="enterFail">비밀번호가 틀렸습니다.</p>
             <input v-model="pw" type="text" required>
             <p></p>
-            <button @click="checkRoomPw" v-on:keyup.enter="submit">확인</button>
+            <button @click="checkRoomPw">확인</button>
             <button @click="handleEnterPop">취소</button>
         </div>
     </div>
@@ -150,6 +150,8 @@ export default {
             this.ip = response.data.ip;
         },
         async deleteRoom() {
+            if(this.pw == "") return;
+
             const response = await axios.delete(this.url + "/channel",
                 {
                     headers: {
@@ -182,6 +184,8 @@ export default {
             }
         },
         async checkRoomPw() {
+            if(this.pw == "") return;
+
             const response = await axios.get(this.url + "/channel/lock",
                 {
                     headers: {
