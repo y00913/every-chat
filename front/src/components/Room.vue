@@ -3,7 +3,7 @@
         <div class="white-bg" @keyup.enter="createRoom">
             <p>방 제목을 입력해주세요.</p>
             <input v-model="roomName" type="text" required>
-            <p>비밀번호를 입력해주세요.</p>
+            <p>삭제 비밀번호를 입력해주세요.</p>
             <input v-model="pw" type="text" required>
             <p>입장 비밀번호를 원할 시 클릭해주세요.</p>
             <input type="checkbox" v-model="isLock">
@@ -19,8 +19,8 @@
 
     <div class="black-bg" v-show="deleteState">
         <div class="white-bg" @keyup.enter="deleteRoom">
-            <p v-show="!deleteFail">비밀번호를 입력해주세요.</p>
-            <p v-show="deleteFail">비밀번호가 틀렸습니다.</p>
+            <p v-show="!deleteFail">삭제 비밀번호를 입력해주세요.</p>
+            <p v-show="deleteFail">삭제 비밀번호가 틀렸습니다.</p>
             <input v-model="pw" type="text" required>
             <p></p>
             <button @click="deleteRoom">확인</button>

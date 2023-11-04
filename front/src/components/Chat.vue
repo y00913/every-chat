@@ -11,7 +11,7 @@
       </div>
     </div>
 
-    <div class="chat-box scrollbar" ref="messages">
+    <div class="chat-box">
       <div>
         <tr>
           <td style="width:200px;">
@@ -31,25 +31,28 @@
         <hr>
       </div>
 
-      <div v-show="!isEnd">
-        <button @click="getMessage">지난 채팅 더보기</button>
-      </div>
-
-      <div v-for="(item, idx) in previousList" :key="idx" class="previous-chatting" ref="previous-chatting">
-        {{ item.sender }} ({{ item.ip.substring(0, item.ip.indexOf('.', 5)) }}) : {{ item.message }}
-      </div>
-
-      <div v-for="(item, idx) in reciveList" :key="idx" class="recive-chatting">
-        <div :class="{ 'blue': item.type !== 'message' }">
-          {{ item.sender }}
-          <a :class="[item.type != 'message' ? 'blue' : 'grey']"> ({{ item.ip.substring(0, item.ip.indexOf('.', 5))}})</a>
-          :
-          {{ item.message }}
+      <div class="scrollbar chat-list" ref="messages">
+        <div v-show="!isEnd">
+          <button @click="getMessage">지난 채팅 더보기</button>
         </div>
-      </div>
 
-      <div v-show="!this.connected">
-        연결이 해제되었습니다.
+        <div v-for="(item, idx) in previousList" :key="idx" class="previous-chatting" ref="previous-chatting">
+          {{ item.sender }} ({{ item.ip.substring(0, item.ip.indexOf('.', 5)) }}) : {{ item.message }}
+        </div>
+
+        <div v-for="(item, idx) in reciveList" :key="idx" class="recive-chatting">
+          <div :class="{ 'blue': item.type !== 'message' }">
+            {{ item.sender }}
+            <a :class="[item.type != 'message' ? 'blue' : 'grey']"> ({{ item.ip.substring(0, item.ip.indexOf('.',
+              5)) }})</a>
+            :
+            {{ item.message }}
+          </div>
+        </div>
+
+        <div v-show="!this.connected">
+          연결이 해제되었습니다.
+        </div>
       </div>
     </div>
 
@@ -144,7 +147,7 @@ export default {
     connect() {
       const serverURL = this.url + "/ws";
       let socket = new SockJS(serverURL);
-      var options = {debug: false, protocols: ['v11.stomp', 'v12.stomp']};
+      var options = { debug: false, protocols: ['v11.stomp', 'v12.stomp'] };
       this.stompClient = Stomp.over(socket, options);
 
       this.stompClient.heartbeat.outgoing = 60000;
@@ -242,6 +245,11 @@ export default {
 
 .grey {
   color: #acaaaa;
+}
+
+.chat-list {
+  width: 1000px;
+  height: 600px;
 }
 </style>
   
