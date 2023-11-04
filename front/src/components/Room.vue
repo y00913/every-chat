@@ -198,7 +198,6 @@ export default {
                 return;
             }
 
-            this.handleEnterPop();
             this.$router.push({ name: 'Chat', params: { channelId: this.roomId, channelName: this.roomName } });
         },
         handleEnterPop() {
