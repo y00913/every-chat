@@ -22,6 +22,17 @@
         </div>
     </div>
 
+    <div class="black-bg" v-show="enterState">
+        <div class="white-bg">
+            <p v-show="!enterFail">비밀번호를 입력해주세요.</p>
+            <p v-show="enterFail">비밀번호가 틀렸습니다.</p>
+            <input v-model="pw" type="text" required>
+            <p></p>
+            <button @click="checkRoomPw" v-on:keyup.enter="submit">확인</button>
+            <button @click="handleEnterPop">취소</button>
+        </div>
+    </div>
+
     <div class="chat-box">
         <tr v-for="(item, idx) in roomList" :key="idx" class="room-list">
             <div>
@@ -30,14 +41,18 @@
                 </td>
                 <td style="width:600px;">
                     {{ item.channelName }}
+                    <!-- <div v-show="item.isLock" style="width:10px; height:10px"> <img style="object-fit:cover" :src="`https://cdn-icons-png.flaticon.com/512/5321/5321786.png`"> </div> -->
                 </td>
                 <td style="width:100px;">
-                    <router-link :to="{ name: 'Chat', params: { channelId: item.id, channelName: item.channelName } }">
+                    <!-- <router-link :to="{ name: 'Chat', params: { channelId: item.id, channelName: item.channelName } }">
                         <button>입장</button>
-                    </router-link>
+                    </router-link> -->
+                    <button @click="handleEnterPop(), getRoomInfo(item.id, item.channelName), enterRoom(item.id, item.channelName, item.isLock)">
+                        입장
+                    </button>
                 </td>
                 <td style="width:100px;">
-                    <button @click="handleDeletePop(), getRoomId(item.id)">
+                    <button @click="handleDeletePop(), getRoomInfo(item.id, item.channelName)">
                         삭제
                     </button>
                 </td>
@@ -81,6 +96,10 @@ export default {
             roomId: "",
             pw: "",
             deleteFail: false,
+            isLock: false,
+            lockPw: "",
+            enterState: false,
+            enterFail: false,
         }
     },
     created() {
@@ -106,10 +125,14 @@ export default {
                 channelName: this.roomName,
                 pw: this.pw,
                 ip: this.ip,
+                isLock: this.isLock,
+                lockPw: this.lockPw,
             });
 
             this.roomName = "";
             this.pw = "";
+            this.isLock = false;
+            this.lockPw = "";
 
             this.getRoom(0);
             this.handleCreatePop();
@@ -140,8 +163,38 @@ export default {
             this.deleteState = !this.deleteState;
             this.deleteFail = false;
         },
-        getRoomId(roomId) {
+        getRoomInfo(roomId, roomName) {
             this.roomId = roomId;
+            this.roomName = roomName;
+        },
+        enterRoom(channelId, channelName, isLock){
+            if(!isLock) {
+            this.$router.push({ name: 'Chat', params: { channelId: channelId, channelName: channelName } });
+            }
+        },
+        async checkRoomPw(){
+            const response = await axios.get(this.url + "/channel/lock",
+            {
+                headers: {
+                    'channel-id': this.roomId,
+                    'lock-pw': this.pw,
+                }
+            }
+            );
+
+            this.pw = "";
+
+            if(!response.data.data) {
+                this.enterFail = true;
+                return;
+            }
+
+            this.handleEnterPop();
+            this.$router.push({ name: 'Chat', params: { channelId: this.roomId, channelName: this.roomName } });
+        },
+        handleEnterPop() {
+            this.enterState = !this.enterState;
+            this.enterFail = false;
         }
     },
     components: {

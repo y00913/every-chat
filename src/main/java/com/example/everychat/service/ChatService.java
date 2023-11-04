@@ -10,5 +10,6 @@ public interface ChatService {
     void sendMessage(MessageDto messageDto);
     Object getMessagePaging(String channelId, int page);
     boolean deleteRoom(String channelId, String pw) throws Exception;
+    boolean checkLockPw(String channelId, String pw) throws Exception;
 
 }

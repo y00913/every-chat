@@ -1,11 +1,13 @@
 package com.example.everychat.service;
 
 import com.example.everychat.domain.Channel;
+import com.example.everychat.domain.ChannelLock;
 import com.example.everychat.domain.Message;
 import com.example.everychat.dto.MessageDto;
 import com.example.everychat.dto.PagingChannelDto;
 import com.example.everychat.dto.PagingMessageDto;
 import com.example.everychat.enums.MessageTypeEnum;
+import com.example.everychat.repository.ChannelLockRepository;
 import com.example.everychat.repository.ChannelRepository;
 import com.example.everychat.repository.MessageRepository;
 import com.example.everychat.util.AesUtil;
@@ -32,6 +34,7 @@ import java.util.stream.Collectors;
 public class ChatServiceImpl implements ChatService {
     private final ChannelRepository channelRepository;
     private final MessageRepository messageRepository;
+    private final ChannelLockRepository channelLockRepository;
     private final SimpMessageSendingOperations simpMessageSendingOperations;
     private static HashMap<String, Integer> roomCount = new HashMap<>();
 
@@ -55,14 +58,25 @@ public class ChatServiceImpl implements ChatService {
                 .channelName(channelVo.getChannelName())
                 .ip(channelVo.getIp())
                 .pw(AesUtil.encrypt(channelVo.getPw()))
+                .isLock(channelVo.getIsLock())
                 .createAt(LocalDateTime.now())
                 .build();
+
+        channelRepository.save(channel);
+
+        if(channel.getIsLock()){
+            ChannelLock channelLock = ChannelLock.builder()
+                    .channelId(channel.getId())
+                    .lockPw(AesUtil.encrypt(channelVo.getLockPw()))
+                    .build();
+
+            channelLockRepository.save(channelLock);
+        }
 
         log.info("채널 생성 : " + channel.getId());
 
         log.info(channel.toString());
 
-        channelRepository.save(channel);
     }
 
     @Transactional
@@ -129,7 +143,17 @@ public class ChatServiceImpl implements ChatService {
             log.info("채널 삭제 실패");
             return false;
         }
+    }
 
+    @Transactional
+    @Override
+    public boolean checkLockPw(String channelId, String lockPw) throws Exception {
+        ChannelLock channelLock = channelLockRepository.findById(channelId).get();
 
+        if(lockPw.equals(AesUtil.decrypt(channelLock.getLockPw()))) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

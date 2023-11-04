@@ -55,4 +55,11 @@ public class ChatController {
         return getResponseMessage(StatusEnum.OK, message, null);
     }
 
+    @GetMapping("/channel/lock")
+    public Object checkLockPw(@RequestHeader Map<String, String> header) throws Exception {
+        boolean tf = chatService.checkLockPw(header.get("channel-id"), header.get("lock-pw"));
+
+        return getResponseMessage(StatusEnum.OK, "비밀번호 확인 유무", tf);
+    }
+
 }
