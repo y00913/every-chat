@@ -24,6 +24,4 @@ public class Message {
     private String message;
     private String ip;
     private LocalDateTime createAt;
-    @Transient
-    private Integer count;
 }

@@ -4,6 +4,7 @@ import com.example.everychat.service.ChatService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
@@ -72,6 +73,7 @@ public class StompConfig implements WebSocketMessageBrokerConfigurer {
                 return message;
             }
 
+            @SneakyThrows
             @Override
             public void postSend(Message message, MessageChannel channel, boolean sent) {
                 StompHeaderAccessor accessor = StompHeaderAccessor.wrap(message);
@@ -82,6 +84,7 @@ public class StompConfig implements WebSocketMessageBrokerConfigurer {
 
                     if(channelId != null) {
                         chatService.addCount(channelId);
+                        chatService.sendCount(channelId);
                         sessions.put(accessor.getSessionId(), channelId);
                     }
 
@@ -90,6 +93,7 @@ public class StompConfig implements WebSocketMessageBrokerConfigurer {
 
                     if(channelId != null) {
                         chatService.subtractCount(channelId);
+                        chatService.sendCount(channelId);
                         sessions.remove(accessor.getSessionId());
                     }
                 }

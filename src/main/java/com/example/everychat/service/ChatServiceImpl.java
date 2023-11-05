@@ -100,7 +100,6 @@ public class ChatServiceImpl implements ChatService {
             System.out.println("channelId : " + messageDto.getChannelId());
             System.out.println("leave " + messageDto.getSender());
         }
-        message.setCount(roomCount.get(messageDto.getChannelId()));
 
         simpMessageSendingOperations.convertAndSend("/topic/" + message.getChannelId(), message);
     }
@@ -164,4 +163,17 @@ public class ChatServiceImpl implements ChatService {
         int next = roomCount.get(channelId) - 1;
         roomCount.replace(channelId, next);
     }
+
+    @Override
+    public void sendCount(String channelId) throws InterruptedException {
+        Message message = Message.builder().id(UUID.randomUUID().toString())
+                .channelId(channelId)
+                .type("count")
+                .message(roomCount.get(channelId).toString())
+                .createAt(LocalDateTime.now())
+                .build();
+        Thread.sleep(100);
+        simpMessageSendingOperations.convertAndSend("/topic/" + channelId, message);
+    }
+
 }

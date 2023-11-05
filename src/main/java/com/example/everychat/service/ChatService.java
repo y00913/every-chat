@@ -13,5 +13,6 @@ public interface ChatService {
     boolean checkLockPw(String channelId, String pw) throws Exception;
     void addCount(String channelId);
     void subtractCount(String channelId);
+    void sendCount(String channelId) throws InterruptedException;
 
 }

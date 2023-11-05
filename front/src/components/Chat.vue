@@ -165,8 +165,14 @@ export default {
         frame => {
           console.log('소켓 연결 성공');
           this.stompClient.subscribe("/topic/" + this.channelId, res => {
-            this.reciveList.push(JSON.parse(res.body));
-            this.roomCount = JSON.parse(res.body).count;
+            let response = JSON.parse(res.body);
+
+            if(response.type === "count") {
+              this.roomCount = response.message;
+            }
+            else {
+              this.reciveList.push(response);
+            }
           });
         },
         error => {
