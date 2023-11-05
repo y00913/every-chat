@@ -93,8 +93,6 @@ export default {
       ip: "",
       connected: true,
       lastChat: 0,
-      previousListHeight: 0,
-      previousListTop: 0
     }
   },
   created() {
@@ -167,7 +165,6 @@ export default {
         frame => {
           console.log('소켓 연결 성공');
           this.stompClient.subscribe("/topic/" + this.channelId, res => {
-            this.getScrollData;
             this.reciveList.push(JSON.parse(res.body));
             this.roomCount = JSON.parse(res.body).count;
           });
@@ -189,8 +186,6 @@ export default {
       this.messagePage++;
       this.lastChat = response.data.data.messageList.length - 1;
 
-      this.getScrollData;
-
       if (response.data.data.pageSize == this.messagePage || response.data.data.pageSize == 0) {
         this.isEnd = true;
         return;
@@ -203,10 +198,6 @@ export default {
       const response = await axios.get('https://ipwho.is');
       this.ip = response.data.ip;
     },
-    getScrollData() {
-      this.previousListHeight = this.$refs.messages.scrollHeight;
-      this.previousListTop = this.$refs.messages.scrollTop;
-    }
   },
   watch: {
     reciveList: {
@@ -214,12 +205,12 @@ export default {
         this.$nextTick(() => {
           let messages = this.$refs.messages;
 
-          messages.scrollTo({ top: messages.scrollHeight - (this.previousListHeight - this.previousListTop), behavior: 'smooth' });
+          messages.scrollTo({ top: messages.scrollHeight, behavior: 'smooth' });
         })
       },
 
       deep: true
-    }
+    },
   },
   mounted() {
     window.addEventListener('beforeunload', this.sendLeave);

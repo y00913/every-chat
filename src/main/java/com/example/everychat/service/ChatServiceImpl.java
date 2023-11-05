@@ -91,28 +91,16 @@ public class ChatServiceImpl implements ChatService {
                 .createAt(LocalDateTime.now())
                 .build();
 
-        int next = 1;
         if(messageDto.getType().equals(MessageTypeEnum.MESSAGE.getLabel())) {
             messageRepository.save(message);
-            next = roomCount.get(messageDto.getChannelId());
         } else if(messageDto.getType().equals(MessageTypeEnum.ENTER.getLabel())) {
             System.out.println("channelId : " + messageDto.getChannelId());
             System.out.println("enter " + messageDto.getSender());
-
-            if(roomCount.containsKey(messageDto.getChannelId())) {
-                next = roomCount.get(messageDto.getChannelId()) + 1;
-                roomCount.replace(messageDto.getChannelId(), next);
-            } else {
-                roomCount.put(messageDto.getChannelId(), next);
-            }
         } else {
             System.out.println("channelId : " + messageDto.getChannelId());
             System.out.println("leave " + messageDto.getSender());
-
-            next = roomCount.get(messageDto.getChannelId()) - 1;
-            roomCount.replace(messageDto.getChannelId(), next);
         }
-        message.setCount(next);
+        message.setCount(roomCount.get(messageDto.getChannelId()));
 
         simpMessageSendingOperations.convertAndSend("/topic/" + message.getChannelId(), message);
     }
@@ -158,5 +146,22 @@ public class ChatServiceImpl implements ChatService {
         } else {
             return false;
         }
+    }
+
+    @Override
+    public void addCount(String channelId) {
+        int next = 1;
+        if(roomCount.containsKey(channelId)) {
+            next = roomCount.get(channelId) + 1;
+            roomCount.replace(channelId, next);
+        } else {
+            roomCount.put(channelId, next);
+        }
+    }
+
+    @Override
+    public void subtractCount(String channelId) {
+        int next = roomCount.get(channelId) - 1;
+        roomCount.replace(channelId, next);
     }
 }

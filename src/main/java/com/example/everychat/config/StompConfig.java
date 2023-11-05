@@ -1,5 +1,6 @@
 package com.example.everychat.config;
 
+import com.example.everychat.service.ChatService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -14,7 +15,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
-import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.messaging.simp.config.ChannelRegistration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.messaging.simp.stomp.StompCommand;
@@ -23,6 +23,8 @@ import org.springframework.messaging.support.ChannelInterceptor;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
+
+import java.util.HashMap;
 
 @Slf4j
 @Configuration
@@ -36,10 +38,11 @@ public class StompConfig implements WebSocketMessageBrokerConfigurer {
     private String clientId;
     @Value("${clientPw}")
     private String clientPw;
-    private final SimpMessageSendingOperations simpMessageSendingOperations;
+    private final ChatService chatService;
+    private static HashMap<String, String> sessions = new HashMap<>();
 
-    public StompConfig(@Lazy SimpMessageSendingOperations simpMessageSendingOperations) {
-        this.simpMessageSendingOperations = simpMessageSendingOperations;
+    public StompConfig(@Lazy ChatService chatService) {
+        this.chatService = chatService;
     }
 
     @Override
@@ -74,9 +77,21 @@ public class StompConfig implements WebSocketMessageBrokerConfigurer {
                 StompHeaderAccessor accessor = StompHeaderAccessor.wrap(message);
 
                 if(StompCommand.SUBSCRIBE.equals(accessor.getCommand())){
+                    String channelPath = (String) message.getHeaders().get("simpDestination");
+                    String channelId = channelPath.substring(channelPath.lastIndexOf("/topic/")+1);
+
+                    if(channelId != null) {
+                        chatService.addCount(channelId);
+                        sessions.put(accessor.getSessionId(), channelId);
+                    }
 
                 } else if(StompCommand.DISCONNECT.equals(accessor.getCommand()) || StompCommand.UNSUBSCRIBE.equals(accessor.getCommand())) {
+                    String channelId = sessions.get(message.getHeaders().get("simpSessionId"));
 
+                    if(channelId != null) {
+                        chatService.subtractCount(channelId);
+                        sessions.remove(accessor.getSessionId());
+                    }
                 }
             }
         });
