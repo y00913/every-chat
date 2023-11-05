@@ -78,7 +78,7 @@ public class StompConfig implements WebSocketMessageBrokerConfigurer {
 
                 if(StompCommand.SUBSCRIBE.equals(accessor.getCommand())){
                     String channelPath = (String) message.getHeaders().get("simpDestination");
-                    String channelId = channelPath.substring(channelPath.lastIndexOf("/topic/")+1);
+                    String channelId = channelPath.substring(channelPath.lastIndexOf("/")+1);
 
                     if(channelId != null) {
                         chatService.addCount(channelId);
