@@ -6,6 +6,7 @@ import com.example.everychat.vo.ChannelVo;
 public interface ChatService {
 
     Object getChannelList(int page);
+    Object getChannelListByName(String searchName,int page);
     void createChannel(ChannelVo channelVo) throws Exception;
     void sendMessage(MessageDto messageDto);
     Object getMessagePaging(String channelId, int page);

@@ -41,11 +41,24 @@ public class ChatServiceImpl implements ChatService {
     @Transactional(readOnly = true)
     @Override
     public Object getChannelList(int page) {
-        Page<Channel> channelList = channelRepository.findAllByOrderByCreateAtDesc(PageRequest.of(page, 10));
+        Page<Channel> channelPage = channelRepository.findAllByOrderByCreateAtDesc(PageRequest.of(page, 10));
         PagingChannelDto pagingChannelDto = PagingChannelDto.builder()
-                .channelList(channelList.getContent())
-                .pageNumber(channelList.getNumber())
-                .pageSize(channelList.getTotalPages())
+                .channelList(channelPage.getContent())
+                .pageNumber(channelPage.getNumber())
+                .pageSize(channelPage.getTotalPages())
+                .build();
+
+        return pagingChannelDto;
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public Object getChannelListByName(String searchName, int page) {
+        Page<Channel> channelPage = channelRepository.findAllByChannelNameContainsOrderByCreateAtDesc(searchName, PageRequest.of(page, 10));
+        PagingChannelDto pagingChannelDto = PagingChannelDto.builder()
+                .channelList(channelPage.getContent())
+                .pageNumber(channelPage.getNumber())
+                .pageSize(channelPage.getTotalPages())
                 .build();
 
         return pagingChannelDto;
@@ -135,7 +148,7 @@ public class ChatServiceImpl implements ChatService {
         }
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     @Override
     public boolean checkLockPw(String channelId, String lockPw) throws Exception {
         ChannelLock channelLock = channelLockRepository.findById(channelId).get();

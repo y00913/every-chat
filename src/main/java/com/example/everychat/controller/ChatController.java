@@ -31,6 +31,12 @@ public class ChatController {
         return getResponseMessage(StatusEnum.OK, "채널 리스트", data);
     }
 
+    @GetMapping("/channel/{searchName}/{page}")
+    public Object getChannelListByName(@PathVariable String searchName, @PathVariable int page) {
+        Object data = chatService.getChannelListByName(searchName, page);
+        return getResponseMessage(StatusEnum.OK, "채널 검색 리스트", data);
+    }
+
     @PostMapping("/channel")
     public Object createChannel(@RequestBody ChannelVo channelVo) throws Exception {
         chatService.createChannel(channelVo);

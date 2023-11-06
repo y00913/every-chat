@@ -8,5 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface ChannelRepository extends JpaRepository<Channel, String> {
 
     Page<Channel> findAllByOrderByCreateAtDesc(Pageable pageable);
+    Page<Channel> findAllByChannelNameContainsOrderByCreateAtDesc(String searchName, Pageable pageable);
 
 }

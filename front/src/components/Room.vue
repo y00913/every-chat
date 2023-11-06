@@ -39,6 +39,25 @@
         </div>
     </div>
 
+    <div>
+        <tr style="width:1000px;">
+            <td style="width:230px;">
+
+            </td>
+            <td style="width:660px;">
+                <div @keyup.enter="getRoomByName(0)">
+                    <input v-model="serachName" type="text" required style="width:200px;">
+                    <button @click="getRoomByName(0)" style="margin-left:5px;">검색</button>
+                </div>
+            </td>
+            <td style="width:200px">
+                <div>
+                    <button @click="handleCreatePop">방 생성</button>
+                </div>
+            </td>
+        </tr>
+    </div>
+
     <div class="chat-box">
         <tr v-for="(item, idx) in roomList" :key="idx" class="room-list">
             <div>
@@ -50,7 +69,8 @@
                 </td>
                 <td style="width:20px;">
                     <div v-show="item.isLock">
-                    <img style="width:20px; height:20px;" :src="`https://cdn.icon-icons.com/icons2/3450/PNG/512/secure_safety_password_protection_security_lock_padlock_icon_219355.png`">
+                        <img style="width:20px; height:20px;"
+                            :src="`https://cdn.icon-icons.com/icons2/3450/PNG/512/secure_safety_password_protection_security_lock_padlock_icon_219355.png`">
                     </div>
                 </td>
                 <td style="width:80px;">
@@ -70,19 +90,21 @@
             </div>
         </tr>
     </div>
-    <div style="margin-bottom: 20px;">
-        <button @click="handleCreatePop">생성</button>
-    </div>
-    <div>
+    
+    <div style="height:30px;">
         <tr style="width:1000px;">
             <td style="width:200px;">
-                <button v-show="!(pageNum == 0)" @click="getRoom(pageNum - 1)">이전</button>
+                <button v-show="!(pageNum == 0)"
+                    @click="search ? getRoomByName(pageNum - 1) : getRoom(pageNum - 1)">이전</button>
             </td>
-            <td style="width:50px">
+            <td style="width:50px;">
+                <p style="margin: 10px;">
                 {{ pageNum + 1 }} / {{ pageSize }}
+                </p>
             </td>
             <td style="width:200px">
-                <button v-show="!(pageNum == pageSize - 1)" @click="getRoom(pageNum + 1)">다음</button>
+                <button v-show="!(pageNum == pageSize - 1)"
+                    @click="search ? getRoomByName(pageNum + 1) : getRoom(pageNum + 1)">다음</button>
             </td>
         </tr>
     </div>
@@ -111,6 +133,8 @@ export default {
             lockPw: "",
             enterState: false,
             enterFail: false,
+            search: false,
+            serachName: "",
         }
     },
     created() {
@@ -123,6 +147,21 @@ export default {
             const response = await axios.get(this.url + "/channel/" + pageNumber);
             this.pageSize = response.data.data.pageSize;
 
+            this.roomList = [];
+            this.roomList.push(...response.data.data.channelList);
+        },
+        async getRoomByName(pageNumber) {
+            if (this.serachName == "") {
+                this.getRoom(0);
+                this.search = false;
+                return;
+            }
+
+            this.pageNum = pageNumber;
+            const response = await axios.get(this.url + "/channel/" + this.serachName + "/" + pageNumber);
+            this.pageSize = response.data.data.pageSize;
+
+            this.search = true;
             this.roomList = [];
             this.roomList.push(...response.data.data.channelList);
         },
@@ -150,7 +189,7 @@ export default {
             this.ip = response.data.ip;
         },
         async deleteRoom() {
-            if(this.pw == "") return;
+            if (this.pw == "") return;
 
             const response = await axios.delete(this.url + "/channel",
                 {
@@ -184,7 +223,7 @@ export default {
             }
         },
         async checkRoomPw() {
-            if(this.pw == "") return;
+            if (this.pw == "") return;
 
             const response = await axios.get(this.url + "/channel/lock",
                 {
