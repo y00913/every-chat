@@ -22,6 +22,9 @@
               {{ channelName }}
             </div>
           </td>
+          <td>
+
+          </td>
           <td style="width:200px;">
             <div>
               인원 수 : {{ roomCount }}

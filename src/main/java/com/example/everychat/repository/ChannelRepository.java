@@ -9,5 +9,6 @@ public interface ChannelRepository extends JpaRepository<Channel, String> {
 
     Page<Channel> findAllByOrderByCreateAtDesc(Pageable pageable);
     Page<Channel> findAllByChannelNameContainsOrderByCreateAtDesc(String searchName, Pageable pageable);
+    boolean existsByChannelName(String name);
 
 }

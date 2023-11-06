@@ -7,7 +7,7 @@ public interface ChatService {
 
     Object getChannelList(int page);
     Object getChannelListByName(String searchName,int page);
-    void createChannel(ChannelVo channelVo) throws Exception;
+    Object createChannel(ChannelVo channelVo) throws Exception;
     void sendMessage(MessageDto messageDto);
     Object getMessagePaging(String channelId, int page);
     boolean deleteRoom(String channelId, String pw) throws Exception;
@@ -15,5 +15,6 @@ public interface ChatService {
     void addCount(String channelId);
     void subtractCount(String channelId);
     void sendCount(String channelId) throws InterruptedException;
+    boolean checkExistName(String name);
 
 }

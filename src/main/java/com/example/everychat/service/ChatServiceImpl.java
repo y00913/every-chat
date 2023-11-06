@@ -66,7 +66,7 @@ public class ChatServiceImpl implements ChatService {
 
     @Transactional
     @Override
-    public void createChannel(ChannelVo channelVo) throws Exception {
+    public Object createChannel(ChannelVo channelVo) throws Exception {
         Channel channel = Channel.builder().id(UUID.randomUUID().toString())
                 .channelName(channelVo.getChannelName())
                 .ip(channelVo.getIp())
@@ -87,9 +87,9 @@ public class ChatServiceImpl implements ChatService {
         }
 
         log.info("채널 생성 : " + channel.getId());
-
         log.info(channel.toString());
 
+        return channel;
     }
 
     @Transactional
@@ -187,6 +187,11 @@ public class ChatServiceImpl implements ChatService {
                 .build();
         Thread.sleep(100);
         simpMessageSendingOperations.convertAndSend("/topic/" + channelId, message);
+    }
+
+    @Transactional(readOnly = true)
+    public boolean checkExistName(String name) {
+        return channelRepository.existsByChannelName(name);
     }
 
 }

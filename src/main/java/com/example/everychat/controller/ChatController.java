@@ -39,9 +39,9 @@ public class ChatController {
 
     @PostMapping("/channel")
     public Object createChannel(@RequestBody ChannelVo channelVo) throws Exception {
-        chatService.createChannel(channelVo);
+        Object data = chatService.createChannel(channelVo);
 
-        return getResponseMessage(StatusEnum.OK, "채널 생성 완료");
+        return getResponseMessage(StatusEnum.OK, "채널 생성 완료", data);
     }
 
     @GetMapping("/message/{channelId}/{page}")
@@ -66,6 +66,13 @@ public class ChatController {
         boolean tf = chatService.checkLockPw(header.get("channel-id"), header.get("lock-pw"));
 
         return getResponseMessage(StatusEnum.OK, "비밀번호 확인 유무", tf);
+    }
+
+    @GetMapping("/channel/name/{name}")
+    public Object checkExistName(@PathVariable String name) {
+        Object data = chatService.checkExistName(name);
+
+        return getResponseMessage(StatusEnum.OK, "방 이름 존재 유무", data);
     }
 
 }

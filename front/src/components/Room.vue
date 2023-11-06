@@ -1,10 +1,14 @@
 <template>
     <div class="black-bg" v-show="createState">
         <div class="white-bg" @keyup.enter="createRoom">
+            <div v-show="duplicatedName" style="margin-bottom:30px;">
+                <p>방 제목이 이미 존재합니다.</p>
+            </div>
+            <div>
             <p>방 제목을 입력해주세요.</p>
-            <input v-model="roomName" type="text" required>
+            <input v-model="roomName" type="text">
             <p>삭제 비밀번호를 입력해주세요.</p>
-            <input v-model="pw" type="text" required>
+            <input v-model="pw" type="text">
             <p>입장 비밀번호를 원할 시 클릭해주세요.</p>
             <input type="checkbox" v-model="isLock">
             <div v-show="isLock">
@@ -14,6 +18,7 @@
             <p></p>
             <button @click="createRoom" style="margin-right:10px;">확인</button>
             <button @click="handleCreatePop">취소</button>
+            </div>
         </div>
     </div>
 
@@ -93,7 +98,7 @@
             </div>
         </tr>
     </div>
-    
+
     <div style="height:30px;">
         <tr style="width:1000px;">
             <td style="width:200px;">
@@ -102,7 +107,7 @@
             </td>
             <td style="width:50px;">
                 <p style="margin-top: 15px;">
-                {{ pageNum + 1 }} / {{ pageSize }}
+                    {{ pageNum + 1 }} / {{ pageSize }}
                 </p>
             </td>
             <td style="width:200px">
@@ -138,6 +143,7 @@ export default {
             enterFail: false,
             search: false,
             serachName: "",
+            duplicatedName: false,
         }
     },
     created() {
@@ -153,7 +159,7 @@ export default {
             this.roomList = [];
             this.roomList.push(...response.data.data.channelList);
 
-            if(this.roomList.length == 0) this.pageNum = -1;
+            if (this.roomList.length == 0) this.pageNum = -1;
         },
         async getRoomByName(pageNumber) {
             if (this.serachName == "") {
@@ -170,7 +176,7 @@ export default {
             this.roomList = [];
             this.roomList.push(...response.data.data.channelList);
 
-            if(this.roomList.length == 0) this.pageNum = -1;
+            if (this.roomList.length == 0) this.pageNum = -1;
         },
         handleCreatePop() {
             this.createState = !this.createState;
@@ -178,8 +184,15 @@ export default {
         },
         async createRoom() {
             if (this.roomName == "") return;
+            if (this.pw == "") return;
+            if (this.isLock && this.lockPw == "") return;
 
-            await axios.post(this.url + "/channel", {
+            this.duplicatedName = await this.checkExistName();
+            if (this.duplicatedName) {
+                return;
+            }
+
+            const response = await axios.post(this.url + "/channel", {
                 channelName: this.roomName,
                 pw: this.pw,
                 ip: this.ip,
@@ -187,9 +200,9 @@ export default {
                 lockPw: this.lockPw,
             });
 
-            this.initData();
-            this.getRoom(0);
-            this.handleCreatePop();
+            const data = response.data.data;
+
+            this.enterRoom(data.id, data.channelName, false);
         },
         async findMyIp() {
             const response = await axios.get('https://ipwho.is');
@@ -260,6 +273,11 @@ export default {
             this.pw = "";
             this.isLock = false;
             this.lockPw = "";
+            this.duplicatedName = false;
+        },
+        async checkExistName() {
+            const response = await axios.get(this.url + "/channel/name/" + this.roomName);
+            return response.data.data;
         }
     },
     components: {
