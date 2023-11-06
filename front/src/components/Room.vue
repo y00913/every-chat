@@ -12,7 +12,7 @@
                 <input type="text" v-model="lockPw">
             </div>
             <p></p>
-            <button @click="createRoom">확인</button>
+            <button @click="createRoom" style="margin-right:10px;">확인</button>
             <button @click="handleCreatePop">취소</button>
         </div>
     </div>
@@ -23,7 +23,7 @@
             <p v-show="deleteFail">삭제 비밀번호가 틀렸습니다.</p>
             <input v-model="pw" type="text" required>
             <p></p>
-            <button @click="deleteRoom">확인</button>
+            <button @click="deleteRoom" style="margin-right:10px;">확인</button>
             <button @click="handleDeletePop">취소</button>
         </div>
     </div>
@@ -34,7 +34,7 @@
             <p v-show="enterFail">입장 비밀번호가 틀렸습니다.</p>
             <input v-model="pw" type="text" required>
             <p></p>
-            <button @click="checkRoomPw">확인</button>
+            <button @click="checkRoomPw" style="margin-right:10px;">확인</button>
             <button @click="handleEnterPop">취소</button>
         </div>
     </div>
@@ -59,6 +59,9 @@
     </div>
 
     <div class="chat-box">
+        <div v-show="roomList.length == 0">
+            <h4>방이 없습니다.</h4>
+        </div>
         <tr v-for="(item, idx) in roomList" :key="idx" class="room-list">
             <div>
                 <td style="width:200px;">
@@ -94,16 +97,16 @@
     <div style="height:30px;">
         <tr style="width:1000px;">
             <td style="width:200px;">
-                <button v-show="!(pageNum == 0)"
+                <button v-show="!(pageNum == 0) && !(roomList.length == 0)"
                     @click="search ? getRoomByName(pageNum - 1) : getRoom(pageNum - 1)">이전</button>
             </td>
             <td style="width:50px;">
-                <p style="margin: 10px;">
+                <p style="margin-top: 15px;">
                 {{ pageNum + 1 }} / {{ pageSize }}
                 </p>
             </td>
             <td style="width:200px">
-                <button v-show="!(pageNum == pageSize - 1)"
+                <button v-show="!(pageNum == pageSize - 1) && !(roomList.length == 0)"
                     @click="search ? getRoomByName(pageNum + 1) : getRoom(pageNum + 1)">다음</button>
             </td>
         </tr>
@@ -149,6 +152,8 @@ export default {
 
             this.roomList = [];
             this.roomList.push(...response.data.data.channelList);
+
+            if(this.roomList.length == 0) this.pageNum = -1;
         },
         async getRoomByName(pageNumber) {
             if (this.serachName == "") {
@@ -164,6 +169,8 @@ export default {
             this.search = true;
             this.roomList = [];
             this.roomList.push(...response.data.data.channelList);
+
+            if(this.roomList.length == 0) this.pageNum = -1;
         },
         handleCreatePop() {
             this.createState = !this.createState;

@@ -1,5 +1,5 @@
 <template>
-    <header>
+    <header style="margin-top:5vh;">
         <title>every chat</title>
         <link rel="shortcut icon" type="image/x-icon" href="https://cdn-icons-png.flaticon.com/512/5962/5962500.png">
         <h1>{{ title }}</h1>
