@@ -40,14 +40,16 @@
         </div>
 
         <div v-for="(item, idx) in previousList" :key="idx" class="previous-chatting" ref="previous-chatting">
-          {{ item.sender }} ({{ item.ip.substring(0, item.ip.indexOf('.', 5)) }}) : {{ item.message }}
+          <div>
+            {{ item.sender }} ({{ item.ip.substring(0, item.ip.indexOf('.', 5)) }}) : {{ item.message }}
+          </div>
           <div v-show="idx === lastChat">
             <hr style="width:700px; height: 0.5px; background: #acaaaa;">
           </div>
         </div>
 
         <div v-for="(item, idx) in reciveList" :key="idx" class="recive-chatting">
-          <div :class="{ 'blue': item.type !== 'message'}">
+          <div :class="{ 'blue': item.type !== 'message' }">
             {{ item.sender }}
             <a :class="[item.type != 'message' ? 'blue' : 'grey']"> ({{ item.ip.substring(0, item.ip.indexOf('.',
               5)) }})</a>
@@ -170,7 +172,7 @@ export default {
           this.stompClient.subscribe("/topic/" + this.channelId, res => {
             let response = JSON.parse(res.body);
 
-            if(response.type === "count") {
+            if (response.type === "count") {
               this.roomCount = response.message;
             }
             else {
