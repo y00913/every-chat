@@ -159,7 +159,7 @@ export default {
       var options = { debug: false, protocols: ['v11.stomp', 'v12.stomp'] };
       this.stompClient = Stomp.over(socket, options);
 
-      this.stompClient.heartbeat.outgoing = 300000;
+      this.stompClient.heartbeat.outgoing = 60000;
       this.stompClient.heartbeat.incoming = 0;
 
       console.log('소켓 연결 시도');
