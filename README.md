@@ -1,7 +1,7 @@
 # AI-cover-letter
 Stomp를 활용한 채팅 사이트 제작
 
-http://everychat.kro.kr
+https://everychat.kro.kr
 
 
 # 작업 기간
