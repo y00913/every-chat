@@ -5,7 +5,6 @@ import com.example.everychat.enums.StatusEnum;
 import com.example.everychat.service.ChatService;
 import com.example.everychat.vo.ChannelVo;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,7 +13,7 @@ import java.util.Map;
 import static com.example.everychat.enums.MakeResponse.*;
 
 @RestController
-@RequestMapping
+@RequestMapping("/api")
 @RequiredArgsConstructor
 public class ChatController {
 
