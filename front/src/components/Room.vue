@@ -125,7 +125,7 @@ export default {
     name: 'App',
     data() {
         return {
-            url: "https://everychat.kro.kr/api",
+            url: "https://everychat.kro.kr",
             // url: "http://localhost:8080",
             roomList: [],
             pageNum: 0,
@@ -153,7 +153,7 @@ export default {
     methods: {
         async getRoom(pageNumber) {
             this.pageNum = pageNumber;
-            const response = await axios.get(this.url + "/channel/" + pageNumber);
+            const response = await axios.get(this.url + "/api/channel/" + pageNumber);
             this.pageSize = response.data.data.pageSize;
 
             this.roomList = [];
@@ -169,7 +169,7 @@ export default {
             }
 
             this.pageNum = pageNumber;
-            const response = await axios.get(this.url + "/channel/" + this.serachName + "/" + pageNumber);
+            const response = await axios.get(this.url + "/api/channel/" + this.serachName + "/" + pageNumber);
             this.pageSize = response.data.data.pageSize;
 
             this.search = true;
@@ -192,7 +192,7 @@ export default {
                 return;
             }
 
-            const response = await axios.post(this.url + "/channel", {
+            const response = await axios.post(this.url + "/api/channel", {
                 channelName: this.roomName,
                 pw: this.pw,
                 ip: this.ip,
@@ -211,7 +211,7 @@ export default {
         async deleteRoom() {
             if (this.pw == "") return;
 
-            const response = await axios.delete(this.url + "/channel",
+            const response = await axios.delete(this.url + "/api/channel",
                 {
                     headers: {
                         'channel-id': this.roomId,
@@ -245,7 +245,7 @@ export default {
         async checkRoomPw() {
             if (this.pw == "") return;
 
-            const response = await axios.get(this.url + "/channel/lock",
+            const response = await axios.get(this.url + "/api/channel/lock",
                 {
                     headers: {
                         'channel-id': this.roomId,
@@ -276,7 +276,7 @@ export default {
             this.duplicatedName = false;
         },
         async checkExistName() {
-            const response = await axios.get(this.url + "/channel/name/" + this.roomName);
+            const response = await axios.get(this.url + "/api/channel/name/" + this.roomName);
             return response.data.data;
         }
     },

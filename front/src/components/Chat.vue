@@ -81,7 +81,7 @@ export default {
   name: 'App',
   data() {
     return {
-      url: "https://everychat.kro.kr/api",
+      url: "https://everychat.kro.kr",
       // url: "http://localhost:8080",
       sender: "",
       message: "",
@@ -191,7 +191,7 @@ export default {
       this.popState = !this.popState;
     },
     async getMessage() {
-      const response = await axios.get(this.url + "/message/" + this.channelId + "/" + this.messagePage);
+      const response = await axios.get(this.url + "/api/message/" + this.channelId + "/" + this.messagePage);
 
       this.previousList.unshift(...response.data.data.messageList);
       this.messagePage++;
