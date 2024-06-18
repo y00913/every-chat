@@ -40,6 +40,9 @@
         </div>
 
         <div v-for="(item, idx) in previousList" :key="idx" class="previous-chatting" ref="previous-chatting">
+          <div class="chat-date">
+            {{ formatDate(item.createAt) }} 
+          </div>
           <div>
             {{ item.sender }} ({{ item.ip.substring(0, item.ip.indexOf('.', 5)) }}) : {{ item.message }}
           </div>
@@ -50,11 +53,14 @@
 
         <div v-for="(item, idx) in reciveList" :key="idx" class="recive-chatting">
           <div :class="{ 'blue': item.type !== 'message' }">
+            <div class="chat-date">
+              {{ formatDate(item.createAt) }} 
+            </div>
             {{ item.sender }}
-            <a :class="[item.type != 'message' ? 'blue' : 'grey']"> ({{ item.ip.substring(0, item.ip.indexOf('.',
-              5)) }})</a>
+            <a :class="[item.type != 'message' ? 'blue' : 'grey']"> 
+              ({{ item.ip.substring(0, item.ip.indexOf('.', 5)) }})</a>
             :
-            {{ item.message }}
+              {{ item.message }}
           </div>
         </div>
 
@@ -209,6 +215,16 @@ export default {
       const response = await axios.get('https://ipwho.is');
       this.ip = response.data.ip;
     },
+    formatDate(dateString) {
+      const date = new Date(dateString);
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const day = String(date.getDate()).padStart(2, '0');
+      const hours = String(date.getHours()).padStart(2, '0');
+      const minutes = String(date.getMinutes()).padStart(2, '0');
+      const seconds = String(date.getSeconds()).padStart(2, '0');
+      return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+    },
   },
   watch: {
     reciveList: {
@@ -260,7 +276,7 @@ export default {
 }
 
 .grey {
-  color: #acaaaa;
+  color: #858484;
 }
 
 .chat-list {

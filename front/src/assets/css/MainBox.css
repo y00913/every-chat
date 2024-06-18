@@ -8,6 +8,10 @@
     height: 650px;
 }
 
+.chat-date {
+    color: #c9c8c8;
+}
+
 .scrollbar {
     overflow: hidden;
     overflow-y: auto;
