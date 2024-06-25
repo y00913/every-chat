@@ -13,7 +13,7 @@
             <input type="checkbox" v-model="isLock">
             <div v-show="isLock">
                 <p>입장 비밀번호를 입력해주세요.</p>
-                <input type="text" v-model="lockPw">
+                <input type="password" v-model="lockPw">
             </div>
             <p></p>
             <button @click="createRoom" style="margin-right:10px;">확인</button>
@@ -37,7 +37,7 @@
         <div class="white-bg" @keyup.enter="checkRoomPw">
             <p v-show="!enterFail">입장 비밀번호를 입력해주세요.</p>
             <p v-show="enterFail">입장 비밀번호가 틀렸습니다.</p>
-            <input v-model="pw" type="text" required>
+            <input v-model="pw" type="password" required>
             <p></p>
             <button @click="checkRoomPw" style="margin-right:10px;">확인</button>
             <button @click="handleEnterPop">취소</button>
