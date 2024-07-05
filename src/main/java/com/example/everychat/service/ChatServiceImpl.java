@@ -100,7 +100,7 @@ public class ChatServiceImpl implements ChatService {
                 .type(messageDto.getType())
                 .sender(messageDto.getSender())
                 .message(messageDto.getMessage())
-                .ip(messageDto.getIp())
+                .ip(messageDto.getIp().substring(0, messageDto.getIp().indexOf('.', 5)))
                 .createAt(LocalDateTime.now())
                 .build();
 
@@ -121,6 +121,7 @@ public class ChatServiceImpl implements ChatService {
     @Override
     public Object getMessagePaging(String channelId, int page){
         Page<Message> messagePage = messageRepository.findAllByChannelIdOrderByCreateAtDesc(channelId, PageRequest.of(page, 10));
+        messagePage.stream().forEach(message -> message.setIp(message.getIp().substring(0, message.getIp().indexOf('.', 5))));
         PagingMessageDto pagingMessageDto = PagingMessageDto.builder()
                 .messageList(messagePage.getContent().stream().sorted(Comparator.comparing(Message::getCreateAt)).collect(Collectors.toList()))
                 .pageNumber(messagePage.getNumber())

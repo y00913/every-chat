@@ -44,7 +44,7 @@
             {{ formatDate(item.createAt) }} 
           </div>
           <div>
-            {{ item.sender }} ({{ item.ip.substring(0, item.ip.indexOf('.', 5)) }}) : {{ item.message }}
+            {{ item.sender }} ({{ item.ip }}) : {{ item.message }}
           </div>
           <div v-show="idx === lastChat">
             <hr style="width:700px; height: 0.5px; background: #acaaaa;">
@@ -58,7 +58,7 @@
             </div>
             {{ item.sender }}
             <a :class="[item.type != 'message' ? 'blue' : 'grey']"> 
-              ({{ item.ip.substring(0, item.ip.indexOf('.', 5)) }})</a>
+              ({{ item.ip }})</a>
             :
               {{ item.message }}
           </div>

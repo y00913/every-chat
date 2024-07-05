@@ -60,7 +60,8 @@ public class StompConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry){
         registry.addEndpoint("/ws")
-                .setAllowedOriginPatterns("*")
+                .setAllowedOriginPatterns("https://everychat.kro.kr")
+//                .setAllowedOriginPatterns("http://localhost:3000")
                 .withSockJS();
     }
 
