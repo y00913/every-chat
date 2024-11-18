@@ -87,8 +87,8 @@ export default {
   name: 'App',
   data() {
     return {
-      url: "https://everychat.kro.kr",
-      // url: "http://localhost:8080",
+      // url: "https://everychat.kro.kr",
+      url: "http://localhost:8080",
       sender: "",
       message: "",
       reciveList: [],
@@ -107,6 +107,7 @@ export default {
     }
   },
   created() {
+    this.checkLockVerify();
     this.getMessage();
     this.connect();
     this.findMyIp();
@@ -195,6 +196,20 @@ export default {
     },
     handlePop() {
       this.popState = !this.popState;
+    },
+    checkLockVerify() {
+      axios.get(this.url + "/api/channel/lock/" + this.channelId)
+        .then(response => {
+          if (!response.data.data) {
+            alert('비밀번호를 입력해주세요.');
+            // window.location.href = "https://everychat.kro.kr";
+            window.location.href = "http://localhost:3000";
+          }
+        })
+        .catch(error => {
+          console.error('Error checking lock:', error);
+          alert('오류가 발생했습니다. 다시 시도해주세요.');
+        });
     },
     async getMessage() {
       const response = await axios.get(this.url + "/api/message/" + this.channelId + "/" + this.messagePage);
