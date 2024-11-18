@@ -62,9 +62,16 @@ public class ChatController {
 
     @GetMapping("/channel/lock")
     public Object checkLockPw(@RequestHeader Map<String, String> header) throws Exception {
-        boolean tf = chatService.checkLockPw(header.get("channel-id"), header.get("lock-pw"));
+        boolean check = chatService.checkLockPw(header.get("channel-id"), header.get("lock-pw"));
 
-        return getResponseMessage(StatusEnum.OK, "비밀번호 확인 유무", tf);
+        return getResponseMessage(StatusEnum.OK, "비밀번호 확인 유무", check);
+    }
+
+    @GetMapping("/channel/lock/{channelId}")
+    public Object checkLockVerify(@PathVariable String channelId) {
+        boolean check = chatService.checkLockVerify(channelId);
+
+        return getResponseMessage(StatusEnum.OK, "비밀번호 세션 확인 유무", check);
     }
 
     @GetMapping("/channel/name/{name}")
