@@ -125,8 +125,8 @@ export default {
     name: 'App',
     data() {
         return {
-            // url: "https://everychat.kro.kr",
-            url: "http://localhost:8080",
+            url: "https://everychat.kro.kr",
+            // url: "http://localhost:8080",
             roomList: [],
             pageNum: 0,
             pageSize: 5,
