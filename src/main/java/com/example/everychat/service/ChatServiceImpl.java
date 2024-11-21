@@ -145,8 +145,6 @@ public class ChatServiceImpl implements ChatService {
 
             String attributeName = "channelLockSuccess_" + channelId;
             session.setAttribute(attributeName, true);
-            log.info("attributeName : {}", attributeName);
-            log.info(session.getAttribute("channelLockSuccess_" + channelId).toString());
             return true;
         } else {
             return false;
@@ -161,9 +159,12 @@ public class ChatServiceImpl implements ChatService {
 
         HttpSession session = request.getSession();
 
-        log.info("channelId : {}", channelId);
         String attributeName = "channelLockSuccess_" + channelId;
-        Boolean isPasswordChecked = (Boolean) session.getAttribute(attributeName);
+        Object passwordChecked = session.getAttribute(attributeName);
+
+        if(passwordChecked == null) throw new IllegalArgumentException("password check fail");
+        Boolean isPasswordChecked = Boolean.getBoolean(passwordChecked.toString());
+
         log.info("password : {}",isPasswordChecked);
 
         if (isPasswordChecked != null && isPasswordChecked) {
