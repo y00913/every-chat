@@ -87,8 +87,8 @@ export default {
   name: 'App',
   data() {
     return {
-      // url: "https://everychat.kro.kr",
-      url: "http://localhost:8080",
+      url: "https://everychat.kro.kr",
+      // url: "http://localhost:8080",
       sender: "",
       message: "",
       reciveList: [],
@@ -202,8 +202,8 @@ export default {
         .then(response => {
           if (!response.data.data) {
             alert('비밀번호를 입력해주세요.');
-            // window.location.href = "https://everychat.kro.kr";
-            window.location.href = "http://localhost:3000";
+            window.location.href = "https://everychat.kro.kr";
+            // window.location.href = "http://localhost:3000";
           }
         })
         .catch(error => {
