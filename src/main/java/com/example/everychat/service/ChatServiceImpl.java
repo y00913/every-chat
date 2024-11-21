@@ -162,7 +162,7 @@ public class ChatServiceImpl implements ChatService {
         String attributeName = "channelLockSuccess_" + channelId;
         Object passwordChecked = session.getAttribute(attributeName);
 
-        if(passwordChecked == null) throw new IllegalArgumentException("password check fail");
+        if(passwordChecked == null) return false;
         Boolean isPasswordChecked = Boolean.getBoolean(passwordChecked.toString());
 
         log.info("password : {}",isPasswordChecked);
