@@ -163,12 +163,12 @@ public class ChatServiceImpl implements ChatService {
         Object passwordChecked = session.getAttribute(attributeName);
 
         if(passwordChecked == null) return false;
-        Boolean isPasswordChecked = Boolean.getBoolean(passwordChecked.toString());
+        Boolean isPasswordChecked = Boolean.valueOf(passwordChecked.toString());
 
         log.info("password : {}",isPasswordChecked);
 
         if (isPasswordChecked != null && isPasswordChecked) {
-            session.setAttribute(attributeName, "");
+            session.removeAttribute(attributeName);
 
             return true;
         }
