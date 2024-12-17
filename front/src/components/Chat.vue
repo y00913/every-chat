@@ -1,6 +1,6 @@
 <template>
   <body>
-    <div class="black-bg" v-show="popState">
+    <div class="black-bg" v-show="popState ">
       <div class="white-bg">
         <form v-on:submit.prevent="handlePop">
           <p>닉네임을 입력해주세요.</p>
@@ -89,7 +89,7 @@ export default {
     return {
       url: "https://everychat.kro.kr",
       // url: "http://localhost:8080",
-      sender: "",
+      sender: localStorage.getItem('sender'),
       message: "",
       reciveList: [],
       previousList: [],
@@ -132,7 +132,7 @@ export default {
       }
     },
     sendEnter() {
-      if (this.sender == "") return;
+      if (!this.checkSender()) return;
 
       console.log("Send status: enter");
       if (this.stompClient && this.stompClient.connected) {
@@ -147,7 +147,7 @@ export default {
       }
     },
     sendLeave() {
-      if (this.sender == "") return;
+      if (!this.checkSender()) return;
 
       console.log("Send status: leave");
       if (this.stompClient && this.stompClient.connected) {
@@ -242,6 +242,10 @@ export default {
       const minutes = String(date.getMinutes()).padStart(2, '0');
       const seconds = String(date.getSeconds()).padStart(2, '0');
       return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+    },
+    checkSender() {
+      if(this.sender == null || this.sender == "") return false;
+      return true;
     },
   },
   watch: {

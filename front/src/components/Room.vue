@@ -46,10 +46,16 @@
 
     <div>
         <tr style="width:1000px;">
-            <td style="width:230px;">
-
+            <td style="width:260px;">
+                <div @keyup.enter="handleNickname" class="div-sender">
+                    <input v-model="sender" type="text" placeholder="닉네임" style="width:100px;">
+                    <button @click="handleNickname" class="sender-button" style="margin-left:5px;">
+                        <a v-if="!showSaveMessage">저장</a>
+                        <a v-if="showSaveMessage" :style="{ color: messageColor }">완료</a>
+                    </button>
+                </div>
             </td>
-            <td style="width:660px;">
+            <td style="width:630px;">
                 <div @keyup.enter="getRoomByName(0)">
                     <input v-model="serachName" type="text" required style="width:200px;">
                     <button @click="getRoomByName(0)" style="margin-left:5px;">검색</button>
@@ -144,6 +150,9 @@ export default {
             search: false,
             serachName: "",
             duplicatedName: false,
+            sender: localStorage.getItem('sender'),
+            showSaveMessage: false,
+            messageColor: 'green',
         }
     },
     created() {
@@ -278,7 +287,33 @@ export default {
         async checkExistName() {
             const response = await axios.get(this.url + "/api/channel/name/" + this.roomName);
             return response.data.data;
-        }
+        },
+        handleNickname() {
+            if (this.showSaveMessage) return;
+
+            localStorage.setItem('sender', this.sender);
+
+            this.showSaveMessage = true;
+            this.messageColor = 'green';
+            this.changeMessageColor();
+
+            setTimeout(() => {
+                this.showSaveMessage = false;
+            }, 2000);
+        },
+        changeMessageColor() {
+            const colors = ['LimeGreen', 'lightgreen', ''];
+            let index = 0;
+
+            const interval = setInterval(() => {
+                this.messageColor = colors[index];
+                index++;
+
+                if (index >= colors.length) {
+                    clearInterval(interval);
+                }
+            }, 2000 / colors.length);
+        },
     },
     components: {
     }
@@ -311,5 +346,15 @@ li {
 
 .room-list {
     height: 68px;
+}
+.sender-button {
+    width: 40px;
+    height: 30px;
+    padding: 0px;
+}
+.div-sender {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 </style>
