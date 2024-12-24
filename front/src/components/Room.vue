@@ -88,9 +88,6 @@
                     </div>
                 </td>
                 <td style="width:80px;">
-                    <!-- <router-link :to="{ name: 'Chat', params: { channelId: item.id, channelName: item.channelName } }">
-                        <button>입장</button>
-                    </router-link> -->
                     <button
                         @click="handleEnterPop(), getRoomInfo(item.id, item.channelName), enterRoom(item.id, item.channelName, item.isLock)">
                         입장

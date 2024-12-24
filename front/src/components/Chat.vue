@@ -88,7 +88,6 @@ export default {
   data() {
     return {
       url: "https://everychat.kro.kr",
-      // url: "http://localhost:8080",
       sender: localStorage.getItem('sender'),
       message: "",
       reciveList: [],
@@ -108,7 +107,7 @@ export default {
   },
   created() { 
     const isVerified = this.checkLockVerify();
-    if (!isVerified) return; // 비밀번호 확인 실패 시 다음 로직 중단
+    if (!isVerified) return;
     this.getMessage();
     this.connect();
     this.findMyIp();
@@ -204,7 +203,6 @@ export default {
         if (!response.data.data) {
           alert('비밀번호를 입력해주세요.');
           window.location.href = "https://everychat.kro.kr";
-          // window.location.href = "http://localhost:3000";
           return false;
         }
         return true;
