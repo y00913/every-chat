@@ -11,6 +11,7 @@ import com.example.everychat.repository.ChannelLockRepository;
 import com.example.everychat.repository.ChannelRepository;
 import com.example.everychat.repository.MessageRepository;
 import com.example.everychat.util.AesUtil;
+import com.example.everychat.util.ClientUtil;
 import com.example.everychat.vo.ChannelVo;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -72,7 +73,7 @@ public class ChatServiceImpl implements ChatService {
     public Object createChannel(ChannelVo channelVo) throws Exception {
         Channel channel = Channel.builder().id(UUID.randomUUID().toString())
                 .channelName(channelVo.getChannelName())
-                .ip(channelVo.getIp())
+                .ip(ClientUtil.getIp())
                 .pw(AesUtil.encrypt(channelVo.getPw()))
                 .isLock(channelVo.getIsLock())
                 .createAt(LocalDateTime.now())
@@ -103,7 +104,7 @@ public class ChatServiceImpl implements ChatService {
                 .type(messageDto.getType())
                 .sender(messageDto.getSender())
                 .message(messageDto.getMessage())
-                .ip(messageDto.getIp())
+                .ip(ClientUtil.getIp())
                 .createAt(LocalDateTime.now())
                 .build();
 
@@ -117,7 +118,7 @@ public class ChatServiceImpl implements ChatService {
             System.out.println("leave " + messageDto.getSender());
         }
 
-        message.setIp(messageDto.getIp().substring(0, messageDto.getIp().indexOf('.', 5)));
+        message.setIp(ClientUtil.getIp().substring(0, ClientUtil.getIp().indexOf('.', 5)));
 
         simpMessageSendingOperations.convertAndSend("/topic/" + message.getChannelId(), message);
     }
@@ -126,7 +127,7 @@ public class ChatServiceImpl implements ChatService {
     @Override
     public Object getMessagePaging(String channelId, int page){
         Page<Message> messagePage = messageRepository.findAllByChannelIdOrderByCreateAtDesc(channelId, PageRequest.of(page, 10));
-        messagePage.stream().forEach(message -> message.setIp(message.getIp().substring(0, message.getIp().indexOf('.', 5))));
+        messagePage.stream().forEach(message -> message.setIp(ClientUtil.getIp().substring(0, ClientUtil.getIp().indexOf('.', 5))));
         PagingMessageDto pagingMessageDto = PagingMessageDto.builder()
                 .messageList(messagePage.getContent().stream().sorted(Comparator.comparing(Message::getCreateAt)).collect(Collectors.toList()))
                 .pageNumber(messagePage.getNumber())
