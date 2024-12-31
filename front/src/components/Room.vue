@@ -49,7 +49,12 @@
             <td style="width:260px;">
                 <div @keyup.enter="handleNickname" class="div-sender">
                     <input v-model="sender" type="text" placeholder="닉네임" style="width:100px;">
-                    <button @click="handleNickname" class="sender-button" style="margin-left:5px;">
+                    <button 
+                        @click="handleNickname" 
+                        class="sender-button" 
+                        style="margin-left:5px;"
+                        :disabled="showSaveMessage"
+                    >
                         <a v-if="!showSaveMessage">저장</a>
                         <a v-if="showSaveMessage" :style="{ color: messageColor }">완료</a>
                     </button>
