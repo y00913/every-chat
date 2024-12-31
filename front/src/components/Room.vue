@@ -52,7 +52,7 @@
                     <button 
                         @click="handleNickname" 
                         class="sender-button" 
-                        :style="{ marginLeft: '5px', pointerEvents: showSaveMessage ? 'none' : 'auto' }">
+                        :style="{ marginLeft: '5px', pointerEvents: showSaveMessage ? 'none' : 'auto' }"
                         :disabled="showSaveMessage"
                     >
                         <a v-if="!showSaveMessage">저장</a>
