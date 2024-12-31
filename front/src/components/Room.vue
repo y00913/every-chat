@@ -134,14 +134,12 @@ export default {
     data() {
         return {
             url: "https://everychat.kro.kr",
-            // url: "http://localhost:8080",
             roomList: [],
             pageNum: 0,
             pageSize: 5,
             createState: false,
             deleteState: false,
             roomName: "",
-            ip: "",
             roomId: "",
             pw: "",
             deleteFail: false,
@@ -159,7 +157,6 @@ export default {
     },
     created() {
         this.getRoom(0);
-        this.findMyIp();
     },
     methods: {
         async getRoom(pageNumber) {
@@ -206,7 +203,6 @@ export default {
             const response = await axios.post(this.url + "/api/channel", {
                 channelName: this.roomName,
                 pw: this.pw,
-                ip: this.ip,
                 isLock: this.isLock,
                 lockPw: this.lockPw,
             });
@@ -214,10 +210,6 @@ export default {
             const data = response.data.data;
 
             this.enterRoom(data.id, data.channelName, false);
-        },
-        async findMyIp() {
-            const response = await axios.get('https://ipwho.is');
-            this.ip = response.data.ip;
         },
         async deleteRoom() {
             if (this.pw == "") return;

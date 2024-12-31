@@ -100,7 +100,6 @@ export default {
       pageSize: 0,
       member: [],
       roomCount: 0,
-      ip: "",
       connected: true,
       lastChat: 0,
     }
@@ -110,7 +109,6 @@ export default {
     if (!isVerified) return;
     this.getMessage();
     this.connect();
-    this.findMyIp();
   },
   methods: {
     // eslint-disable-next-line
@@ -125,7 +123,6 @@ export default {
           type: "message",
           sender: this.sender,
           message: this.message,
-          ip: this.ip,
         };
         this.stompClient.send("/pub/chat", JSON.stringify(msg), {})
       }
@@ -140,7 +137,6 @@ export default {
           type: "enter",
           sender: this.sender,
           message: "채팅방에 입장하였습니다.",
-          ip: this.ip,
         };
         this.stompClient.send("/pub/chat", JSON.stringify(msg), {})
       }
@@ -155,7 +151,6 @@ export default {
           type: "leave",
           sender: this.sender,
           message: "채팅방에서 퇴장하였습니다.",
-          ip: this.ip,
         };
         this.stompClient.send("/pub/chat", JSON.stringify(msg), {})
       }
@@ -226,10 +221,6 @@ export default {
     },
     exitRoom() {
       this.$router.push('/');
-    },
-    async findMyIp() {
-      const response = await axios.get('https://ipwho.is');
-      this.ip = response.data.ip;
     },
     formatDate(dateString) {
       const date = new Date(dateString);
