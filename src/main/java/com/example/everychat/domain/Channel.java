@@ -21,4 +21,5 @@ public class Channel {
     private String pw;
     private Boolean isLock;
     private LocalDateTime createAt;
+    private LocalDateTime deleteAt;
 }

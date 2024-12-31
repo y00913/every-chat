@@ -104,7 +104,6 @@ public class ChatServiceImpl implements ChatService {
                 .type(messageDto.getType())
                 .sender(messageDto.getSender())
                 .message(messageDto.getMessage())
-                .ip(messageDto.getIp())
                 .createAt(LocalDateTime.now())
                 .build();
 
@@ -118,7 +117,8 @@ public class ChatServiceImpl implements ChatService {
             System.out.println("leave " + messageDto.getSender());
         }
 
-        message.setIp(message.getIp().substring(0, message.getIp().indexOf('.', 5)));
+        String ip = messageDto.getIp();
+        message.setIp(ip.substring(0, ip.indexOf('.', 5)));
 
         simpMessageSendingOperations.convertAndSend("/topic/" + message.getChannelId(), message);
     }
@@ -127,7 +127,10 @@ public class ChatServiceImpl implements ChatService {
     @Override
     public Object getMessagePaging(String channelId, int page){
         Page<Message> messagePage = messageRepository.findAllByChannelIdOrderByCreateAtDesc(channelId, PageRequest.of(page, 10));
-        messagePage.stream().forEach(message -> message.setIp(message.getIp().substring(0, message.getIp().indexOf('.', 5))));
+        messagePage.stream().forEach(message -> {
+            String ip = message.getIp();
+            message.setIp(ip.substring(0, ip.indexOf('.', 5)));
+        });
         PagingMessageDto pagingMessageDto = PagingMessageDto.builder()
                 .messageList(messagePage.getContent().stream().sorted(Comparator.comparing(Message::getCreateAt)).collect(Collectors.toList()))
                 .pageNumber(messagePage.getNumber())
@@ -182,10 +185,7 @@ public class ChatServiceImpl implements ChatService {
         Channel channel = channelRepository.findById(channelId).orElseThrow(() -> new IllegalArgumentException("channel doesn't exist"));
 
         if(pw.equals(AesUtil.decrypt(channel.getPw()))) {
-            if(channel.getIsLock()) {
-                channelLockRepository.deleteById(channelId);
-            }
-            channelRepository.deleteById(channelId);
+            channel.setDeleteAt(LocalDateTime.now());
 
             log.info("채널 삭제 : " + channelId);
             return true;
