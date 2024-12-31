@@ -26,13 +26,14 @@ public class ClientIpResolver implements HandlerMethodArgumentResolver {
         HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
         String clientIp = ClientUtil.getIp(request);
 
-        Class<?> parameterType = parameter.getParameterType();
-        Object instance = parameterType.getDeclaredConstructor().newInstance();
+        Object instance = mavContainer.getModel().get(parameter.getParameterName());
 
-        for (Field field : parameterType.getDeclaredFields()) {
-            if (field.isAnnotationPresent(ClientIp.class) && field.getType().equals(String.class)) {
-                field.setAccessible(true);
-                field.set(instance, clientIp);
+        if (instance != null) {
+            for (Field field : instance.getClass().getDeclaredFields()) {
+                if (field.isAnnotationPresent(ClientIp.class) && field.getType().equals(String.class)) {
+                    field.setAccessible(true);
+                    field.set(instance, clientIp);
+                }
             }
         }
 
