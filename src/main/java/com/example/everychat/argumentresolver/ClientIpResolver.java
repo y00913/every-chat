@@ -17,7 +17,13 @@ public class ClientIpResolver implements HandlerMethodArgumentResolver {
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
-        return parameter.getParameterType() != null && parameter.getParameterType() != String.class;
+        Class<?> parameterType = parameter.getParameterType();
+        for (Field field : parameterType.getDeclaredFields()) {
+            if (field.getType().equals(String.class) && field.getName().equals("ip")) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
