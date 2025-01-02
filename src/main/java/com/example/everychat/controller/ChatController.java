@@ -7,6 +7,7 @@ import com.example.everychat.vo.ChannelVo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.web.bind.annotation.*;
+import jakarta.servlet.http.HttpServletRequest;
 
 import java.util.Map;
 
@@ -20,8 +21,9 @@ public class ChatController {
     private final ChatService chatService;
 
     @MessageMapping("/chat")
-    public void sendMessage(MessageDto message){
+    public void sendMessage(MessageDto message, HttpServletRequest request){
         System.out.println("check : " + message.getIp());
+        System.out.println("check2 : " + ClientUtil.getIp(request););
         chatService.sendMessage(message);
     }
 
