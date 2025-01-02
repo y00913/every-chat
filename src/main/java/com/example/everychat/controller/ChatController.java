@@ -21,6 +21,7 @@ public class ChatController {
 
     @MessageMapping("/chat")
     public void sendMessage(MessageDto message){
+        System.out.println("check : " + message.getIp());
         chatService.sendMessage(message);
     }
 

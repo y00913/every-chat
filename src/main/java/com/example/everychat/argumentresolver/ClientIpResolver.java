@@ -26,6 +26,10 @@ public class ClientIpResolver implements HandlerMethodArgumentResolver {
         HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
         String clientIp = ClientUtil.getIp(request);
 
+        System.out.println("--------------------");
+        System.out.println(clientIp);
+        System.out.println("--------------------");
+
         Object instance = mavContainer.getModel().get(parameter.getParameterName());
 
         if (instance != null) {
