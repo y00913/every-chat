@@ -1,6 +1,5 @@
 package com.example.everychat.dto;
 
-import com.example.everychat.annotation.ClientIp;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,6 +14,5 @@ public class MessageDto {
     private String sender;
     private String channelId;
     private String message;
-    @ClientIp
     private String ip;
 }

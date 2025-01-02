@@ -1,5 +1,6 @@
 package com.example.everychat.config;
 
+import com.example.everychat.interceptor.ClientIpHandshakeInterceptor;
 import com.example.everychat.service.ChatService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -61,6 +62,8 @@ public class StompConfig implements WebSocketMessageBrokerConfigurer {
     public void registerStompEndpoints(StompEndpointRegistry registry){
         registry.addEndpoint("/ws")
                 .setAllowedOriginPatterns("https://everychat.kro.kr")
+//                .setAllowedOriginPatterns("http://localhost:3000")
+                .addInterceptors(new ClientIpHandshakeInterceptor())
                 .withSockJS();
     }
 

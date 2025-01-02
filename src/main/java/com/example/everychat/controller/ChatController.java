@@ -5,10 +5,9 @@ import com.example.everychat.enums.StatusEnum;
 import com.example.everychat.service.ChatService;
 import com.example.everychat.vo.ChannelVo;
 import lombok.RequiredArgsConstructor;
+import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.web.bind.annotation.*;
-import jakarta.servlet.http.HttpServletRequest;
-import com.example.everychat.util.ClientUtil;
 
 import java.util.Map;
 
@@ -22,9 +21,10 @@ public class ChatController {
     private final ChatService chatService;
 
     @MessageMapping("/chat")
-    public void sendMessage(MessageDto message, HttpServletRequest request){
-        System.out.println("check : " + message.getIp());
-        System.out.println("check2 : " + ClientUtil.getIp(request));
+    public void sendMessage(MessageDto message, @Header("simpSessionAttributes") Map<String, Object> sessionAttributes){
+        String clientIp = (String) sessionAttributes.get("clientIp");
+        System.out.println("Client IP: " + clientIp);
+        message.setIp(clientIp);
         chatService.sendMessage(message);
     }
 

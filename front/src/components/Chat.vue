@@ -88,6 +88,7 @@ export default {
   data() {
     return {
       url: "https://everychat.kro.kr",
+      // url: "http://localhost:8080",
       sender: localStorage.getItem('sender'),
       message: "",
       reciveList: [],
