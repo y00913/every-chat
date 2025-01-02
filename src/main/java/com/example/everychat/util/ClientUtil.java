@@ -6,6 +6,7 @@ public class ClientUtil {
 
     public static String getIp(HttpServletRequest request){
         String ip = request.getHeader("X-Forwarded-For");
+        System.out.println("ip : " + ip);
 
         if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
             ip = request.getHeader("Proxy-Client-IP");
