@@ -23,7 +23,6 @@ public class ChatController {
     @MessageMapping("/chat")
     public void sendMessage(MessageDto message, @Header("simpSessionAttributes") Map<String, Object> sessionAttributes){
         String clientIp = (String) sessionAttributes.get("clientIp");
-        System.out.println("Client IP: " + clientIp);
         message.setIp(clientIp);
         chatService.sendMessage(message);
     }
