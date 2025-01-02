@@ -23,7 +23,7 @@ public class ChatController {
     @MessageMapping("/chat")
     public void sendMessage(MessageDto message, HttpServletRequest request){
         System.out.println("check : " + message.getIp());
-        System.out.println("check2 : " + ClientUtil.getIp(request););
+        System.out.println("check2 : " + ClientUtil.getIp(request));
         chatService.sendMessage(message);
     }
 
