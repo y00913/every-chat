@@ -17,7 +17,7 @@ public class ClientIpResolver implements HandlerMethodArgumentResolver {
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
-        return Object.class.isAssignableFrom(parameter.getParameterType());
+        return parameter.getParameterType() != null && parameter.getParameterType() != String.class;
     }
 
     @Override
