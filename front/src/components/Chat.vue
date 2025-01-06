@@ -167,6 +167,9 @@ export default {
 
       console.log('소켓 연결 시도');
 
+      let retryCount = 0;
+      const maxRetries = 5;
+
       this.stompClient.connect(
         {},
         // eslint-disable-next-line
@@ -185,7 +188,17 @@ export default {
         },
         error => {
           console.log('소켓 연결 실패', error);
-          this.connected = false;
+          //this.connected = false;
+                // 재시도 조건
+          if (retryCount < maxRetries) {
+            retryCount++;
+            console.log(`재시도 중... (${retryCount}/${maxRetries})`);
+            setTimeout(() => {
+              this.connect(); // 일정 시간 후 재시도
+            }, 5000); // 5초 후 재시도
+          } else {
+            console.error("최대 재시도 횟수 도달, 연결 포기");
+          }
         },
 
       );
