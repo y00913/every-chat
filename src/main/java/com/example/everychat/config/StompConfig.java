@@ -55,7 +55,8 @@ public class StompConfig implements WebSocketMessageBrokerConfigurer {
                 .setVirtualHost("/")
                 .setRelayPort(relayPort)
                 .setClientLogin(clientId)
-                .setClientPasscode(clientPw);
+                .setClientPasscode(clientPw)
+                .setHeartbeatValue(new long[]{10000, 10000});
     }
 
     @Override
