@@ -107,6 +107,9 @@ public class ChatServiceImpl implements ChatService {
                 .createAt(LocalDateTime.now())
                 .build();
 
+        String ip = messageDto.getIp();
+        message.setIp(ip.substring(0, ip.indexOf('.', 5)));        
+
         if(messageDto.getType().equals(MessageTypeEnum.MESSAGE.getLabel())) {
             messageRepository.save(message);
         } else if(messageDto.getType().equals(MessageTypeEnum.ENTER.getLabel())) {
@@ -116,9 +119,6 @@ public class ChatServiceImpl implements ChatService {
             System.out.println("channelId : " + messageDto.getChannelId());
             System.out.println("leave " + messageDto.getSender());
         }
-
-        String ip = messageDto.getIp();
-        message.setIp(ip.substring(0, ip.indexOf('.', 5)));
 
         simpMessageSendingOperations.convertAndSend("/topic/" + message.getChannelId(), message);
     }
