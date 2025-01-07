@@ -103,7 +103,7 @@ export default {
       roomCount: 0,
       connected: true,
       lastChat: 0,
-      this.isConnecting: false,
+      isConnecting: false,
     }
   },
   created() { 
