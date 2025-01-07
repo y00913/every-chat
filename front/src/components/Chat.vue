@@ -160,12 +160,12 @@ export default {
       }
     },
     connect() {
-      if (isConnecting) {
+      if (this.isConnecting) {
         console.log("이미 연결 시도 중입니다.");
         return;
       }
 
-      isConnecting = true;
+      this.isConnecting = true;
       const serverURL = this.url + "/ws";
       let socket = new SockJS(serverURL);
       var options = { debug: false, protocols: ['v11.stomp', 'v12.stomp'] };
@@ -181,8 +181,8 @@ export default {
         // eslint-disable-next-line
         frame => {
           console.log('소켓 연결 성공');
-          retryCount = 0;
-          isConnecting = false;
+          this.retryCount = 0;
+          this.isConnecting = false;
 
           this.stompClient.subscribe("/topic/" + this.channelId, res => {
             let response = JSON.parse(res.body);
@@ -197,11 +197,11 @@ export default {
         },
         error => {
           console.log('소켓 연결 실패', error);
-          isConnecting = false;
+          this.isConnecting = false;
 
-          if (retryCount < maxRetries) {
-            retryCount++;
-            console.log(`재시도 중... (${retryCount}/${maxRetries})`);
+          if (this.retryCount < this.maxRetries) {
+            this.retryCount++;
+            console.log(`재시도 중... (${this.retryCount}/${this.maxRetries})`);
             setTimeout(() => {
               this.connect();
             }, 5000);
