@@ -31,8 +31,9 @@
             </div>
           </td>
         </tr>
-        <hr>
       </div>
+
+      <hr>
 
       <div class="scrollbar chat-list" ref="messages">
         <div v-show="!isEnd">
@@ -68,14 +69,18 @@
           연결이 해제되었습니다.
         </div>
       </div>
-    </div>
 
-    <form class="input-form" v-on:submit.prevent="sendMessage">
-      <div class="input-button-wrapper">
-        <input v-model="message" type="text" class="input-chat" placeholder="메시지를 입력하세요" required>
-        <button type="submit">입력</button>
+      <hr>
+
+      <div>
+        <form class="input-form" v-on:submit.prevent="sendMessage">
+          <div class="input-button-wrapper">
+            <input v-model="message" type="text" class="input-chat" placeholder="메시지를 입력하세요" required>
+            <button type="submit">입력</button>
+          </div>
+        </form>
       </div>
-    </form>
+    </div>
   </body>
 </template>
   

@@ -74,4 +74,8 @@ button:hover {
 button:active {
   box-shadow: inset 1px 1px 1px #DFDFDF;
 }
+
+input, input::placeholder {
+  font-family: "mabi";
+}
 </style>
