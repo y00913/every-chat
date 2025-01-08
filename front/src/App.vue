@@ -80,9 +80,7 @@ input, input::placeholder {
   font-size: 1em;
 }
 
-textarea, textarea::placeholder {
-  font-family: "mabi";
-  font-size: 1em;
+textarea {
   flex: 1;
   border: none;
   padding: 0.5em;
@@ -90,6 +88,11 @@ textarea, textarea::placeholder {
   height: auto;
   resize: none;
   overflow-y: auto;
+}
+
+textarea::placeholder {
+  font-family: "mabi";
+  font-size: 1em;
 }
 
 .textarea-wrapper {

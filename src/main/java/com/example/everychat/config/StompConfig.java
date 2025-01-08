@@ -72,7 +72,7 @@ public class StompConfig implements WebSocketMessageBrokerConfigurer {
         registration.interceptors(new ChannelInterceptor() {
             @Override
             public Message<?> preSend(Message<?> message, MessageChannel channel) {
-                log.info("message inbound : {}", message);
+//                log.info("message inbound : {}", message);
                 return message;
             }
 
@@ -109,7 +109,7 @@ public class StompConfig implements WebSocketMessageBrokerConfigurer {
         registration.interceptors(new ChannelInterceptor() {
             @Override
             public Message<?> preSend(Message<?> message, MessageChannel channel) {
-                log.info("message outbound : {}", message);
+//                log.info("message outbound : {}", message);
                 return message;
             }
         });
