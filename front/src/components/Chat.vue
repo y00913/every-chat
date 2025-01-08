@@ -72,11 +72,11 @@
 
       <hr>
 
-      <div>
-        <form class="input-form" v-on:submit.prevent="sendMessage">
-          <div class="input-button-wrapper">
-            <input v-model="message" type="text" class="input-chat" placeholder="메시지를 입력하세요" required>
-            <button type="submit">입력</button>
+      <div class="chat-div">
+        <form class="chat-form" v-on:submit.prevent="sendMessage">
+          <div class="chat-input--wrapper">
+            <input v-model="message" type="text" class="chat-input" placeholder="메시지를 입력하세요" required>
+            <button type="submit" class="chat-button">입력</button>
           </div>
         </form>
       </div>
@@ -320,12 +320,18 @@ export default {
   height: 600px;
 }
 
-.input-form {
-  width: 25vw;
-  height: 3vh;
+.chat-div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.input-button-wrapper {
+.chat-form {
+  width: 25vw;
+  height: 37px;
+}
+
+.chat-input-wrapper {
   display: flex;
   align-items: center;
   border: 1px solid #ccc;
@@ -334,13 +340,18 @@ export default {
   background-color: #fff;
 }
 
-.input-chat {
+.chat-input {
   flex: 1;
   border: none;
   padding: 0.5em;
+  width: 100%;
   height: 100%;
   outline: none;
-  font-size: 1em;
+}
+
+button.chat-button {
+  border: none;
+  border-radius: none;
 }
 
 </style>

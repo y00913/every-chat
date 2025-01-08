@@ -77,5 +77,6 @@ button:active {
 
 input, input::placeholder {
   font-family: "mabi";
+  font-size: 1em;
 }
 </style>

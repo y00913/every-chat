@@ -8,12 +8,12 @@
             <p>방 제목을 입력해주세요.</p>
             <input v-model="roomName" type="text">
             <p>삭제 비밀번호를 입력해주세요.</p>
-            <input v-model="pw" type="text">
+            <input v-model="pw" type="password">
             <p>입장 비밀번호를 원할 시 클릭해주세요.</p>
             <input type="checkbox" v-model="isLock">
             <div v-show="isLock">
                 <p>입장 비밀번호를 입력해주세요.</p>
-                <input type="password" v-model="lockPw">
+                <input v-model="lockPw" type="password">
             </div>
             <p></p>
             <button @click="createRoom" style="margin-right:10px;">확인</button>
@@ -74,7 +74,7 @@
         </tr>
     </div>
 
-    <div class="chat-box">
+    <div class="main-box">
         <div v-show="roomList.length == 0">
             <h4>방이 없습니다.</h4>
         </div>
