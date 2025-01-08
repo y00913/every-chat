@@ -327,7 +327,7 @@ export default {
 }
 
 .chat-form {
-  width: 25vw;
+  width: 100vw;
   height: 37px;
 }
 
@@ -351,7 +351,6 @@ export default {
 
 button.chat-button {
   border: none;
-  border-radius: none;
 }
 
 </style>
