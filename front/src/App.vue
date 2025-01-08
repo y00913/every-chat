@@ -85,7 +85,7 @@ textarea {
   font-size: 1em;
   flex: 1;
   border: none;
-  padding: .5em 3em .5em 3em;
+  padding: .5em 3em .5em 2em;
   width: 100%;
   height: auto;
   resize: none;
