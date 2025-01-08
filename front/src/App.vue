@@ -83,6 +83,26 @@ input, input::placeholder {
 textarea, textarea::placeholder {
   font-family: "mabi";
   font-size: 1em;
+  flex: 1;
+  border: none;
+  padding: 0.5em;
+  width: 100%;
+  height: auto;
+  resize: none;
+  overflow-y: auto;
+}
+
+.textarea-wrapper {
+  display: flex;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  overflow: hidden;
+  background-color: #fff;
+  align-items: center;
+}
+
+button.textarea-button {
+  border: none;
 }
 
 textarea:focus {

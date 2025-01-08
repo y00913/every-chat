@@ -74,16 +74,15 @@
 
       <div class="chat-div">
         <form class="chat-form" v-on:submit.prevent="sendMessage">
-          <div class="chat-input-wrapper">
+          <div class="textarea-wrapper">
             <textarea 
               v-model="message" 
-              class="chat-input" 
-              placeholder="메시지를 입력하세요" 
+              placeholder="메시지 입력" 
               rows="1" 
               @keydown="handleKeyDown" 
               required>
             </textarea>
-            <button type="submit" class="chat-button">입력</button>
+            <button type="submit" class="textarea-button">입력</button>
           </div>
         </form>
       </div>
@@ -334,30 +333,6 @@ export default {
 .chat-form {
   width: 95vw;
   max-height: 600px;
-}
-
-.chat-input-wrapper {
-  display: flex;
-  align-items: flex-start;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  overflow: hidden;
-  background-color: #fff;
-  align-items: center;
-}
-
-.chat-input {
-  flex: 1;
-  border: none;
-  padding: 0.5em;
-  width: 100%;
-  height: auto;
-  resize: none;
-  overflow-y: auto;
-}
-
-button.chat-button {
-  border: none;
 }
 
 </style>
