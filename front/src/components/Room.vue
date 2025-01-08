@@ -88,7 +88,7 @@
                 </td>
                 <td style="width:20px;">
                     <div v-show="item.isLock">
-                        <img style="width:20px; height:20px;"
+                        <img style="width:20px; height:20px; margin:-5px;"
                             :src="`https://cdn.icon-icons.com/icons2/3450/PNG/512/secure_safety_password_protection_security_lock_padlock_icon_219355.png`">
                     </div>
                 </td>
@@ -340,7 +340,10 @@ li {
 }
 
 .room-list {
-    height: 68px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 .sender-button {
     width: 40px;
