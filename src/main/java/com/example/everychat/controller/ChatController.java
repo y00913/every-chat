@@ -21,10 +21,10 @@ public class ChatController {
     private final ChatService chatService;
 
     @MessageMapping("/chat")
-    public void sendMessage(MessageDto message, @Header("simpSessionAttributes") Map<String, Object> sessionAttributes){
+    public void sendMessage(MessageDto messageDto, @Header("simpSessionAttributes") Map<String, Object> sessionAttributes){
         String clientIp = (String) sessionAttributes.get("clientIp");
-        message.setIp(clientIp);
-        chatService.sendMessage(message);
+        messageDto.setIp(clientIp);
+        chatService.sendMessage(messageDto);
     }
 
     @GetMapping("/channel/{page}")

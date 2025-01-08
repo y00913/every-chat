@@ -108,7 +108,9 @@ public class ChatServiceImpl implements ChatService {
                 .build();
 
         String ip = messageDto.getIp();
-        message.setIp(ip.substring(0, ip.indexOf('.', 5)));        
+        System.out.println("ip : " + ip);
+        message.setIp(ip.substring(0, ip.indexOf('.', 5)));
+        System.out.println("ip2 : " + message.getIp());
 
         if(messageDto.getType().equals(MessageTypeEnum.MESSAGE.getLabel())) {
             messageRepository.save(message);
