@@ -81,9 +81,11 @@ input, input::placeholder {
 }
 
 textarea {
+  font-family: "mabi";
+  font-size: 1em;
   flex: 1;
   border: none;
-  padding: 0.5em;
+  padding: .5em 3em .5em 3em;
   width: 100%;
   height: auto;
   resize: none;
