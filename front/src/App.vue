@@ -77,7 +77,7 @@ button:active {
 
 input, input::placeholder {
   font-family: "mabi";
-  font-size: 1em;
+  font-size: 14px;
 }
 
 textarea {
