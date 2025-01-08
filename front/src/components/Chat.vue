@@ -195,6 +195,7 @@ export default {
             }
           });
         },
+        // eslint-disable-next-line
         error => {
           this.isConnecting = false;
 
