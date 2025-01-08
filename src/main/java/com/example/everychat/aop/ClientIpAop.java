@@ -18,18 +18,18 @@ import java.lang.reflect.Field;
 @Component
 public class ClientIpAop {
 
-    @Around("execution(* *(..))")
+    @Around("execution(* *(..)) && args(arg,..)")
     public Object injectClientIp(ProceedingJoinPoint joinPoint) throws Throwable {
-        Object[] args = joinPoint.getArgs();
-
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         if (attributes == null) {
             log.warn("No request context available.");
-            return joinPoint.proceed(args);
+            return joinPoint.proceed();
         }
 
         HttpServletRequest request = attributes.getRequest();
         String clientIp = ClientUtil.getIp(request);
+
+        Object[] args = joinPoint.getArgs();
 
         log.info("clientIp : {}", clientIp);
 
@@ -45,6 +45,6 @@ public class ClientIpAop {
             }
         }
 
-        return joinPoint.proceed(args);
+        return joinPoint.proceed();
     }
 }
