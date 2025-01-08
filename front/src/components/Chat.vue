@@ -75,7 +75,7 @@
       <div class="chat-div">
         <form class="chat-form" v-on:submit.prevent="sendMessage">
           <div class="chat-input-wrapper">
-            <input v-model="message" type="text" class="chat-input" placeholder="메시지를 입력하세요" required>
+            <textarea v-model="message" class="chat-input" placeholder="메시지를 입력하세요" rows="1" @keydown="handleKeyDown" required></textarea>
             <button type="submit" class="chat-button">입력</button>
           </div>
         </form>
@@ -140,7 +140,6 @@ export default {
     sendEnter() {
       if (!this.checkSender()) return;
 
-      console.log("Send status: enter");
       if (this.stompClient && this.stompClient.connected) {
         const msg = {
           channelId: this.channelId,
@@ -154,7 +153,6 @@ export default {
     sendLeave() {
       if (!this.checkSender()) return;
 
-      console.log("Send status: leave");
       if (this.stompClient && this.stompClient.connected) {
         const msg = {
           channelId: this.channelId,
@@ -167,7 +165,6 @@ export default {
     },
     connect() {
       if (this.isConnecting) {
-        console.log("이미 연결 시도 중입니다.");
         return;
       }
 
@@ -180,13 +177,10 @@ export default {
       this.stompClient.heartbeat.outgoing = 10000;
       this.stompClient.heartbeat.incoming = 10000;
 
-      console.log('소켓 연결 시도');
-
       this.stompClient.connect(
         {},
         // eslint-disable-next-line
         frame => {
-          console.log('소켓 연결 성공');
           this.retryCount = 0;
           this.isConnecting = false;
 
@@ -202,17 +196,14 @@ export default {
           });
         },
         error => {
-          console.log('소켓 연결 실패', error);
           this.isConnecting = false;
 
           if (this.retryCount < this.maxRetries) {
             this.retryCount++;
-            console.log(`재시도 중... (${this.retryCount}/${this.maxRetries})`);
             setTimeout(() => {
               this.connect();
             }, 5000);
           } else {
-            console.error("최대 재시도 횟수 도달, 연결 포기");
             this.connected = false;
           }
         },
@@ -265,6 +256,12 @@ export default {
     checkSender() {
       if(this.sender == null || this.sender == "") return false;
       return true;
+    },
+    handleKeyDown(event) {
+      if (event.key === 'Enter' && !event.shiftKey) {
+        event.preventDefault();
+        this.sendMessage();
+      }
     },
   },
   watch: {
@@ -328,12 +325,12 @@ export default {
 
 .chat-form {
   width: 95vw;
-  height: 37px;
+  max-width: 600px;
 }
 
 .chat-input-wrapper {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   border: 1px solid #ccc;
   border-radius: 5px;
   overflow: hidden;
@@ -345,8 +342,9 @@ export default {
   border: none;
   padding: 0.5em;
   width: 100%;
-  height: 100%;
-  outline: none;
+  height: auto;
+  resize: none;
+  overflow-y: auto;
 }
 
 button.chat-button {
