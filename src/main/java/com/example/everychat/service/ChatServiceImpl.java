@@ -106,7 +106,7 @@ public class ChatServiceImpl implements ChatService {
                 .sender(messageDto.getSender())
                 .message(messageDto.getMessage())
                 .ip(messageDto.getIp())
-                .createAt(LocalDateTime.now())
+                .createAt(messageDto.getCreateAt())
                 .build();
 
             messageRepository.save(message);

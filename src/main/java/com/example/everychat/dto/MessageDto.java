@@ -15,4 +15,5 @@ public class MessageDto {
     private String channelId;
     private String message;
     private String ip;
+    private LocalDateTime createAt = LocalDateTime.now();
 }
