@@ -7,7 +7,7 @@
             <div>
             <p>방 제목을 입력해주세요.</p>
             <input v-model="roomName" type="text" placeholder="방 제목">
-            <p>삭제 비밀번호를 입력해주세요.</p>
+            <p>생선된 방의 삭제 비밀번호를 입력해주세요.</p>
             <input v-model="pw" type="password" placeholder="삭제 비밀번호">
             <p>입장 비밀번호를 원할 시 클릭해주세요.</p>
             <input type="checkbox" v-model="isLock">
@@ -44,11 +44,11 @@
         </div>
     </div>
 
-    <div>
-        <tr style="width:1000px;">
-            <td style="width:260px;">
-                <div @keyup.enter="handleNickname" class="div-sender">
-                    <input v-model="sender" type="text" placeholder="닉네임" style="width:100px;">
+    <table style="width:1000px; table-layout:fixed;">
+        <tr >
+            <td style="text-align: left;">
+                <div @keyup.enter="handleNickname" class="div-left">
+                    <input v-model="sender" type="text" placeholder="닉네임" class="input-nickname">
                     <button 
                         @click="handleNickname" 
                         class="sender-button" 
@@ -60,19 +60,19 @@
                     </button>
                 </div>
             </td>
-            <td style="width:630px;">
-                <div @keyup.enter="getRoomByName(0)">
-                    <input v-model="serachName" type="text" required style="width:200px;">
-                    <button @click="getRoomByName(0)" style="margin-left:5px;">검색</button>
-                </div>
-            </td>
-            <td style="width:200px">
-                <div>
-                    <button @click="handleCreatePop">방 생성</button>
+            <td style="text-align: right;">
+                <div class="div-right">
+                    <span @keyup.enter="getRoomByName(0)" class="span-search">
+                        <input v-model="serachName" type="text" required class="input-search" v-show="isSearch" placeholder="검색어 입력">
+                        <img @click="handleSearchBar()" class="search-img" src="@/assets/img/search.png" />
+                    </span>
+                    <span class="span-add">
+                        <img @click="handleCreatePop()" class="add-img" src="@/assets/img/add_chat.png" />
+                    </span>
                 </div>
             </td>
         </tr>
-    </div>
+    </table>
 
     <div class="main-box">
         <div v-show="roomList.length == 0">
@@ -89,7 +89,7 @@
                 <td style="width:20px;">
                     <div v-show="item.isLock">
                         <img style="width:20px; height:20px; margin:-5px;"
-                            :src="`https://cdn.icon-icons.com/icons2/3450/PNG/512/secure_safety_password_protection_security_lock_padlock_icon_219355.png`">
+                        src="@/assets/img/lock.png" />
                     </div>
                 </td>
                 <td style="width:80px;">
@@ -154,6 +154,7 @@ export default {
             sender: localStorage.getItem('sender'),
             showSaveMessage: false,
             messageColor: 'green',
+            isSearch: false,
         }
     },
     created() {
@@ -309,6 +310,9 @@ export default {
                 }
             }, 2000 / colors.length);
         },
+        handleSearchBar() {
+            this.isSearch = !this.isSearch
+        }
     },
     components: {
     }
@@ -345,14 +349,59 @@ li {
     align-items: center;
     justify-content: center;
 }
+
 .sender-button {
     width: 40px;
     height: 30px;
     padding: 0px;
+    border: none;
 }
-.div-sender {
+
+.div-left {
+    display: flex;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    overflow: hidden;
+    background-color: #fff;
+    align-items: center;
+    width: 170px;
+}
+
+.div-right {
     display: flex;
     align-items: center;
+    justify-content: end;
+}
+
+.span-search {
+    margin-right:25px;
     justify-content: center;
+    display: flex;
+}
+
+.span-add {
+    justify-content: center;
+    display: flex;
+}
+
+.input-nickname {
+    width:100px;
+    border: none;
+}
+
+.input-search {
+    width:200px;
+    height:100%;
+    margin-right: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 3px 10px 3px 10px;
+}
+
+.add-img, .search-img {
+    cursor:pointer;
+    width:25px;
+    height:25px;
+
 }
 </style>

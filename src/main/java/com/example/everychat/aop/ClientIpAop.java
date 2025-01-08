@@ -18,7 +18,7 @@ import java.lang.reflect.Field;
 @Component
 public class ClientIpAop {
 
-    @Around("execution(* com.example.everychat..*(..)) && @annotation(com.example.everychat.annotation.ClientIp)")
+    @Around("execution(* com.example.everychat..*(..))")
     public Object injectClientIp(ProceedingJoinPoint joinPoint) throws Throwable {
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         if (attributes == null) {

@@ -1,10 +1,12 @@
-package com.example.everychat.vo;
+package com.example.everychat.dto;
 
 import com.example.everychat.annotation.ClientIp;
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
-public class ChannelVo {
+@Setter
+public class ChannelDto {
     private String channelName;
     private String pw;
     @ClientIp

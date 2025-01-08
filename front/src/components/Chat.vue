@@ -76,6 +76,7 @@
         <form class="chat-form" v-on:submit.prevent="sendMessage">
           <div class="textarea-wrapper">
             <textarea 
+              class="textarea-chat"
               v-model="message" 
               placeholder="메시지 입력" 
               rows="1" 
@@ -331,8 +332,28 @@ export default {
 }
 
 .chat-form {
-  width: 95vw;
+  width: 50vw;
+  min-width: 300px;
   max-height: 600px;
+}
+
+.textarea-chat {
+  padding: .5em 3em .5em 2em;
+  width: 100%;
+  flex: 1;
+}
+
+.textarea-wrapper {
+  display: flex;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  overflow: hidden;
+  background-color: #fff;
+  align-items: center;
+}
+
+button.textarea-button {
+  border: none;
 }
 
 </style>

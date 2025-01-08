@@ -3,7 +3,7 @@ package com.example.everychat.controller;
 import com.example.everychat.dto.MessageDto;
 import com.example.everychat.enums.StatusEnum;
 import com.example.everychat.service.ChatService;
-import com.example.everychat.vo.ChannelVo;
+import com.example.everychat.dto.ChannelDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -40,8 +40,8 @@ public class ChatController {
     }
 
     @PostMapping("/channel")
-    public Object createChannel(@RequestBody ChannelVo channelVo) throws Exception {
-        Object data = chatService.createChannel(channelVo);
+    public Object createChannel(@RequestBody ChannelDto channelDto) throws Exception {
+        Object data = chatService.createChannel(channelDto);
 
         return getResponseMessage(StatusEnum.OK, "채널 생성 완료", data);
     }

@@ -11,8 +11,7 @@ import com.example.everychat.repository.ChannelLockRepository;
 import com.example.everychat.repository.ChannelRepository;
 import com.example.everychat.repository.MessageRepository;
 import com.example.everychat.util.AesUtil;
-import com.example.everychat.util.ClientUtil;
-import com.example.everychat.vo.ChannelVo;
+import com.example.everychat.dto.ChannelDto;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -70,12 +69,12 @@ public class ChatServiceImpl implements ChatService {
 
     @Transactional
     @Override
-    public Object createChannel(ChannelVo channelVo) throws Exception {
+    public Object createChannel(ChannelDto channelDto) throws Exception {
         Channel channel = Channel.builder().id(UUID.randomUUID().toString())
-                .channelName(channelVo.getChannelName())
-                .ip(channelVo.getIp())
-                .pw(AesUtil.encrypt(channelVo.getPw()))
-                .isLock(channelVo.getIsLock())
+                .channelName(channelDto.getChannelName())
+                .ip(channelDto.getIp())
+                .pw(AesUtil.encrypt(channelDto.getPw()))
+                .isLock(channelDto.getIsLock())
                 .createAt(LocalDateTime.now())
                 .build();
 
@@ -84,7 +83,7 @@ public class ChatServiceImpl implements ChatService {
         if(channel.getIsLock()){
             ChannelLock channelLock = ChannelLock.builder()
                     .channelId(channel.getId())
-                    .lockPw(AesUtil.encrypt(channelVo.getLockPw()))
+                    .lockPw(AesUtil.encrypt(channelDto.getLockPw()))
                     .build();
 
             channelLockRepository.save(channelLock);

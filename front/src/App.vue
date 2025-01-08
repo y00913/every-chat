@@ -78,41 +78,28 @@ button:active {
 input, input::placeholder {
   font-family: "mabi";
   font-size: 14px;
+  padding: 3px 10px 3px 10px;
+  outline: none;
+  box-shadow: none;
 }
 
 textarea {
   font-family: "mabi";
   font-size: 1em;
-  flex: 1;
-  border: none;
-  padding: .5em 3em .5em 2em;
-  width: 100%;
   height: auto;
-  resize: none;
   overflow-y: auto;
+  resize: none;
+  outline: none;
+  border: none;
+  box-shadow: none;
 }
 
 textarea::placeholder {
   font-family: "mabi";
-  font-size: 1em;
-}
-
-.textarea-wrapper {
-  display: flex;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  overflow: hidden;
-  background-color: #fff;
-  align-items: center;
+  font-size: 14px;
 }
 
 button.textarea-button {
   border: none;
-}
-
-textarea:focus {
-  outline: none;
-  border: none;
-  box-shadow: none;
 }
 </style>
