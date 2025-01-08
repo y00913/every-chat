@@ -75,7 +75,14 @@
       <div class="chat-div">
         <form class="chat-form" v-on:submit.prevent="sendMessage">
           <div class="chat-input-wrapper">
-            <textarea v-model="message" class="chat-input" placeholder="메시지를 입력하세요" rows="1" @keydown="handleKeyDown" required></textarea>
+            <textarea 
+              v-model="message" 
+              class="chat-input" 
+              placeholder="메시지를 입력하세요" 
+              rows="1" 
+              @keydown="handleKeyDown" 
+              required>
+            </textarea>
             <button type="submit" class="chat-button">입력</button>
           </div>
         </form>
@@ -258,9 +265,9 @@ export default {
       if(this.sender == null || this.sender == "") return false;
       return true;
     },
-    handleKeyDown(event) {
-      if (event.key === 'Enter' && !event.shiftKey) {
-        event.preventDefault();
+    handleKeyDown(e) {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
         this.sendMessage();
       }
     },

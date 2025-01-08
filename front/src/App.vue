@@ -79,4 +79,15 @@ input, input::placeholder {
   font-family: "mabi";
   font-size: 1em;
 }
+
+textarea, textarea::placeholder {
+  font-family: "mabi";
+  font-size: 1em;
+}
+
+textarea:focus {
+  outline: none;
+  border: none;
+  box-shadow: none;
+}
 </style>
