@@ -74,7 +74,7 @@
 
       <div class="chat-div">
         <form class="chat-form" v-on:submit.prevent="sendMessage">
-          <div class="chat-input--wrapper">
+          <div class="chat-input-wrapper">
             <input v-model="message" type="text" class="chat-input" placeholder="메시지를 입력하세요" required>
             <button type="submit" class="chat-button">입력</button>
           </div>

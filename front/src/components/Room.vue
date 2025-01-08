@@ -6,14 +6,14 @@
             </div>
             <div>
             <p>방 제목을 입력해주세요.</p>
-            <input v-model="roomName" type="text">
+            <input v-model="roomName" type="text" placeholder="방 제목">
             <p>삭제 비밀번호를 입력해주세요.</p>
-            <input v-model="pw" type="password">
+            <input v-model="pw" type="password" placeholder="삭제 비밀번호">
             <p>입장 비밀번호를 원할 시 클릭해주세요.</p>
             <input type="checkbox" v-model="isLock">
             <div v-show="isLock">
                 <p>입장 비밀번호를 입력해주세요.</p>
-                <input v-model="lockPw" type="password">
+                <input v-model="lockPw" type="password" placeholder="입장 비밀번호">
             </div>
             <p></p>
             <button @click="createRoom" style="margin-right:10px;">확인</button>
