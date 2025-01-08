@@ -333,7 +333,7 @@ export default {
 
 .chat-form {
   width: 95vw;
-  max-width: 600px;
+  max-height: 600px;
 }
 
 .chat-input-wrapper {
@@ -343,6 +343,7 @@ export default {
   border-radius: 5px;
   overflow: hidden;
   background-color: #fff;
+  align-items: center;
 }
 
 .chat-input {
