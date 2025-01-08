@@ -1,5 +1,6 @@
 package com.example.everychat.aop;
 
+import com.example.everychat.util.ClientUtil;
 import com.example.everychat.annotation.ClientIp;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -28,7 +29,9 @@ public class ClientIpAop {
         }
 
         HttpServletRequest request = attributes.getRequest();
-        String clientIp = request.getRemoteAddr();
+        String clientIp = ClientUtil.getIp(request);
+
+        log.info("clientIp : {}", clientIp);
 
         for (Object arg : args) {
             if (arg == null) continue;
