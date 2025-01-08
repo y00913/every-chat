@@ -26,7 +26,7 @@
         <div class="white-bg" @keyup.enter="deleteRoom">
             <p v-show="!deleteFail">삭제 비밀번호를 입력해주세요.</p>
             <p v-show="deleteFail">삭제 비밀번호가 틀렸습니다.</p>
-            <input v-model="pw" type="text" required>
+            <input v-model="pw" type="password" required>
             <p></p>
             <button @click="deleteRoom" style="margin-right:10px;">확인</button>
             <button @click="handleDeletePop">취소</button>
