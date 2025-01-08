@@ -18,7 +18,7 @@ import java.lang.reflect.Field;
 @Component
 public class ClientIpAop {
 
-    @Around("execution(* *(..)) && @annotation(org.springframework.web.bind.annotation.RequestMapping)")
+    @Around("execution(* *(..))")
     public Object injectClientIp(ProceedingJoinPoint joinPoint) throws Throwable {
         Object[] args = joinPoint.getArgs();
 
