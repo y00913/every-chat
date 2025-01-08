@@ -70,10 +70,11 @@
       </div>
     </div>
 
-    <form v-on:submit.prevent="sendMessage">
-      <input v-model="message" type="text" class="input-chat" required>
-      <p></p>
-      <button v-on:keyup.enter="submit">입력</button>
+    <form class="input-form" v-on:submit.prevent="sendMessage">
+      <div class="input-button-wrapper">
+        <input v-model="message" type="text" class="input-chat" placeholder="메시지를 입력하세요" required>
+        <button type="submit">입력</button>
+      </div>
     </form>
   </body>
 </template>
@@ -292,11 +293,6 @@ export default {
 @import "../assets/css/BlackBg.css";
 @import "../assets/css/WhiteBg.css";
 
-.input-chat {
-  width: 25vw;
-  height: 3vh;
-}
-
 .previous-chatting {
   margin: 20px;
   color: #acaaaa;
@@ -318,5 +314,29 @@ export default {
   width: 1000px;
   height: 600px;
 }
+
+.input-form {
+  width: 25vw;
+  height: 3vh;
+}
+
+.input-button-wrapper {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  overflow: hidden;
+  background-color: #fff;
+}
+
+.input-chat {
+  flex: 1;
+  border: none;
+  padding: 0.5em;
+  height: 100%;
+  outline: none;
+  font-size: 1em;
+}
+
 </style>
   
