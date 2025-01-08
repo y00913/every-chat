@@ -17,5 +17,6 @@ public class MessageDto {
     private String channelId;
     private String message;
     private String ip;
+    @Builder.Default
     private LocalDateTime createAt = LocalDateTime.now();
 }
