@@ -75,12 +75,13 @@ button:active {
   box-shadow: inset 1px 1px 1px #DFDFDF;
 }
 
-input, input::placeholder {
+input {
   font-family: "mabi";
   font-size: 14px;
   padding: 3px 10px 3px 10px;
   outline: none;
   box-shadow: none;
+  spellcheck: false;
 }
 
 textarea {

@@ -4,7 +4,7 @@
       <div class="white-bg">
         <form v-on:submit.prevent="handlePop">
           <p>닉네임을 입력해주세요.</p>
-          <input v-model="sender" type="text" autofocus required>
+          <input v-no-spellcheck v-model="sender" type="text" autofocus required>
           <p></p>
           <button @click="sendEnter" v-on:keyup.enter="submit">확인</button>
         </form>
@@ -76,6 +76,7 @@
         <form class="chat-form" v-on:submit.prevent="sendMessage">
           <div class="textarea-wrapper">
             <textarea 
+              v-no-spellcheck
               class="textarea-chat"
               v-model="message" 
               placeholder="메시지 입력" 
