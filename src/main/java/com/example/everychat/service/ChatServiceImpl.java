@@ -99,30 +99,29 @@ public class ChatServiceImpl implements ChatService {
     @Transactional
     @Override
     public void sendMessage(MessageDto messageDto) {
-        Message message = Message.builder().id(UUID.randomUUID().toString())
+        if(messageDto.getType().equals(MessageTypeEnum.MESSAGE.getLabel())) {
+            Message message = Message.builder().id(UUID.randomUUID().toString())
                 .channelId(messageDto.getChannelId())
                 .type(messageDto.getType())
                 .sender(messageDto.getSender())
                 .message(messageDto.getMessage())
+                .ip(messageDto.getIp())
                 .createAt(LocalDateTime.now())
                 .build();
 
-        String ip = messageDto.getIp();
-        System.out.println("ip : " + ip);
-        message.setIp(ip.substring(0, ip.indexOf('.', 5)));
-
-        if(messageDto.getType().equals(MessageTypeEnum.MESSAGE.getLabel())) {
-            System.out.println("ip2 : " + message.getIp());
             messageRepository.save(message);
         } else if(messageDto.getType().equals(MessageTypeEnum.ENTER.getLabel())) {
-            System.out.println("channelId : " + messageDto.getChannelId());
-            System.out.println("enter " + messageDto.getSender());
+            log.info("channelId : {}", messageDto.getChannelId());
+            log.info("enter : {}", messageDto.getSender());
         } else {
-            System.out.println("channelId : " + messageDto.getChannelId());
-            System.out.println("leave " + messageDto.getSender());
+            log.info("channelId : {}", messageDto.getChannelId());
+            log.info("leave : {}", messageDto.getSender());
         }
 
-        simpMessageSendingOperations.convertAndSend("/topic/" + message.getChannelId(), message);
+        String ip = messageDto.getIp();
+        messageDto.setIp(ip.substring(0, ip.indexOf('.', 5)));
+
+        simpMessageSendingOperations.convertAndSend("/topic/" + messageDto.getChannelId(), messageDto);
     }
 
     @Transactional(readOnly = true)
