@@ -31,30 +31,10 @@ export default {
 
             if (this.isDarkMode) {
                 document.documentElement.style.filter = "invert(100%) hue-rotate(180deg)";
-                document.documentElement.style.webkitFilter = "invert(100%) hue-rotate(180deg)";
                 document.documentElement.style.backgroundColor = "#121212";
-
-                const chatImages = document.querySelectorAll('.chat-list img');
-                const youtubeVideos = document.querySelectorAll('.chat-list iframe');
-                chatImages.forEach(image => {
-                    image.style.filter = "invert(100%) hue-rotate(180deg)";
-                });
-                youtubeVideos.forEach(iframe => {
-                    iframe.style.filter = "invert(100%) hue-rotate(180deg)";
-                });
             } else {
                 document.documentElement.style.filter = "invert(0%) hue-rotate(0deg)";
-                document.documentElement.style.webkitFilter = "invert(0%) hue-rotate(0deg)";
                 document.documentElement.style.backgroundColor = "#ffffff";
-
-                const chatImages = document.querySelectorAll('.chat-list img');
-                const youtubeVideos = document.querySelectorAll('.chat-list iframe');
-                chatImages.forEach(image => {
-                    image.style.filter = "invert(0%) hue-rotate(0deg)";
-                });
-                youtubeVideos.forEach(iframe => {
-                    iframe.style.filter = "invert(0%) hue-rotate(0deg)";
-                });
             }
         }
     },
@@ -65,6 +45,10 @@ export default {
 </script>
 
 <style>
+img, iframe {
+    filter: none !important;
+}
+
 header {
     margin-top: 5vh;
     margin-bottom: 1vh;
