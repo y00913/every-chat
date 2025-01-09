@@ -23,18 +23,18 @@ export default {
     methods: {
         handleTheme() {
             if (!this.isFirstLoad) {
-                document.documentElement.style.transition = "filter 0.5s ease, background-color 0.5s ease";
+                document.getElementById('app').style.transition = "filter 0.5s ease, background-color 0.5s ease";
                 localStorage.setItem('isDarkMode', this.isDarkMode);
             } else {
                 this.isFirstLoad = false;
             }
 
             if (this.isDarkMode) {
-                document.documentElement.style.filter = "invert(100%) hue-rotate(180deg)";
-                document.documentElement.style.backgroundColor = "#121212";
+                document.getElementById('app').style.filter = "invert(100%) hue-rotate(180deg)";
+                document.getElementById('app').style.backgroundColor = "#121212";
             } else {
-                document.documentElement.style.filter = "invert(0%) hue-rotate(0deg)";
-                document.documentElement.style.backgroundColor = "#ffffff";
+                document.getElementById('app').style.filter = "invert(0%) hue-rotate(0deg)";
+                document.getElementById('app').style.backgroundColor = "#ffffff";
             }
         }
     },
