@@ -23,7 +23,7 @@ export default {
     methods: {
         handleTheme() {
             if (!this.isFirstLoad) {
-                document.getElementById('app').style.transition = "filter 0.5s ease, background-color 0.5s ease";
+                document.getElementById('app').style.transition = "filter 0.5s ease";
                 localStorage.setItem('isDarkMode', this.isDarkMode);
             } else {
                 this.isFirstLoad = false;
@@ -39,12 +39,12 @@ export default {
                 images.forEach(image => {
                     image.style.filter = "invert(100%) hue-rotate(180deg)";
                     image.style.webkitFilter = "invert(100%) hue-rotate(180deg)";
-                    image.style.transition = "filter 0s ease, background-color 0s ease";
+                    image.style.transition = "filter 0s ease";
                 });
                 iframes.forEach(iframe => {
                     iframe.style.filter = "invert(100%) hue-rotate(180deg)";
                     iframe.style.webkitFilter = "invert(100%) hue-rotate(180deg)";
-                    iframe.style.transition = "filter 0s ease, background-color 0s ease";
+                    iframe.style.transition = "filter 0s ease";
                 });
             } else {
                 document.getElementById('app').style.filter = "invert(0%) hue-rotate(0deg)";
@@ -53,12 +53,12 @@ export default {
                 images.forEach(image => {
                     image.style.filter = "invert(0%) hue-rotate(0deg)";
                     image.style.webkitFilter = "invert(0%) hue-rotate(0deg)";
-                    image.style.transition = "filter 0s ease, background-color 0s ease";
+                    image.style.transition = "filter 0s ease";
                 });
                 iframes.forEach(iframe => {
                     iframe.style.filter = "invert(0%) hue-rotate(0deg)";
                     iframe.style.webkitFilter = "invert(0%) hue-rotate(0deg)";
-                    iframe.style.transition = "filter 0s ease, background-color 0s ease";
+                    iframe.style.transition = "filter 0s ease";
                 });
             }
         }
