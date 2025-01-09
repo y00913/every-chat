@@ -31,21 +31,23 @@ export default {
 
             if (this.isDarkMode) {
                 document.documentElement.style.filter = "invert(100%) hue-rotate(180deg)";
-                document.documentElement.style.backgroundColor = "#121212";
                 document.documentElement.style.webkitFilter = "invert(100%) hue-rotate(180deg)";
+                document.documentElement.style.backgroundColor = "#121212";
 
                 const chatImages = document.querySelectorAll('.chat-list img');
                 const youtubeVideos = document.querySelectorAll('.chat-list iframe');
                 chatImages.forEach(image => {
-                    image.style.filter = "none";
+                    image.style.filter = "invert(100%) hue-rotate(180deg)";
+                    image.style.webkitFilter = "invert(100%) hue-rotate(180deg)";
                 });
                 youtubeVideos.forEach(iframe => {
-                    iframe.style.filter = "none";
+                    iframe.style.filter = "invert(100%) hue-rotate(180deg)";
+                    iframe.style.webkitFilter = "invert(100%) hue-rotate(180deg)";
                 });
             } else {
                 document.documentElement.style.filter = "invert(0%) hue-rotate(0deg)";
-                document.documentElement.style.backgroundColor = "#ffffff";
                 document.documentElement.style.webkitFilter = "invert(0%) hue-rotate(0deg)";
+                document.documentElement.style.backgroundColor = "#ffffff";
             }
         }
     },
@@ -57,12 +59,17 @@ export default {
 
 <style>
 header {
-    margin-top:5vh;
+    margin-top: 5vh;
     margin-bottom: 1vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
 }
 
 h1 {
     text-align: center;
+    flex-grow: 1;
 }
 
 .dark-mode-checkbox {
@@ -72,14 +79,14 @@ h1 {
 .toggle-switch {
     width: 50px;
     height: 25px;
-    display: block;
-    position: fixed;
-    top: 50px;
+    position: absolute;
+    top: 50%;
     left: 50px;
     border-radius: 30px;
     background-color: #fff;
     box-shadow: 0 0 16px 3px rgba(0, 0, 0, 0.15);
     cursor: pointer;
+    transform: translateY(-50%);
 }
 
 .toggle-button {
