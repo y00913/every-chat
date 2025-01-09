@@ -278,7 +278,7 @@ export default {
       const imageRegex = /(https?:\/\/.*\.(?:png|jpg|jpeg|gif))/gi;
 
       formattedMessage = formattedMessage.replace(imageRegex, (url) => {
-        return `<img src="${url}" alt="Image" style="max-width: 400px;; height: auto;" />`;
+        return `<br><img src="${url}" alt="Image" style="max-width: 400px;; height: auto;" />`;
       });
 
       const youtubeRegex =
@@ -287,13 +287,13 @@ export default {
       formattedMessage = formattedMessage.replace(youtubeRegex, (url, id1, id2) => {
         const videoId = id1 || id2;
         return `
+          <br>
           <iframe 
-            width="100%" 
-            height="315" 
             src="https://www.youtube.com/embed/${videoId}" 
             frameborder="0" 
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-            allowfullscreen>
+            allowfullscreen
+            class="youtube-iframe">
           </iframe>`;
       });
 
@@ -382,6 +382,13 @@ export default {
 
 button.textarea-button {
   border: none;
+}
+
+.youtube-iframe {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  max-width: 400px;
 }
 
 </style>
