@@ -45,7 +45,9 @@
             {{ formatDate(item.createAt) }} 
           </div>
           <div>
-            {{ item.sender }} ({{ item.ip }}) : {{ item.message }}
+            {{ item.sender }} ({{ item.ip }})
+            : 
+            <a v-html="formatMessage(item.message)" class="message-content"></a>
           </div>
           <div v-show="idx === lastChat">
             <hr style="width:700px; height: 0.5px; background: #acaaaa;">
@@ -384,11 +386,15 @@ button.textarea-button {
   border: none;
 }
 
+.message-content {
+  white-space: pre-wrap;
+}
+
 .youtube-iframe {
   width: 100%;
   height: auto;
   aspect-ratio: 16 / 9;
-  max-width: 400px;
+  max-width: 500px;
 }
 
 </style>
