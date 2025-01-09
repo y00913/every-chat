@@ -37,27 +37,29 @@ export default {
                 document.getElementById('app').style.webkitFilter = "invert(100%) hue-rotate(180deg)";
 
                 images.forEach(image => {
-                    image.style.filter = "none";
-                    image.style.webkitFilter = "none";
+                    image.style.filter = "invert(100%) hue-rotate(180deg)";
+                    image.style.webkitFilter = "invert(100%) hue-rotate(180deg)";
                     image.style.transition = "none";
                 });
                 iframes.forEach(iframe => {
-                    iframe.style.filter = "none";
-                    iframe.style.webkitFilter = "none";
+                    iframe.style.filter = "invert(100%) hue-rotate(180deg)";
+                    iframe.style.webkitFilter = "invert(100%) hue-rotate(180deg)";
                     iframe.style.transition = "none";
                 });
             } else {
                 document.getElementById('app').style.filter = "invert(0%) hue-rotate(0deg)";
                 document.getElementById('app').style.webkitFilter = "invert(0%) hue-rotate(0deg)";
 
-                // images.forEach(image => {
-                //     image.style.filter = "invert(0%) hue-rotate(0deg)";
-                //     image.style.webkitFilter = "invert(0%) hue-rotate(0deg)";
-                // });
-                // iframes.forEach(iframe => {
-                //     iframe.style.filter = "invert(0%) hue-rotate(0deg)";
-                //     iframe.style.webkitFilter = "invert(0%) hue-rotate(0deg)";
-                // });
+                images.forEach(image => {
+                    image.style.filter = "invert(0%) hue-rotate(0deg)";
+                    image.style.webkitFilter = "invert(0%) hue-rotate(0deg)";
+                    image.style.transition = "none";
+                });
+                iframes.forEach(iframe => {
+                    iframe.style.filter = "invert(0%) hue-rotate(0deg)";
+                    iframe.style.webkitFilter = "invert(0%) hue-rotate(0deg)";
+                    iframe.style.transition = "none";
+                });
             }
         }
     },
