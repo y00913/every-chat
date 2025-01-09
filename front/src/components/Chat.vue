@@ -61,7 +61,7 @@
             <a :class="[item.type != 'message' ? 'blue' : 'grey']"> 
               ({{ item.ip }})</a>
             :
-              {{ item.message }}
+            <a v-html="formatMessage(item.message)" class="message-content"></a>
           </div>
         </div>
 
@@ -271,6 +271,33 @@ export default {
         e.preventDefault();
         this.sendMessage();
       }
+    },
+    formatMessage(message) {
+      let formattedMessage = message.replace(/\n/g, '<br>');
+
+      const imageRegex = /(https?:\/\/.*\.(?:png|jpg|jpeg|gif))/gi;
+
+      formattedMessage = formattedMessage.replace(imageRegex, (url) => {
+        return `<img src="${url}" alt="Image" style="max-width: 400px;; height: auto;" />`;
+      });
+
+      const youtubeRegex =
+        /https?:\/\/(?:www\.)?youtube\.com\/watch\?v=([a-zA-Z0-9_-]+)|https?:\/\/youtu\.be\/([a-zA-Z0-9_-]+)/g;
+
+      formattedMessage = formattedMessage.replace(youtubeRegex, (url, id1, id2) => {
+        const videoId = id1 || id2;
+        return `
+          <iframe 
+            width="100%" 
+            height="315" 
+            src="https://www.youtube.com/embed/${videoId}" 
+            frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+            allowfullscreen>
+          </iframe>`;
+      });
+
+      return formattedMessage;
     },
   },
   watch: {
