@@ -35,6 +35,7 @@ export default {
 <style>
 #app {
   font-family: 'mabi';
+  background-color: white;
 }
 
 @font-face {
