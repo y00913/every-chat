@@ -63,8 +63,8 @@ h1 {
 }
 
 .toggle-switch {
-    width: 100px;
-    height: 50px;
+    width: 50px;
+    height: 25px;
     display: block;
     position: fixed;
     top: 50px;
@@ -76,19 +76,18 @@ h1 {
 }
 
 .toggle-button {
-    width: 40px;
-    height: 40px;
+    width: 20px;
+    height: 20px;
     position: absolute;
     top: 50%;
     left: 4px;
     transform: translateY(-50%);
     border-radius: 50%;
     background: black;
-    transition: all 0.2s ease-in;
 }
 
 .dark-mode-checkbox:checked + .toggle-switch .toggle-button {
-    left: calc(100% - 44px);
+    left: calc(100% - 24px);
 }
 
 .toggle-switch, .toggle-button {
