@@ -1,9 +1,9 @@
 <template>
-    <header style="margin-top:5vh; margin-bottom: 1vh; display: flex; align-items: center; justify-content: space-between;">
+    <header style="margin-top:5vh; margin-bottom: 1vh; display: flex; align-items: center; justify-content: space-between; width: 100%;">
         <title>every chat</title>
         <link rel="shortcut icon" type="image/x-icon" href="https://cdn-icons-png.flaticon.com/512/5962/5962500.png">
         <h1 style="flex-grow: 1; text-align: center;">{{ title }}</h1>
-        <input type="checkbox" v-model="isDarkMode" @change="handleTheme" style="margin-left: auto;">
+        <input type="checkbox" v-model="isDarkMode" @change="handleTheme" style="margin-right: 100px;">
     </header>
 </template>
 
@@ -14,10 +14,16 @@ export default {
         return {
             title: '에브리 챗 :)',
             isDarkMode: localStorage.getItem('isDarkMode') === 'true',
+            isFirstLoad: true,
         }
     },
     methods: {
         handleTheme() {
+            if (!this.isFirstLoad) {
+                document.documentElement.style.transition = "filter 0.5s ease, background-color 0.5s ease";
+                this.isFirstLoad = false;
+            }
+
             localStorage.setItem('isDarkMode', this.isDarkMode);
 
             if (this.isDarkMode) {
@@ -35,6 +41,7 @@ export default {
     },
     mounted() {
         this.handleTheme();
+        document.documentElement.style.transition = "none";
     },
 }
 </script>
