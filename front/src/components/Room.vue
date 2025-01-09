@@ -37,7 +37,7 @@
         <div class="white-bg" @keyup.enter="checkRoomPw">
             <p v-show="!enterFail">입장 비밀번호를 입력해주세요.</p>
             <p v-show="enterFail">입장 비밀번호가 틀렸습니다.</p>
-            <input v-model="pw" type="password" required>
+            <input v-model="lockPw" type="password" required>
             <p></p>
             <button @click="checkRoomPw" style="margin-right:10px;">확인</button>
             <button @click="handleEnterPop">취소</button>
@@ -211,7 +211,11 @@ export default {
 
             const data = response.data.data;
 
-            this.enterRoom(data.id, data.channelName, false);
+            if(this.isLock) {
+                this.checkRoomPw()
+            } else {
+                this.enterRoom(data.id, data.channelName, false);
+            }
         },
         async deleteRoom() {
             if (this.pw == "") return;
@@ -248,18 +252,18 @@ export default {
             }
         },
         async checkRoomPw() {
-            if (this.pw == "") return;
+            if (this.lockPw == "") return;
 
             const response = await axios.get(this.url + "/api/channel/lock",
                 {
                     headers: {
                         'channel-id': this.roomId,
-                        'lock-pw': this.pw,
+                        'lock-pw': this.lockPw,
                     }
                 }
             );
 
-            this.pw = "";
+            this.lockPw = "";
 
             if (!response.data.data) {
                 this.enterFail = true;
