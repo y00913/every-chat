@@ -1,9 +1,12 @@
 <template>
-    <header style="margin-top:5vh; margin-bottom: 1vh; display: flex; align-items: center; justify-content: space-between; width: 100%;">
+    <header>
         <title>every chat</title>
         <link rel="shortcut icon" type="image/x-icon" href="https://cdn-icons-png.flaticon.com/512/5962/5962500.png">
-        <h1 style="flex-grow: 1; text-align: center;">{{ title }}</h1>
-        <input type="checkbox" v-model="isDarkMode" @change="handleTheme" style="margin-right: 100px;">
+        <input type="checkbox" class="dark-mode-checkbox" v-model="isDarkMode" @change="handleTheme">
+        <label for="toggle" class="toggle-switch">
+            <span class="toggle-button"></span>
+        </label>
+        <h1>{{ title }}</h1>
     </header>
 </template>
 
@@ -41,9 +44,54 @@ export default {
     },
     mounted() {
         this.handleTheme();
-        document.documentElement.style.transition = "none";
     },
 }
 </script>
 
-<style></style>
+<style>
+header {
+    margin-top:5vh;
+    margin-bottom: 1vh;
+}
+
+h1 {
+    text-align: center;
+}
+
+.dark-mode-checkbox {
+    display: none;
+}
+
+.toggle-switch {
+    width: 100px;
+    height: 50px;
+    display: block;
+    position: fixed;
+    top: 50px;
+    left: 50px;
+    border-radius: 30px;
+    background-color: #fff;
+    box-shadow: 0 0 16px 3px rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+}
+
+.toggle-button {
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    top: 50%;
+    left: 4px;
+    transform: translateY(-50%);
+    border-radius: 50%;
+    background: black;
+    transition: all 0.2s ease-in;
+}
+
+.dark-mode-checkbox:checked + .toggle-switch .toggle-button {
+    left: calc(100% - 44px);
+}
+
+.toggle-switch, .toggle-button {
+    transition: all 0.2s ease-in;
+}
+</style>
