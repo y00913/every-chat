@@ -73,14 +73,15 @@ export default {
 header {
     margin-top: 5vh;
     margin-bottom: 1vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     position: relative;
 }
 
 h1 {
     text-align: center;
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
+    flex-grow: 1;
 }
 
 .dark-mode-checkbox {
@@ -92,7 +93,7 @@ h1 {
     height: 25px;
     position: absolute;
     top: 50%;
-    left: calc(50% - 30px);
+    left: 50px;
     border-radius: 30px;
     background-color: #fff;
     box-shadow: 0 0 16px 3px rgba(0, 0, 0, 0.15);
@@ -115,8 +116,7 @@ h1 {
     left: calc(100% - 24px);
 }
 
-.toggle-switch,
-.toggle-button {
+.toggle-switch, .toggle-button {
     transition: all 0.2s ease-in;
 }
 </style>
