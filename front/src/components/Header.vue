@@ -32,7 +32,6 @@ export default {
             if (this.isDarkMode) {
                 document.getElementById('app').style.filter = "invert(100%) hue-rotate(180deg)";
                 document.getElementById('app').style.webkitFilter = "invert(100%) hue-rotate(180deg)";
-                document.documentElement.style.backgroundColor = "#413F3E"; 
             } else {
                 document.getElementById('app').style.filter = "invert(0%) hue-rotate(0deg)";
                 document.getElementById('app').style.webkitFilter = "invert(0%) hue-rotate(0deg)";
@@ -46,10 +45,6 @@ export default {
 </script>
 
 <style>
-img, iframe {
-    filter: none !important;
-}
-
 header {
     margin-top: 5vh;
     margin-bottom: 1vh;

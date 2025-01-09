@@ -398,7 +398,8 @@ button.textarea-button {
 
 .chat-img {
   max-width: 400px;
-  height: auto; 
+  height: auto;
+  filter: none !important;
 }
 
 .youtube-iframe {
@@ -406,6 +407,7 @@ button.textarea-button {
   height: auto;
   aspect-ratio: 16 / 9;
   max-width: 500px;
+  filter: none !important;
 }
 
 </style>

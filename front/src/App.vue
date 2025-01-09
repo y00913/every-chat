@@ -36,6 +36,7 @@ export default {
   background-color: #EDEDED;
   min-width: 100vw;
   min-height: 100vh;
+  isolation: isolate;
 }
 
 @font-face {
