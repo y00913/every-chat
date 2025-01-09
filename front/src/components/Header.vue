@@ -23,22 +23,20 @@ export default {
     methods: {
         handleTheme() {
             if (!this.isFirstLoad) {
-                document.documentElement.style.transition = "filter 0.5s ease, background-color 0.5s ease";
+                document.getElementById('app').style.transition = "filter 0.5s ease, background-color 0.5s ease";
                 this.isFirstLoad = false;
             }
 
             localStorage.setItem('isDarkMode', this.isDarkMode);
 
             if (this.isDarkMode) {
-                document.documentElement.style.transition = "filter 0.5s ease, background-color 0.5s ease";
-                document.documentElement.style.filter = "invert(100%) hue-rotate(180deg)";
-                document.documentElement.style.backgroundColor = "#121212";
-                document.documentElement.style.webkitFilter = "invert(100%) hue-rotate(180deg)";
+                document.getElementById('app').style.filter = "invert(100%) hue-rotate(180deg)";
+                document.getElementById('app').style.backgroundColor = "#121212";
+                document.getElementById('app').style.webkitFilter = "invert(100%) hue-rotate(180deg)";
             } else {
-                document.documentElement.style.transition = "filter 0.5s ease, background-color 0.5s ease";
-                document.documentElement.style.filter = "invert(0%) hue-rotate(0deg)";
-                document.documentElement.style.backgroundColor = "#ffffff";
-                document.documentElement.style.webkitFilter = "invert(0%) hue-rotate(0deg)";
+                document.getElementById('app').style.filter = "invert(0%) hue-rotate(0deg)";
+                document.getElementById('app').style.backgroundColor = "#ffffff";
+                document.getElementById('app').style.webkitFilter = "invert(0%) hue-rotate(0deg)";
             }
         }
     },
