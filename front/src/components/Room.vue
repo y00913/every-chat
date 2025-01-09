@@ -26,7 +26,7 @@
         <div class="white-bg" @keyup.enter="deleteRoom">
             <p v-show="!deleteFail">삭제 비밀번호를 입력해주세요.</p>
             <p v-show="deleteFail">삭제 비밀번호가 틀렸습니다.</p>
-            <input v-model="pw" type="password" required>
+            <input v-model="pw" type="password" placeholder="삭제 비밀번호" required>
             <p></p>
             <button @click="deleteRoom" style="margin-right:10px;">확인</button>
             <button @click="handleDeletePop">취소</button>
@@ -37,7 +37,7 @@
         <div class="white-bg" @keyup.enter="checkRoomPw">
             <p v-show="!enterFail">입장 비밀번호를 입력해주세요.</p>
             <p v-show="enterFail">입장 비밀번호가 틀렸습니다.</p>
-            <input v-model="lockPw" type="password" required>
+            <input v-model="lockPw" type="password" placeholder="입장 비밀번호" required>
             <p></p>
             <button @click="checkRoomPw" style="margin-right:10px;">확인</button>
             <button @click="handleEnterPop">취소</button>
