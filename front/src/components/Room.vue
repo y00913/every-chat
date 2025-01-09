@@ -212,7 +212,8 @@ export default {
             const data = response.data.data;
 
             if(this.isLock) {
-                this.checkRoomPw()
+                this.roomId = data.id;
+                this.checkRoomPw();
             } else {
                 this.enterRoom(data.id, data.channelName, false);
             }
