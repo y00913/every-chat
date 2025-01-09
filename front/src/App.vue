@@ -81,7 +81,6 @@ input {
   padding: 3px 10px 3px 10px;
   outline: none;
   box-shadow: none;
-  spellcheck: false;
 }
 
 textarea {

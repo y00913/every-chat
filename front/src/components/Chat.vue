@@ -4,7 +4,7 @@
       <div class="white-bg">
         <form v-on:submit.prevent="handlePop">
           <p>닉네임을 입력해주세요.</p>
-          <input v-no-spellcheck v-model="sender" type="text" autofocus required>
+          <input :spellcheck="false" v-model="sender" type="text" autofocus required>
           <p></p>
           <button @click="sendEnter" v-on:keyup.enter="submit">확인</button>
         </form>
@@ -339,7 +339,7 @@ export default {
 }
 
 .textarea-chat {
-  padding: .5em 3em .5em 2em;
+  padding: .5em 1em .5em 1em;
   width: 100%;
   flex: 1;
 }

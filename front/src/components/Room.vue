@@ -6,7 +6,7 @@
             </div>
             <div>
             <p>방 제목을 입력해주세요.</p>
-            <input v-model="roomName" type="text" placeholder="방 제목">
+            <input :spellcheck="false" v-model="roomName" type="text" placeholder="방 제목">
             <p>생선된 방의 삭제 비밀번호를 입력해주세요.</p>
             <input v-model="pw" type="password" placeholder="삭제 비밀번호">
             <p>입장 비밀번호를 원할 시 클릭해주세요.</p>
@@ -48,7 +48,7 @@
         <tr >
             <td style="text-align: left;">
                 <div @keyup.enter="handleNickname" class="div-left">
-                    <input v-model="sender" type="text" placeholder="닉네임" class="input-nickname">
+                    <input :spellcheck="false" v-model="sender" type="text" placeholder="닉네임" class="input-nickname">
                     <button 
                         @click="handleNickname" 
                         class="sender-button" 
@@ -63,7 +63,7 @@
             <td style="text-align: right;">
                 <div class="div-right">
                     <span @keyup.enter="getRoomByName(0)" class="span-search">
-                        <input v-model="serachName" type="text" required class="input-search" v-show="isSearch" placeholder="검색어 입력">
+                        <input :spellcheck="false" v-model="serachName" type="text" required class="input-search" v-show="isSearch" placeholder="검색어 입력">
                         <img @click="handleSearchBar()" class="search-img" src="@/assets/img/search.png" />
                     </span>
                     <span class="span-add">
