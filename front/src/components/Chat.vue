@@ -280,7 +280,13 @@ export default {
       const imageRegex = /(https?:\/\/.*\.(?:png|jpg|jpeg|gif))/gi;
 
       formattedMessage = formattedMessage.replace(imageRegex, (url) => {
-        return `<br><img src="${url}" alt="Image" style="max-width: 400px;; height: auto;" />`;
+        return `
+          <br>
+          <img 
+            src="${url}" 
+            alt="Image" 
+            class="chat-img" 
+          />`;
       });
 
       const youtubeRegex =
@@ -390,11 +396,16 @@ button.textarea-button {
   white-space: pre-wrap;
 }
 
+.chat-img {
+  max-width: 400px; height: auto; filter: invert(0%) !important;
+}
+
 .youtube-iframe {
   width: 100%;
   height: auto;
   aspect-ratio: 16 / 9;
   max-width: 500px;
+  filter: invert(0%) !important;
 }
 
 </style>
