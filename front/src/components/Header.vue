@@ -2,7 +2,7 @@
     <header>
         <title>every chat</title>
         <link rel="shortcut icon" type="image/x-icon" href="https://cdn-icons-png.flaticon.com/512/5962/5962500.png">
-        <input type="checkbox" class="dark-mode-checkbox" v-model="isDarkMode" @change="handleTheme">
+        <input type="checkbox" id="toggle" class="dark-mode-checkbox" v-model="isDarkMode" @change="handleTheme">
         <label for="toggle" class="toggle-switch">
             <span class="toggle-button"></span>
         </label>
