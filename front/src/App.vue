@@ -1,13 +1,11 @@
 <template>
-  <div id="app">
-    <Header></Header>
+  <Header></Header>
 
-    <body>
-      <router-view />
-    </body>
+  <body>
+    <router-view />
+  </body>
 
-    <Footer></Footer>
-  </div>
+  <Footer></Footer>
 </template>
 
 <script>
