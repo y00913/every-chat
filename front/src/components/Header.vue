@@ -31,10 +31,10 @@ export default {
 
             if (this.isDarkMode) {
                 document.getElementById('app').style.filter = "invert(100%) hue-rotate(180deg)";
-                document.getElementById('app').style.backgroundColor = "#121212";
+                // document.getElementById('app').style.backgroundColor = "#121212";
             } else {
                 document.getElementById('app').style.filter = "invert(0%) hue-rotate(0deg)";
-                document.getElementById('app').style.backgroundColor = "#ffffff";
+                document.getElementById('app').style.backgroundColor = "#EDEDED";
             }
         }
     },
