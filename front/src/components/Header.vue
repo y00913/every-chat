@@ -23,20 +23,29 @@ export default {
     methods: {
         handleTheme() {
             if (!this.isFirstLoad) {
-                document.getElementById('app').style.transition = "filter 0.5s ease, background-color 0.5s ease";
+                document.documentElement.style.transition = "filter 0.5s ease, background-color 0.5s ease";
+                localStorage.setItem('isDarkMode', this.isDarkMode);
+            } else {
                 this.isFirstLoad = false;
             }
 
-            localStorage.setItem('isDarkMode', this.isDarkMode);
-
             if (this.isDarkMode) {
-                document.getElementById('app').style.filter = "invert(100%) hue-rotate(180deg)";
-                document.getElementById('app').style.backgroundColor = "#121212";
-                document.getElementById('app').style.webkitFilter = "invert(100%) hue-rotate(180deg)";
+                document.documentElement.style.filter = "invert(100%) hue-rotate(180deg)";
+                document.documentElement.style.backgroundColor = "#121212";
+                document.documentElement.style.webkitFilter = "invert(100%) hue-rotate(180deg)";
+
+                const chatImages = document.querySelectorAll('.chat-list img');
+                const youtubeVideos = document.querySelectorAll('.chat-list iframe');
+                chatImages.forEach(image => {
+                    image.style.filter = "none";
+                });
+                youtubeVideos.forEach(iframe => {
+                    iframe.style.filter = "none";
+                });
             } else {
-                document.getElementById('app').style.filter = "invert(0%) hue-rotate(0deg)";
-                document.getElementById('app').style.backgroundColor = "#ffffff";
-                document.getElementById('app').style.webkitFilter = "invert(0%) hue-rotate(0deg)";
+                document.documentElement.style.filter = "invert(0%) hue-rotate(0deg)";
+                document.documentElement.style.backgroundColor = "#ffffff";
+                document.documentElement.style.webkitFilter = "invert(0%) hue-rotate(0deg)";
             }
         }
     },
