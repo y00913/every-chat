@@ -30,14 +30,21 @@ export default {
             }
 
             const app = document.getElementById('app');
+            const images = document.querySelectorAll('.chat-list .chat-img');
+            const iframes = document.querySelectorAll('.chat-list .youtube-iframe');
 
-            if (this.isDarkMode) {
-                app.classList.add('dark-mode-on');
-                app.classList.remove('dark-mode-off');
-            } else {
-                app.classList.add('dark-mode-off');
-                app.classList.remove('dark-mode-on');
-            }
+            const filterStyle = this.isDarkMode 
+                ? "invert(100%) hue-rotate(180deg)" 
+                : "invert(0%) hue-rotate(0deg)";
+
+            app.style.filter = filterStyle;
+            app.style.webkitFilter = filterStyle;
+
+            [...images, ...iframes].forEach(element => {
+                element.style.filter = filterStyle;
+                element.style.webkitFilter = filterStyle;
+                element.style.transition = "filter 0.1s ease";
+            });
         }
     },
     mounted() {
