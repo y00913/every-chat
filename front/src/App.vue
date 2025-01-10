@@ -34,8 +34,8 @@ export default {
 #app {
   font-family: 'mabi';
   background-color: #F8F9FA;
-  min-width: 100vw;
-  min-height: 100vh;
+  width: 100vw;
+  height: 100vh;
   isolation: isolate;
 }
 
