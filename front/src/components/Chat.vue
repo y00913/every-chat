@@ -122,6 +122,7 @@ export default {
       isConnecting: false,
       retryCount: 0,
       maxRetries: 5,
+      isDarkMode: localStorage.getItem('isDarkMode') === 'true',
     }
   },
   created() { 
@@ -285,7 +286,7 @@ export default {
           <img 
             src="${url}" 
             alt="Image" 
-            class="chat-img" 
+            class="chat-img ${this.isDarkMode ? "dark-mode" : ""}" 
           />`;
       });
 
@@ -301,7 +302,7 @@ export default {
             frameborder="0" 
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
             allowfullscreen
-            class="youtube-iframe">
+            class="youtube-iframe ${this.isDarkMode ? "dark-mode" : ""}">
           </iframe>`;
       });
 
@@ -399,6 +400,7 @@ button.textarea-button {
 .chat-img {
   max-width: 400px;
   height: auto;
+  transition: filter 0 ease;
 }
 
 .youtube-iframe {
@@ -406,6 +408,10 @@ button.textarea-button {
   height: auto;
   aspect-ratio: 16 / 9;
   max-width: 500px;
+}
+
+.dark-mode {
+  filter: invert(100%) hue-rotate(180deg);
 }
 
 </style>
