@@ -31,7 +31,7 @@ export default {
 </script>
 
 <style>
-@import "../assets/css/DarkMode.css";
+@import "./assets/css/DarkMode.css";
 
 #app {
   font-family: 'mabi';
