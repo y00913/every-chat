@@ -172,7 +172,7 @@ public class ChatServiceImpl implements ChatService {
         log.info("password : {}",isPasswordChecked);
 
         if (isPasswordChecked != null && isPasswordChecked) {
-            session.removeAttribute(attributeName);
+            // session.removeAttribute(attributeName);
 
             return true;
         }

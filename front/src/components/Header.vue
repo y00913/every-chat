@@ -23,12 +23,12 @@ export default {
     methods: {
         handleTheme() {
             if (!this.isFirstLoad) {
-                document.getElementById('app').style.transition = "filter 0.5s ease";
+                
                 localStorage.setItem('isDarkMode', this.isDarkMode);
             } else {
                 this.isFirstLoad = false;
             }
-
+            document.getElementById('app').style.transition = "filter 0.5s ease";
             const app = document.getElementById('app');
             const images = document.querySelectorAll('.chat-list img');
             const iframes = document.querySelectorAll('.chat-list iframe');
@@ -43,7 +43,7 @@ export default {
             [...images, ...iframes].forEach(element => {
                 element.style.filter = filterStyle;
                 element.style.webkitFilter = filterStyle;
-                element.style.transition = "filter 0s ease";
+                element.style.transition = "none";
             });
         }
     },
