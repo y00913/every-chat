@@ -1,6 +1,4 @@
 .black-bg {
-    width: 100vw;
-    height: 100vh;
     background: rgba(0, 0, 0, 0.5);
     position: fixed;
     padding: 20px;

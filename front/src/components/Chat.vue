@@ -4,7 +4,7 @@
       <div class="white-bg">
         <form v-on:submit.prevent="handlePop">
           <p>닉네임을 입력해주세요.</p>
-          <input :spellcheck="false" v-model="sender" type="text" autofocus required>
+          <input :spellcheck="false" v-model="sender" type="text" style="width: 130px;" autofocus placeholder="닉네임" required>
           <p></p>
           <button @click="sendEnter" v-on:keyup.enter="submit">확인</button>
         </form>
