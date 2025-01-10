@@ -23,19 +23,28 @@ export default {
     methods: {
         handleTheme() {
             if (!this.isFirstLoad) {
-                document.getElementById('app').style.transition = "filter 0.2s ease";
+                document.getElementById('app').style.transition = "filter 0.3s ease";
                 localStorage.setItem('isDarkMode', this.isDarkMode);
             } else {
                 this.isFirstLoad = false;
             }
 
             const app = document.getElementById('app');
+            const images = document.querySelectorAll('.chat-list img');
+            const iframes = document.querySelectorAll('.chat-list iframe');
 
-            if (this.isDarkMode) {
-                app.classList.add('dark-mode');
-            } else {
-                app.classList.remove('dark-mode');
-            }
+            const filterStyle = this.isDarkMode 
+                ? "invert(100%) hue-rotate(180deg)" 
+                : "invert(0%) hue-rotate(0deg)";
+
+            app.style.filter = filterStyle;
+            app.style.webkitFilter = filterStyle;
+
+            [...images, ...iframes].forEach(element => {
+                element.style.filter = filterStyle;
+                element.style.webkitFilter = filterStyle;
+                element.style.transition = "filter 0.01s ease";
+            });
         }
     },
     mounted() {
@@ -44,7 +53,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 header {
     margin-top: 5vh;
     margin-bottom: 1vh;
