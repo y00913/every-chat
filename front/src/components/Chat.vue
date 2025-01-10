@@ -286,7 +286,7 @@ export default {
           <img 
             src="${url}" 
             alt="Image" 
-            class="chat-img ${this.isDarkMode ? "dark-mode-on" : ""}" 
+            class="chat-img ${this.isDarkMode ? "dark-mode-on" : "dark-mode-off"}" 
           />`;
       });
 
@@ -302,7 +302,7 @@ export default {
             frameborder="0" 
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
             allowfullscreen
-            class="youtube-iframe ${this.isDarkMode ? "dark-mode-on" : ""}">
+            class="youtube-iframe ${this.isDarkMode ? "dark-mode-on" : "dark-mode-off"}">
           </iframe>`;
       });
 
@@ -400,7 +400,7 @@ button.textarea-button {
 .chat-img {
   max-width: 400px;
   height: auto;
-  transition: filter 0s ease;
+  transition: filter 0 ease;
 }
 
 .youtube-iframe {
@@ -408,7 +408,7 @@ button.textarea-button {
   height: auto;
   aspect-ratio: 16 / 9;
   max-width: 500px;
-  transition: filter 0s ease;
+  transition: filter 0 ease;
 }
 
 .dark-mode-on {
