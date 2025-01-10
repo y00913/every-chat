@@ -23,7 +23,6 @@ export default {
     methods: {
         handleTheme() {
             if (!this.isFirstLoad) {
-                document.getElementById('app').style.transition = "filter 0.3s ease";
                 localStorage.setItem('isDarkMode', this.isDarkMode);
             } else {
                 this.isFirstLoad = false;
@@ -43,7 +42,6 @@ export default {
             [...images, ...iframes].forEach(element => {
                 element.style.filter = filterStyle;
                 element.style.webkitFilter = filterStyle;
-                element.style.transition = "filter 0.01s ease";
             });
         }
     },
