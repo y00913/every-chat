@@ -404,6 +404,7 @@ button.textarea-button {
 .youtube-iframe {
   width: 100%;
   height: auto;
+  aspect-ratio: 16 / 9;
   max-width: 500px;
 }
 

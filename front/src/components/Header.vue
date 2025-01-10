@@ -28,39 +28,23 @@ export default {
             } else {
                 this.isFirstLoad = false;
             }
-            
+
+            const app = document.getElementById('app');
             const images = document.querySelectorAll('.chat-list img');
             const iframes = document.querySelectorAll('.chat-list iframe');
 
-            if (this.isDarkMode) {
-                document.getElementById('app').style.filter = "invert(100%) hue-rotate(180deg)";
-                document.getElementById('app').style.webkitFilter = "invert(100%) hue-rotate(180deg)";
+            const filterStyle = this.isDarkMode 
+                ? "invert(100%) hue-rotate(180deg)" 
+                : "invert(0%) hue-rotate(0deg)";
 
-                images.forEach(image => {
-                    image.style.filter = "invert(100%) hue-rotate(180deg)";
-                    image.style.webkitFilter = "invert(100%) hue-rotate(180deg)";
-                    image.style.transition = "filter 0s ease";
-                });
-                iframes.forEach(iframe => {
-                    iframe.style.filter = "invert(100%) hue-rotate(180deg)";
-                    iframe.style.webkitFilter = "invert(100%) hue-rotate(180deg)";
-                    iframe.style.transition = "filter 0s ease";
-                });
-            } else {
-                document.getElementById('app').style.filter = "invert(0%) hue-rotate(0deg)";
-                document.getElementById('app').style.webkitFilter = "invert(0%) hue-rotate(0deg)";
+            app.style.filter = filterStyle;
+            app.style.webkitFilter = filterStyle;
 
-                images.forEach(image => {
-                    image.style.filter = "invert(0%) hue-rotate(0deg)";
-                    image.style.webkitFilter = "invert(0%) hue-rotate(0deg)";
-                    image.style.transition = "filter 0s ease";
-                });
-                iframes.forEach(iframe => {
-                    iframe.style.filter = "invert(0%) hue-rotate(0deg)";
-                    iframe.style.webkitFilter = "invert(0%) hue-rotate(0deg)";
-                    iframe.style.transition = "filter 0s ease";
-                });
-            }
+            [...images, ...iframes].forEach(element => {
+                element.style.filter = filterStyle;
+                element.style.webkitFilter = filterStyle;
+                element.style.transition = "filter 0s ease";
+            });
         }
     },
     mounted() {
