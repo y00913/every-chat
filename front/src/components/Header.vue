@@ -96,12 +96,4 @@ h1 {
 .toggle-switch, .toggle-button {
     transition: all 0.2s ease-in;
 }
-
-.dark-mode-on .chat-list img {
-    filter: invert(100%) hue-rotate(180deg);
-}
-
-.dark-mode-off .chat-list img {
-    filter: invert(0%) hue-rotate(0deg);
-}
 </style>
