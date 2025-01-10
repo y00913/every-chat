@@ -23,14 +23,14 @@ export default {
     methods: {
         handleTheme() {
             if (!this.isFirstLoad) {
+                document.getElementById('app').style.transition = "filter 0.2s ease-out";
                 localStorage.setItem('isDarkMode', this.isDarkMode);
             } else {
                 this.isFirstLoad = false;
             }
 
             const app = document.getElementById('app');
-            const images = document.querySelectorAll('img');
-            const iframes = document.querySelectorAll('iframe');
+            const messages = document.querySelectorAll('message-content');
 
             const filterStyle = this.isDarkMode 
                 ? "invert(100%) hue-rotate(180deg)" 
@@ -39,9 +39,10 @@ export default {
             app.style.filter = filterStyle;
             app.style.webkitFilter = filterStyle;
 
-            [...images, ...iframes].forEach(element => {
+            [...messages].forEach(element => {
                 element.style.filter = filterStyle;
                 element.style.webkitFilter = filterStyle;
+                element.style.transition = "filter 0.01s ease-out";
             });
         }
     },
