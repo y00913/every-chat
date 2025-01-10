@@ -30,7 +30,7 @@ export default {
             }
 
             const app = document.getElementById('app');
-            const messages = document.querySelectorAll('message-content');
+            const messages = document.querySelectorAll('.message-content');
 
             const filterStyle = this.isDarkMode 
                 ? "invert(100%) hue-rotate(180deg)" 
