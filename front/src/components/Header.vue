@@ -23,7 +23,7 @@ export default {
     methods: {
         handleTheme() {
             if (!this.isFirstLoad) {
-                document.getElementById('app').style.transition = "filter 0.5s ease";
+                document.getElementById('app').style.transition = "filter 0.2s ease";
                 localStorage.setItem('isDarkMode', this.isDarkMode);
             } else {
                 this.isFirstLoad = false;
@@ -44,7 +44,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 header {
     margin-top: 5vh;
     margin-bottom: 1vh;
@@ -93,5 +93,9 @@ h1 {
 
 .toggle-switch, .toggle-button {
     transition: all 0.2s ease-in;
+}
+
+.dark-mode img iframe{
+    filter: invert(100%) hue-rotate(180deg);
 }
 </style>

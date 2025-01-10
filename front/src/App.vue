@@ -104,8 +104,4 @@ textarea::placeholder {
 button.textarea-button {
   border: none;
 }
-
-.dark-mode img iframe{
-    filter: invert(100%) hue-rotate(180deg);
-}
 </style>
