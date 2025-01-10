@@ -286,7 +286,7 @@ export default {
           <img 
             src="${url}" 
             alt="Image" 
-            class="chat-img ${isDarkMode ? "dark-mode-on" : ""}" 
+            class="chat-img ${this.isDarkMode ? "dark-mode-on" : ""}" 
           />`;
       });
 
@@ -302,7 +302,7 @@ export default {
             frameborder="0" 
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
             allowfullscreen
-            class="youtube-iframe ${isDarkMode ? "dark-mode-on" : ""}">
+            class="youtube-iframe ${this.isDarkMode ? "dark-mode-on" : ""}">
           </iframe>`;
       });
 
