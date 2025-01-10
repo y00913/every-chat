@@ -42,12 +42,14 @@ export default {
             [...messages].forEach(element => {
                 element.style.filter = filterStyle;
                 element.style.webkitFilter = filterStyle;
-                element.style.transition = "filter 0.01s ease-out";
+                element.style.transition = "filter 0.0001s ease-out";
             });
         }
     },
     mounted() {
-        this.handleTheme();
+        this.$nextTick(() => {
+            this.handleTheme();
+        });
     },
 }
 </script>
