@@ -107,7 +107,7 @@
         </tr>
     </div>
 
-    <div style="height:30px;">
+    <div style="height:45px;">
         <tr style="width:1000px;">
             <td style="width:200px;">
                 <button v-show="!(pageNum == 0) && !(roomList.length == 0)"

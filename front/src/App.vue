@@ -51,6 +51,7 @@ body {
   align-items: center;
   text-align: center;
   margin: 0;
+  overflow: hidden;
 }
 
 button {
@@ -60,7 +61,6 @@ button {
   padding: 8px 20px;
   border-radius: 1em;
   font-weight: bold;
-  font-size: 10pt;
   outline: none;
   font-family: 'mabi';
   cursor: pointer;
