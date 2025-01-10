@@ -31,12 +31,11 @@ export default {
 
             const app = document.getElementById('app');
 
-            const filterStyle = this.isDarkMode 
-                ? "invert(100%) hue-rotate(180deg)" 
-                : "invert(0%) hue-rotate(0deg)";
-
-            app.style.filter = filterStyle;
-            app.style.webkitFilter = filterStyle;
+            if (this.isDarkMode) {
+                app.classList.add('dark-mode');
+            } else {
+                app.classList.remove('dark-mode');
+            }
         }
     },
     mounted() {
@@ -94,5 +93,9 @@ h1 {
 
 .toggle-switch, .toggle-button {
     transition: all 0.2s ease-in;
+}
+
+.dark-mode img iframe{
+    filter: invert(100%) hue-rotate(180deg);
 }
 </style>
