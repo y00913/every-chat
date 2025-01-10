@@ -31,6 +31,8 @@ export default {
 </script>
 
 <style>
+@import "../assets/css/DarkMode.css";
+
 #app {
   font-family: 'mabi';
   background-color: #F8F9FA;
