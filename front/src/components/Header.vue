@@ -23,28 +23,21 @@ export default {
     methods: {
         handleTheme() {
             if (!this.isFirstLoad) {
-                
+                document.getElementById('app').style.transition = "filter 0.5s ease";
                 localStorage.setItem('isDarkMode', this.isDarkMode);
             } else {
                 this.isFirstLoad = false;
             }
-            document.getElementById('app').style.transition = "filter 0.5s ease";
+
             const app = document.getElementById('app');
-            const images = document.querySelectorAll('.chat-list img');
-            const iframes = document.querySelectorAll('.chat-list iframe');
 
-            const filterStyle = this.isDarkMode 
-                ? "invert(100%) hue-rotate(180deg)" 
-                : "invert(0%) hue-rotate(0deg)";
-
-            app.style.filter = filterStyle;
-            app.style.webkitFilter = filterStyle;
-
-            [...images, ...iframes].forEach(element => {
-                element.style.filter = filterStyle;
-                element.style.webkitFilter = filterStyle;
-                element.style.transition = "none";
-            });
+            if (this.isDarkMode) {
+                app.classList.add('dark-mode-on');
+                app.classList.remove('dark-mode-off');
+            } else {
+                app.classList.add('dark-mode-off');
+                app.classList.remove('dark-mode-on');
+            }
         }
     },
     mounted() {
@@ -102,5 +95,13 @@ h1 {
 
 .toggle-switch, .toggle-button {
     transition: all 0.2s ease-in;
+}
+
+.dark-mode-on .chat-list img {
+    filter: invert(100%) hue-rotate(180deg);
+}
+
+.dark-mode-off .chat-list img {
+    filter: invert(0%) hue-rotate(0deg);
 }
 </style>
