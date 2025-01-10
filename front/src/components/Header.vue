@@ -30,8 +30,6 @@ export default {
             }
 
             const app = document.getElementById('app');
-            const images = document.querySelectorAll('.chat-list .chat-img');
-            const iframes = document.querySelectorAll('.chat-list .youtube-iframe');
 
             const filterStyle = this.isDarkMode 
                 ? "invert(100%) hue-rotate(180deg)" 
@@ -39,12 +37,6 @@ export default {
 
             app.style.filter = filterStyle;
             app.style.webkitFilter = filterStyle;
-
-            [...images, ...iframes].forEach(element => {
-                element.style.filter = filterStyle;
-                element.style.webkitFilter = filterStyle;
-                element.style.transition = "filter 0.1s ease";
-            });
         }
     },
     mounted() {
