@@ -43,7 +43,7 @@ export default {
             [...images, ...iframes].forEach(element => {
                 element.style.filter = filterStyle;
                 element.style.webkitFilter = filterStyle;
-                element.style.transition = "filter 0.01s ease-out";
+                element.style.transition = "filter 0.0000001s ease-out";
             });
         }
     },
