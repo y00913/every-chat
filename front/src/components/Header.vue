@@ -30,8 +30,8 @@ export default {
             }
 
             const app = document.getElementById('app');
-            const images = document.querySelectorAll('img');
-            const iframes = document.querySelectorAll('iframe');
+            const images = document.querySelectorAll('.chat-list img');
+            const iframes = document.querySelectorAll('.chat-list iframe');
 
             const filterStyle = this.isDarkMode 
                 ? "invert(100%) hue-rotate(180deg)" 
