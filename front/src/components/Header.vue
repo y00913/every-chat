@@ -29,14 +29,20 @@ export default {
                 this.isFirstLoad = false;
             }
 
-            const allElements = document.querySelectorAll('#app *');
+            const app = document.getElementById('app');
+            // const chatList = document.querySelectorAll('.chat-list');
 
-            allElements.forEach(element => {
-                if (!element.classList.contains('chat-list')) {
-                    element.style.filter = filterStyle;
-                    element.style.webkitFilter = filterStyle;
-                }
-            });
+            const filterStyle = this.isDarkMode 
+                ? "invert(100%) hue-rotate(180deg)" 
+                : "invert(0%) hue-rotate(0deg)";
+
+            app.style.filter = filterStyle;
+            app.style.webkitFilter = filterStyle;
+
+            // [...chatList].forEach(element => {
+            //     element.style.filter = filterStyle;
+            //     element.style.webkitFilter = filterStyle;
+            // });
         }
     },
     mounted() {
