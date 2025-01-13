@@ -1,5 +1,13 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router/router'
+import VueDOMPurifyHTML from 'vue-dompurify-html'
 
-createApp(App).use(router).mount('#app')
+const vuePurifyHTMLConfig = {
+	ADD_TAGS: ['iframe'],
+};
+
+createApp(App)
+    .use(router)
+    .use(VueDOMPurifyHTML, {default: vuePurifyHTMLConfig})
+    .mount('#app')

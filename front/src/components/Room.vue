@@ -7,8 +7,8 @@
             <div>
             <p>방 제목을 입력해주세요.</p>
             <input :spellcheck="false" v-model="roomName" type="text" placeholder="방 제목">
-            <p>생선된 방의 삭제 비밀번호를 입력해주세요.</p>
-            <input v-model="pw" type="password" placeholder="삭제 비밀번호">
+            <p>방 비밀번호를 입력해주세요.</p>
+            <input v-model="pw" type="password" placeholder="방 비밀번호">
             <p>입장 비밀번호를 원할 시 클릭해주세요.</p>
             <input type="checkbox" v-model="isLock">
             <div v-show="isLock">
@@ -24,9 +24,9 @@
 
     <div class="black-bg" v-show="deleteState">
         <div class="white-bg" @keyup.enter="deleteRoom">
-            <p v-show="!deleteFail">삭제 비밀번호를 입력해주세요.</p>
-            <p v-show="deleteFail">삭제 비밀번호가 틀렸습니다.</p>
-            <input v-model="pw" type="password" placeholder="삭제 비밀번호" required>
+            <p v-show="!deleteFail">방 비밀번호를 입력해주세요.</p>
+            <p v-show="deleteFail">방 비밀번호가 틀렸습니다.</p>
+            <input v-model="pw" type="password" placeholder="방 비밀번호" required>
             <p></p>
             <button @click="deleteRoom" style="margin-right:10px;">확인</button>
             <button @click="handleDeletePop">취소</button>
@@ -133,10 +133,9 @@ export default {
     name: 'App',
     data() {
         return {
-            url: "https://everychat.kro.kr",
-            // url: "http://localhost:8080",
+            url: process.env.VUE_APP_SERVER_URL,
             roomList: [],
-            pageNum: Number(localStorage.getItem('pageNum')) + 1 || 0,
+            pageNum: Number(localStorage.getItem('pageNum')) || 0,
             pageSize: 5,
             createState: false,
             deleteState: false,

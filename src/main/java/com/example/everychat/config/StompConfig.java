@@ -40,6 +40,8 @@ public class StompConfig implements WebSocketMessageBrokerConfigurer {
     private String clientId;
     @Value("${clientPw}")
     private String clientPw;
+    @Value("${client.url}")
+    private String clientUrl;
     private final ChatService chatService;
     private static HashMap<String, String> sessions = new HashMap<>();
 
@@ -61,8 +63,7 @@ public class StompConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry){
         registry.addEndpoint("/ws")
-                .setAllowedOriginPatterns("https://everychat.kro.kr")
-//                .setAllowedOriginPatterns("http://localhost:3000")
+                .setAllowedOriginPatterns(clientUrl)
                 .withSockJS()
                 .setInterceptors(new ClientIpHandshakeInterceptor());
     }

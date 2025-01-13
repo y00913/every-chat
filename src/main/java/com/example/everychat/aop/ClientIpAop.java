@@ -31,8 +31,6 @@ public class ClientIpAop {
 
         Object[] args = joinPoint.getArgs();
 
-        log.info("clientIp : {}", clientIp);
-
         for (Object arg : args) {
             if (arg == null) continue;
 

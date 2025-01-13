@@ -89,9 +89,6 @@ public class ChatServiceImpl implements ChatService {
             channelLockRepository.save(channelLock);
         }
 
-        log.info("채널 생성 : " + channel.getId());
-        log.info(channel.toString());
-
         return channel;
     }
 
@@ -110,11 +107,11 @@ public class ChatServiceImpl implements ChatService {
 
             messageRepository.save(message);
         } else if(messageDto.getType().equals(MessageTypeEnum.ENTER.getLabel())) {
-            log.info("channelId : {}", messageDto.getChannelId());
-            log.info("enter : {}", messageDto.getSender());
+//            log.info("channelId : {}", messageDto.getChannelId());
+//            log.info("enter : {}", messageDto.getSender());
         } else {
-            log.info("channelId : {}", messageDto.getChannelId());
-            log.info("leave : {}", messageDto.getSender());
+//            log.info("channelId : {}", messageDto.getChannelId());
+//            log.info("leave : {}", messageDto.getSender());
         }
 
         String ip = messageDto.getIp();
@@ -169,7 +166,7 @@ public class ChatServiceImpl implements ChatService {
         if(passwordChecked == null) return false;
         Boolean isPasswordChecked = Boolean.valueOf(passwordChecked.toString());
 
-        log.info("password : {}",isPasswordChecked);
+//        log.info("password : {}",isPasswordChecked);
 
         if (isPasswordChecked != null && isPasswordChecked) {
             // session.removeAttribute(attributeName);
@@ -187,10 +184,10 @@ public class ChatServiceImpl implements ChatService {
         if(pw.equals(AesUtil.decrypt(channel.getPw()))) {
             channel.setDeleteAt(LocalDateTime.now());
 
-            log.info("채널 삭제 : " + channelId);
+//            log.info("채널 삭제 : " + channelId);
             return true;
         } else {
-            log.info("채널 삭제 실패");
+//            log.info("채널 삭제 실패");
             return false;
         }
     }

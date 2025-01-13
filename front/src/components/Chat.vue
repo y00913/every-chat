@@ -47,7 +47,7 @@
           <div>
             {{ item.sender }} ({{ item.ip }})
             : 
-            <a v-html="formatMessage(item.message)" class="message-content"></a>
+            <a v-dompurify-html="formatMessage(item.message)" class="message-content"></a>
           </div>
           <div v-show="idx === lastChat">
             <hr style="width:700px; height: 0.5px; background: #acaaaa;">
@@ -63,7 +63,7 @@
             <a :class="[item.type != 'message' ? 'blue' : 'grey']"> 
               ({{ item.ip }})</a>
             :
-            <a v-html="formatMessage(item.message)" class="message-content"></a>
+            <a v-dompurify-html="formatMessage(item.message)" class="message-content"></a>
           </div>
         </div>
 
@@ -103,8 +103,7 @@ export default {
   name: 'App',
   data() {
     return {
-      url: "https://everychat.kro.kr",
-      // url: "http://localhost:8080",
+      url: process.env.VUE_APP_SERVER_URL,
       sender: localStorage.getItem('sender'),
       message: "",
       reciveList: [],
@@ -231,7 +230,8 @@ export default {
         const response = await axios.get(this.url + "/api/channel/lock/" + this.channelId);
         if (!response.data.data) {
           alert('비밀번호를 입력해주세요.');
-          window.location.href = "https://everychat.kro.kr";
+          // window.location.href = "https://everychat.kro.kr";
+          window.location.href = process.env.VUE_APP_CLIENT_URL;
           return false;
         }
         return true;
@@ -292,7 +292,7 @@ export default {
       });
 
       const youtubeRegex =
-        /https?:\/\/(?:www\.)?youtube\.com\/watch\?v=([a-zA-Z0-9_-]+)|https?:\/\/youtu\.be\/([a-zA-Z0-9_-]+)/g;
+        /https?:\/\/(?:www\.)?youtube\.com\/watch\?v=([a-zA-Z0-9_-]+)(?:&[\w=]*)*|https?:\/\/youtu\.be\/([a-zA-Z0-9_-]+)/g;
 
       formattedMessage = formattedMessage.replace(youtubeRegex, (url, id1, id2) => {
         const videoId = id1 || id2;

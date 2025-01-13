@@ -13,6 +13,7 @@
     "sockjs-client": "^1.6.1",
     "vee-validate": "^4.11.8",
     "vue": "^3.2.13",
+    "vue-dompurify-html": "^5.2.0",
     "vue-router": "^4.2.5",
     "vuex": "^4.1.0",
     "webstomp-client": "^1.2.6"
