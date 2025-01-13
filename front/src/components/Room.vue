@@ -158,7 +158,7 @@ export default {
         }
     },
     created() {
-        this.getRoom(0);
+        this.getRoom(this.pageNum);
     },
     methods: {
         async getRoom(pageNumber) {
@@ -319,9 +319,26 @@ export default {
         handleSearchBar() {
             this.isSearch = !this.isSearch
         },
+        handleBeforeUnload() {
+            if (performance.navigation.type !== performance.navigation.TYPE_RELOAD) {
+                this.resetPageNum();
+            }
+        },
+        resetPageNum() {
+            localStorage.setItem('pageNum', 0);
+        }
     },
     components: {
     },
+    mounted() {
+        window.addEventListener('beforeunload', this.handleBeforeUnload);
+    },
+    beforeUnmount() {
+        window.removeEventListener('beforeunload', this.handleBeforeUnload);
+    },
+    beforeRouteLeave() {
+        this.handleBeforeUnload();
+    }
 }
 </script>
 
