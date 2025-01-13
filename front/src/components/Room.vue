@@ -136,7 +136,7 @@ export default {
             url: "https://everychat.kro.kr",
             // url: "http://localhost:8080",
             roomList: [],
-            pageNum: localStorage.getItem('pageNum') ?? 0,
+            pageNum: Number(localStorage.getItem('pageNum')) || 0,
             pageSize: 5,
             createState: false,
             deleteState: false,
