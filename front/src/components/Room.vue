@@ -63,7 +63,7 @@
             <td style="text-align: right;">
                 <div class="div-right">
                     <span @keyup.enter="getRoomByName(0)" class="span-search">
-                        <input :spellcheck="false" v-model="serachName" type="text" required class="input-search" v-show="isSearch" placeholder="검색어 입력">
+                        <input :spellcheck="false" v-model="serachName" type="text" required class="input-search" v-show="isSearch" placeholder="제목 입력">
                         <img @click="handleSearchBar()" class="search-img" src="@/assets/img/search.png" />
                     </span>
                     <span class="span-add">
@@ -136,7 +136,7 @@ export default {
             url: "https://everychat.kro.kr",
             // url: "http://localhost:8080",
             roomList: [],
-            pageNum: 0,
+            pageNum: localStorage.getItem('pageNum'),
             pageSize: 5,
             createState: false,
             deleteState: false,
@@ -163,6 +163,7 @@ export default {
     methods: {
         async getRoom(pageNumber) {
             this.pageNum = pageNumber;
+            localStorage.setItem('pageNum', this.pageNum);
             const response = await axios.get(this.url + "/api/channel/" + pageNumber);
             this.pageSize = response.data.data.pageSize;
 
@@ -317,9 +318,26 @@ export default {
         },
         handleSearchBar() {
             this.isSearch = !this.isSearch
+        },
+        handleBeforeUnload(event) {
+            if (performance.navigation.type !== performance.navigation.TYPE_RELOAD) {
+                this.resetPageNum();
+            }
+        },
+        resetPageNum() {
+            localStorage.setItem('pageNum', 0);
         }
     },
     components: {
+    },
+    mounted() {
+        window.addEventListener('beforeunload', this.handleBeforeUnload);
+    },
+    beforeUnmount() {
+        window.removeEventListener('beforeunload', this.handleBeforeUnload);
+    },
+    beforeRouteLeave() {
+        this.resetPageNum();
     }
 }
 </script>
