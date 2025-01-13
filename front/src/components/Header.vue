@@ -29,21 +29,14 @@ export default {
                 this.isFirstLoad = false;
             }
 
-            const filterStyle = this.isDarkMode 
-                ? "invert(100%) hue-rotate(180deg)" 
-                : "invert(0%) hue-rotate(0deg)";
-
             const allElements = document.querySelectorAll('#app *');
 
             allElements.forEach(element => {
-                if (element.classList.contains('chat-list')) {
-                    element.style.filter = 'none';
-                    element.style.webkitFilter = 'none';
-                } else {
+                if (!element.classList.contains('chat-list')) {
                     element.style.filter = filterStyle;
                     element.style.webkitFilter = filterStyle;
                 }
-});
+            });
         }
     },
     mounted() {
