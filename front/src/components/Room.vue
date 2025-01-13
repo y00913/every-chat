@@ -136,7 +136,7 @@ export default {
             url: "https://everychat.kro.kr",
             // url: "http://localhost:8080",
             roomList: [],
-            pageNum: localStorage.getItem('pageNum'),
+            pageNum: localStorage.getItem('pageNum') ?? 0,
             pageSize: 5,
             createState: false,
             deleteState: false,
@@ -163,7 +163,7 @@ export default {
     methods: {
         async getRoom(pageNumber) {
             this.pageNum = pageNumber;
-            localStorage.setItem('pageNum', this.pageNum);
+            localStorage.setItem('pageNum', pageNumber);
             const response = await axios.get(this.url + "/api/channel/" + pageNumber);
             this.pageSize = response.data.data.pageSize;
 
