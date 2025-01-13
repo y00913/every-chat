@@ -401,7 +401,6 @@ button.textarea-button {
 .chat-img {
   max-width: 400px;
   height: auto;
-  transition: filter 0 ease;
 }
 
 .youtube-iframe {

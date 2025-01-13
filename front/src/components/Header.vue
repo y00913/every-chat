@@ -23,13 +23,13 @@ export default {
     methods: {
         handleTheme() {
             if (!this.isFirstLoad) {
-                document.getElementById('app').style.transition = "filter 0.2s ease-out";
+                document.getElementById('content').style.transition = "filter 0.2s ease-out";
                 localStorage.setItem('isDarkMode', this.isDarkMode);
             } else {
                 this.isFirstLoad = false;
             }
 
-            const app = document.getElementById('app');
+            const app = document.getElementById('content');
             // const chatList = document.querySelectorAll('.chat-list');
 
             const filterStyle = this.isDarkMode 
@@ -46,9 +46,7 @@ export default {
         }
     },
     mounted() {
-        this.$nextTick(() => {
-            this.handleTheme();
-        });
+        this.handleTheme();
     },
 }
 </script>
