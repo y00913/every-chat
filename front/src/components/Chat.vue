@@ -122,7 +122,6 @@ export default {
       isConnecting: false,
       retryCount: 0,
       maxRetries: 5,
-      isDarkMode: localStorage.getItem('isDarkMode') === 'true',
     }
   },
   created() { 
@@ -288,7 +287,7 @@ export default {
           <img 
             src="${url}" 
             alt="Image" 
-            class="chat-img ${this.isDarkMode ? "dark-mode" : ""}" 
+            class="chat-img" 
           />`;
       });
 
@@ -304,7 +303,7 @@ export default {
             frameborder="0" 
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
             allowfullscreen
-            class="youtube-iframe ${this.isDarkMode ? "dark-mode" : ""}">
+            class="youtube-iframe">
           </iframe>`;
       });
 
@@ -410,10 +409,6 @@ button.textarea-button {
   height: auto;
   aspect-ratio: 16 / 9;
   max-width: 500px;
-}
-
-.dark-mode {
-  filter: invert(100%) hue-rotate(180deg);
 }
 
 </style>

@@ -23,26 +23,22 @@ export default {
     methods: {
         handleTheme() {
             if (!this.isFirstLoad) {
-                // document.getElementById('app').style.transition = "filter 0.2s ease-out";
+                document.getElementById('app').style.transition = "filter 0.2s ease-out";
                 localStorage.setItem('isDarkMode', this.isDarkMode);
             } else {
                 this.isFirstLoad = false;
             }
 
-            const app = document.getElementById('app');
-            const images = document.querySelectorAll('.chat-list img');
-            const iframes = document.querySelectorAll('.chat-list iframe');
-
             const filterStyle = this.isDarkMode 
                 ? "invert(100%) hue-rotate(180deg)" 
                 : "invert(0%) hue-rotate(0deg)";
 
-            app.style.filter = filterStyle;
-            app.style.webkitFilter = filterStyle;
-
-            [...images, ...iframes].forEach(element => {
-                element.style.filter = filterStyle;
-                element.style.webkitFilter = filterStyle;
+            const children = Array.from(document.getElementById('app').children);
+            children.forEach(child => {
+                if (!child.classList.contains('chat-list')) {
+                    child.style.filter = filterStyle;
+                    child.style.webkitFilter = filterStyle;
+                }
             });
         }
     },
