@@ -134,6 +134,8 @@ export default {
   methods: {
     // eslint-disable-next-line
     sendMessage(e) {
+      if(!this.message || this.message.trim() === "") return;
+
       this.send();
       this.message = "";
     },
