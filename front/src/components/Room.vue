@@ -319,7 +319,7 @@ export default {
         handleSearchBar() {
             this.isSearch = !this.isSearch
         },
-        handleBeforeUnload(event) {
+        handleBeforeUnload() {
             if (performance.navigation.type !== performance.navigation.TYPE_RELOAD) {
                 this.resetPageNum();
             }
