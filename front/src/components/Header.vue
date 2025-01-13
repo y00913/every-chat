@@ -33,13 +33,17 @@ export default {
                 ? "invert(100%) hue-rotate(180deg)" 
                 : "invert(0%) hue-rotate(0deg)";
 
-            const children = Array.from(document.getElementById('app').children);
-            children.forEach(child => {
-                if (!child.classList.contains('chat-list')) {
-                    child.style.filter = filterStyle;
-                    child.style.webkitFilter = filterStyle;
+            const allElements = document.querySelectorAll('#app *');
+
+            allElements.forEach(element => {
+                if (element.classList.contains('chat-list')) {
+                    element.style.filter = 'none';
+                    element.style.webkitFilter = 'none';
+                } else {
+                    element.style.filter = filterStyle;
+                    element.style.webkitFilter = filterStyle;
                 }
-            });
+});
         }
     },
     mounted() {
