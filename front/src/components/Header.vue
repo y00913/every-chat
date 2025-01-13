@@ -3,9 +3,9 @@
         <title>every chat</title>
         <link rel="shortcut icon" type="image/x-icon" href="https://cdn-icons-png.flaticon.com/512/5962/5962500.png">
         <input type="checkbox" id="toggle" class="dark-mode-checkbox" v-model="isDarkMode" @change="handleTheme">
-        <label for="toggle" class="toggle-switch">
+        <!-- <label for="toggle" class="toggle-switch">
             <span class="toggle-button"></span>
-        </label>
+        </label> -->
         <h1>{{ title }}</h1>
     </header>
 </template>
@@ -23,14 +23,13 @@ export default {
     methods: {
         handleTheme() {
             if (!this.isFirstLoad) {
-                document.getElementById('content').style.transition = "filter 0.2s ease-out";
+                document.getElementById('app').style.transition = "filter 0.2s ease-out";
                 localStorage.setItem('isDarkMode', this.isDarkMode);
             } else {
                 this.isFirstLoad = false;
             }
 
-            const app = document.getElementById('content');
-            // const chatList = document.querySelectorAll('.chat-list');
+            const app = document.getElementById('app');
 
             const filterStyle = this.isDarkMode 
                 ? "invert(100%) hue-rotate(180deg)" 
@@ -38,11 +37,6 @@ export default {
 
             app.style.filter = filterStyle;
             app.style.webkitFilter = filterStyle;
-
-            // [...chatList].forEach(element => {
-            //     element.style.filter = filterStyle;
-            //     element.style.webkitFilter = filterStyle;
-            // });
         }
     },
     mounted() {
