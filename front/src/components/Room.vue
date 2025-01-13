@@ -163,7 +163,7 @@ export default {
     methods: {
         async getRoom(pageNumber) {
             this.pageNum = pageNumber;
-            localStorage.setItem('pageNum', pageNumber);
+            localStorage.setItem('pageNum', pageNumber + 1);
             const response = await axios.get(this.url + "/api/channel/" + pageNumber);
             this.pageSize = response.data.data.pageSize;
 
@@ -337,7 +337,7 @@ export default {
         window.removeEventListener('beforeunload', this.handleBeforeUnload);
     },
     beforeRouteLeave() {
-        this.resetPageNum();
+        this.handleBeforeUnload();
     }
 }
 </script>
