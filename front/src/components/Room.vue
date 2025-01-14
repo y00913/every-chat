@@ -81,7 +81,7 @@
         <tr v-for="(item, idx) in roomList" :key="idx" class="room-list">
             <div>
                 <td style="width:200px;">
-                    {{ item.createAt.substring(0, item.createAt.indexOf('T')) }}
+                    {{ formatDate(item.createAt) }}
                 </td>
                 <td style="width:600px;">
                     {{ item.channelName }}
@@ -325,6 +325,17 @@ export default {
         },
         resetPageNum() {
             localStorage.setItem('pageNum', 0);
+        },
+        formatDate(date) {
+            const datePart = date.substring(0, date.indexOf('T'));
+            // eslint-disable-next-line
+            const [year, month, day] = datePart.split('-');
+
+            if (window.innerWidth <= 768) {
+                return `${month}-${day}`;
+            } else {
+                return datePart;
+            }
         }
     },
     components: {

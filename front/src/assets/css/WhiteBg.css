@@ -1,5 +1,5 @@
 .white-bg {
-    width: 500px;
+    width: 250px;
     min-height: 10vh;
     height: auto;
     background: white;
@@ -7,5 +7,6 @@
     position: fixed;
     padding: 20px;
     left: 50%;
+    top: 25%;
     transform: translate(-50%, 0);
 }

@@ -33,6 +33,14 @@ export default {
 <style>
 #app {
   font-family: 'mabi';
+  width: 100vw;
+  height: 100vh;
+}
+
+@media (max-width: 999px) {
+  #app {
+    height: auto;
+  }
 }
 
 @font-face {
@@ -48,7 +56,7 @@ body {
   text-align: center;
   margin: 0;
   background-color: #F8F9FA;
-  width: 100vw;
+  width: 100%;
 }
 
 button {
@@ -61,6 +69,13 @@ button {
   outline: none;
   font-family: 'mabi';
   cursor: pointer;
+}
+
+@media (max-width: 999px) {
+  button {
+    padding: 4px 6px;
+    border-radius: 10px;
+  }
 }
 
 button:hover {
