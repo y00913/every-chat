@@ -33,9 +33,6 @@ export default {
 <style>
 #app {
   font-family: 'mabi';
-  background-color: #F8F9FA;
-  width: 100vw;
-  height: 100vh;
 }
 
 @font-face {
@@ -50,7 +47,8 @@ body {
   align-items: center;
   text-align: center;
   margin: 0;
-  overflow: hidden;
+  /* overflow: hidden; */
+  background-color: #F8F9FA;
 }
 
 button {
