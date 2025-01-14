@@ -78,7 +78,7 @@
         <form class="chat-form" v-on:submit.prevent="sendMessage">
           <div class="textarea-wrapper">
             <textarea 
-              v-no-spellcheck
+              spellcheck="false"
               class="textarea-chat"
               v-model="message" 
               placeholder="메시지 입력" 
