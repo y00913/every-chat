@@ -16,7 +16,8 @@ export default {
     data() {
         return {
             title: '에브리 챗 :)',
-            isDarkMode: localStorage.getItem('isDarkMode') === 'true',
+            // isDarkMode: localStorage.getItem('isDarkMode') === 'true',
+            isDarkMode: false,
             isFirstLoad: true,
         }
     },

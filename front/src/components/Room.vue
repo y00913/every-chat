@@ -44,7 +44,7 @@
         </div>
     </div>
 
-    <table style="width:95% max-width:1000px; table-layout:fixed;">
+    <table style="width:95%; max-width:1000px; table-layout:fixed;">
         <tr >
             <td style="text-align: left;">
                 <div @keyup.enter="handleNickname" class="div-left">
