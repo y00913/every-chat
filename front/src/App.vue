@@ -47,8 +47,8 @@ body {
   align-items: center;
   text-align: center;
   margin: 0;
-  /* overflow: hidden; */
   background-color: #F8F9FA;
+  width: 100vw;
 }
 
 button {
