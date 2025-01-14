@@ -44,7 +44,7 @@
         </div>
     </div>
 
-    <table style="width:1000px; table-layout:fixed;">
+    <table style="width:95% max-width:1000px; table-layout:fixed;">
         <tr >
             <td style="text-align: left;">
                 <div @keyup.enter="handleNickname" class="div-left">
@@ -92,13 +92,13 @@
                         src="@/assets/img/lock.png" />
                     </div>
                 </td>
-                <td style="width:80px;">
+                <td style="width:90px;">
                     <button
                         @click="handleEnterPop(), getRoomInfo(item.id, item.channelName), enterRoom(item.id, item.channelName, item.isLock)">
                         입장
                     </button>
                 </td>
-                <td style="width:100px;">
+                <td style="width:90px;">
                     <button @click="handleDeletePop(), getRoomInfo(item.id, item.channelName)">
                         삭제
                     </button>
