@@ -359,7 +359,8 @@ export default {
 }
 
 .chat-list {
-  width: 1000px;
+  max-width: 1000px;
+  width: 100%;
   height: 600px;
 }
 
