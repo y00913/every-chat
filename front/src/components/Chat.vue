@@ -84,6 +84,7 @@
               placeholder="메시지 입력" 
               rows="1" 
               @keydown="handleKeyDown" 
+              @focus="keepFocus" 
               required>
             </textarea>
             <button type="submit" class="textarea-button">입력</button>
@@ -308,6 +309,11 @@ export default {
       });
 
       return formattedMessage;
+    },
+    keepFocus(event) {
+      this.$nextTick(() => {
+        event.target.focus();
+      });
     },
   },
   watch: {
