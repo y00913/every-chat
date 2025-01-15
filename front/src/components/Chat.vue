@@ -15,7 +15,7 @@
       <div>
         <tr>
           <td style="width:200px;">
-            <button @click="exitRoom">나가기</button>
+            <button @click="exitRoom">나가기 '{{ navigator.userAgent }}'</button>
           </td>
           <td style="width:600px;">
             <div style="margin-top:5px; font-weight: bold; font-size: 20px;">
@@ -273,11 +273,13 @@ export default {
       return true;
     },
     handleKeyDown(e) {
+      if (this.mobile && e.key === 'Enter') {
+        return;
+      }
+
       if (e.key === 'Enter' && !e.shiftKey) {
-        if(!this.mobile) {
-          e.preventDefault();
-          this.sendMessage();
-        }
+        e.preventDefault();
+        this.sendMessage();
       }
     },
     formatMessage(message) {
