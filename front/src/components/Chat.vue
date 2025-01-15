@@ -84,7 +84,7 @@
               placeholder="메시지 입력" 
               rows="1" 
               @keydown="handleKeyDown" 
-              @focus="keepFocus" 
+              @blur="keepFocus" 
               required>
             </textarea>
             <button type="submit" class="textarea-button">입력</button>
@@ -122,6 +122,7 @@ export default {
       isConnecting: false,
       retryCount: 0,
       maxRetries: 5,
+      isMobile: false,
     }
   },
   created() { 
@@ -273,8 +274,10 @@ export default {
     },
     handleKeyDown(e) {
       if (e.key === 'Enter' && !e.shiftKey) {
-        e.preventDefault();
-        this.sendMessage();
+        if(!this.mobile) {
+          e.preventDefault();
+          this.sendMessage();
+        }
       }
     },
     formatMessage(message) {
@@ -311,9 +314,7 @@ export default {
       return formattedMessage;
     },
     keepFocus(event) {
-      this.$nextTick(() => {
-        event.target.focus();
-      });
+      e.target.focus();
     },
   },
   watch: {
@@ -330,6 +331,7 @@ export default {
     },
   },
   mounted() {
+    this.isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
     window.addEventListener('beforeunload', this.sendLeave);
   },
   beforeUnmount() {
