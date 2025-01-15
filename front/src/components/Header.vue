@@ -56,6 +56,12 @@ header {
     position: relative;
 }
 
+@media (max-width: 768px) {
+    header {
+        margin-top: 0;
+    }
+}
+
 h1 {
     text-align: center;
     flex-grow: 1;
