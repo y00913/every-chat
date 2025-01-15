@@ -15,7 +15,7 @@
       <div>
         <tr>
           <td style="width:200px;">
-            <button @click="exitRoom">나가기 '{{ navigator.userAgent }}'</button>
+            <button @click="exitRoom">나가기 '{{ userAgent }}'</button>
           </td>
           <td style="width:600px;">
             <div style="margin-top:5px; font-weight: bold; font-size: 20px;">
@@ -123,6 +123,7 @@ export default {
       retryCount: 0,
       maxRetries: 5,
       isMobile: false,
+      userAgent: navigator.userAgent,
     }
   },
   created() { 
