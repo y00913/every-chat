@@ -37,7 +37,7 @@ export default {
   height: 100vh;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   #app {
     height: auto;
   }
@@ -71,7 +71,7 @@ button {
   cursor: pointer;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   button {
     padding: 4px 6px;
     border-radius: 10px;

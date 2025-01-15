@@ -372,7 +372,7 @@ export default {
 .chat-list {
   max-width: 1000px;
   width: 100%;
-  height: 45vh;
+  height: 55vh;
 }
 
 .chat-div {

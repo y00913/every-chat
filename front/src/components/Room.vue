@@ -330,7 +330,7 @@ export default {
             const datePart = date.substring(0, date.indexOf('T')) || date;
             const [year, month, day] = datePart.split('-');
 
-            if (window.innerWidth <= 768) {
+            if (window.innerWidth <= 767) {
                 const shortYear = year.substring(2);
                 return `${shortYear}-${month}-${day}`;
             } else {
