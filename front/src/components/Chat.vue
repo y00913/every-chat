@@ -313,7 +313,7 @@ export default {
 
       return formattedMessage;
     },
-    keepFocus(event) {
+    keepFocus(e) {
       e.target.focus();
     },
   },
