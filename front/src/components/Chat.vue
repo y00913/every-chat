@@ -334,7 +334,7 @@ export default {
   },
   mounted() {
     this.isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-    console.log('isMobile : ' + isMobile);
+    console.log('Is mobile:', this.isMobile);
     window.addEventListener('beforeunload', this.sendLeave);
   },
   beforeUnmount() {
