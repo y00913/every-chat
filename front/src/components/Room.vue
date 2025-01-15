@@ -327,12 +327,12 @@ export default {
             localStorage.setItem('pageNum', 0);
         },
         formatDate(date) {
-            const datePart = date.substring(0, date.indexOf('T'));
-            // eslint-disable-next-line
+            const datePart = date.substring(0, date.indexOf('T')) || date;
             const [year, month, day] = datePart.split('-');
 
             if (window.innerWidth <= 768) {
-                return `${month}-${day}`;
+                const shortYear = year.substring(2);
+                return `${shortYear}-${month}-${day}`;
             } else {
                 return datePart;
             }
