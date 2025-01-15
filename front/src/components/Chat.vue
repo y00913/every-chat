@@ -15,7 +15,7 @@
       <div>
         <tr>
           <td style="width:200px;">
-            <button @click="exitRoom">나가기 '{{ userAgent }}'</button>
+            <button @click="exitRoom">나가기</button>
           </td>
           <td style="width:600px;">
             <div style="margin-top:5px; font-weight: bold; font-size: 20px;">
@@ -123,7 +123,6 @@ export default {
       retryCount: 0,
       maxRetries: 5,
       isMobile: false,
-      userAgent: navigator.userAgent,
     }
   },
   created() { 
@@ -335,6 +334,7 @@ export default {
   },
   mounted() {
     this.isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+    console.log('isMobile : ' + isMobile);
     window.addEventListener('beforeunload', this.sendLeave);
   },
   beforeUnmount() {
