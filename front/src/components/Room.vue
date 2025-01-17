@@ -419,21 +419,6 @@ li {
     width: 170px;
 }
 
-@media (max-width: 767px) {
-    .div-left {
-        width: 100px;
-    }
-
-    .input-nickname {
-        width: 40px;
-    }
-
-    .input-search {
-        width: 25vw;
-        margin-right: 7px;
-    }
-}
-
 .div-right {
     display: flex;
     align-items: center;
@@ -469,6 +454,20 @@ li {
     cursor:pointer;
     width:25px;
     height:25px;
+}
 
+@media (max-width: 767px) {
+    .div-left {
+        width: 100px;
+    }
+
+    .input-nickname {
+        width: 40px;
+    }
+
+    .input-search {
+        width: 25vw;
+        margin-right: 7px;
+    }
 }
 </style>
