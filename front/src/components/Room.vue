@@ -302,7 +302,7 @@ export default {
         handleNickname() {
             if (this.showSaveMessage) return;
 
-            if (this.sender.lenght > 8) {
+            if (this.sender.length > 8) {
                 this.senderError = true;
                 setTimeout(() => {
                     this.senderError = false;
