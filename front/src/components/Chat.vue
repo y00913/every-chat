@@ -299,7 +299,7 @@ export default {
       });
 
       const youtubeRegex =
-        /https?:\/\/(?:www\.)?youtube\.com\/watch\?v=([a-zA-Z0-9_-]+)(?:&[\w=]*)*|https?:\/\/youtu\.be\/([a-zA-Z0-9_-]+)/g;
+        /https?:\/\/(?:www\.)?youtube\.com\/(?:watch\?v=|shorts\/)([a-zA-Z0-9_-]+)(?:&[\w=]*)*|https?:\/\/youtu\.be\/([a-zA-Z0-9_-]+)/g;
 
       formattedMessage = formattedMessage.replace(youtubeRegex, (url, id1, id2) => {
         const videoId = id1 || id2;
