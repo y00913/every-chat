@@ -95,6 +95,7 @@ input {
   padding: 3px 10px 3px 10px;
   outline: none;
   box-shadow: none;
+  width: 50%
 }
 
 textarea {
