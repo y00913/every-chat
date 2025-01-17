@@ -54,10 +54,11 @@
                         @click="handleNickname" 
                         class="sender-button" 
                         :style="{ marginLeft: '5px', pointerEvents: showSaveMessage ? 'none' : 'auto' }"
-                        :disabled="showSaveMessage"
+                        :disabled="showSaveMessage || senderError"
                     >
-                        <a v-if="!showSaveMessage">저장</a>
+                        <a v-if="!showSaveMessage && !senderError">저장</a>
                         <a v-if="showSaveMessage" :style="{ color: messageColor }">완료</a>
+                        <a v-if="!showSaveMessage && senderError" style="color: #E84A5B;">길어요</a>
                     </button>
                 </div>
             </td>
@@ -156,6 +157,7 @@ export default {
             messageColor: 'green',
             isSearch: false,
             roomNameError: false,
+            senderError: false,
         }
     },
     created() {
@@ -299,6 +301,15 @@ export default {
         },
         handleNickname() {
             if (this.showSaveMessage) return;
+            
+
+            if (this.sender.lenght > 8) {
+                this.senderError = true;
+                setTimeout(() => {
+                    this.senderError = true;
+                }, 2000);
+                return;
+            }
 
             localStorage.setItem('sender', this.sender);
 
@@ -406,6 +417,21 @@ li {
     background-color: #fff;
     align-items: center;
     width: 170px;
+}
+
+@media (max-width: 767px) {
+    .div-left {
+        width: 100px;
+    }
+
+    .input-nickname {
+        width: 40px;
+    }
+
+    .input-search {
+        width: 25vw;
+        margin-right: 7px;
+    }
 }
 
 .div-right {
