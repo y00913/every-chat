@@ -58,7 +58,7 @@
                     >
                         <a v-if="!showSaveMessage && !senderError">저장</a>
                         <a v-if="showSaveMessage" :style="{ color: messageColor }">완료</a>
-                        <a v-if="!showSaveMessage && senderError" style="color: #E84A5B;">길어요</a>
+                        <a v-if="senderError" style="color: #E84A5B;">길어요</a>
                     </button>
                 </div>
             </td>
@@ -301,12 +301,11 @@ export default {
         },
         handleNickname() {
             if (this.showSaveMessage) return;
-            
 
             if (this.sender.lenght > 8) {
                 this.senderError = true;
                 setTimeout(() => {
-                    this.senderError = true;
+                    this.senderError = false;
                 }, 2000);
                 return;
             }
