@@ -153,6 +153,8 @@ export default {
     sendEnter() {
       if (!this.checkSender()) return;
 
+      localStorage.setItem('sender', this.sender);
+
       if (this.stompClient && this.stompClient.connected) {
         const msg = {
           channelId: this.channelId,
