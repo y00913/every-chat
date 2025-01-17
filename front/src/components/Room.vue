@@ -5,7 +5,8 @@
                 <p>방 제목이 이미 존재합니다.</p>
             </div>
             <div>
-            <p>방 제목을 입력해주세요.</p>
+            <p v-show="!roomNameError">방 제목을 입력해주세요.</p>
+            <p style="color: #E84A5B;" v-show="roomNameError">20자 내로 입력해주세요 !</p>
             <input :spellcheck="false" v-model="roomName" type="text" placeholder="방 제목">
             <p>방 비밀번호를 입력해주세요.</p>
             <input v-model="pw" type="password" placeholder="방 비밀번호">
@@ -154,6 +155,7 @@ export default {
             showSaveMessage: false,
             messageColor: 'green',
             isSearch: false,
+            roomNameError: false,
         }
     },
     created() {
@@ -190,6 +192,7 @@ export default {
         },
         handleCreatePop() {
             this.createState = !this.createState;
+            this.roomNameError = false;
             this.initData();
         },
         async createRoom() {
@@ -199,6 +202,11 @@ export default {
 
             this.duplicatedName = await this.checkExistName();
             if (this.duplicatedName) {
+                return;
+            }
+
+            if (this.roomName.length > 20) {
+                this.roomNameError = true;
                 return;
             }
 
