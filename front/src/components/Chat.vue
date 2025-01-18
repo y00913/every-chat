@@ -374,7 +374,7 @@ export default {
 .chat-list {
   max-width: 1000px;
   width: 100%;
-  height: 65.5vh;
+  height: 55vh;
 }
 
 .chat-div {
@@ -422,6 +422,12 @@ button.textarea-button {
   height: auto;
   aspect-ratio: 16 / 9;
   max-width: 500px;
+}
+
+@media (max-width: 767px) {
+  .chat-list {
+    height: 65.5vh;
+  }
 }
 
 </style>
