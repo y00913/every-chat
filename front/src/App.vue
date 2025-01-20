@@ -16,16 +16,23 @@ export default {
   name: 'App',
   data() {
     return {
-
+      isMobile: false,
     }
   },
   methods: {
+    checkMobileView() {
+      this.isMobile = window.innerWidth < 768;
+      localStorage.setItem('isMobile', this.isMobile);
+    },
   },
   watch: {
   },
   components: {
     Header,
     Footer,
+  },
+  mounted() {
+    this.checkMobileView();
   }
 }
 </script>

@@ -81,7 +81,8 @@
             <h4>방이 없습니다.</h4>
         </div>
         <tr v-for="(item, idx) in roomList" :key="idx" class="room-list"
-        @dblclick="handleEnterPop(), getRoomInfo(item.id, item.channelName), enterRoom(item.id, item.channelName, item.isLock)">
+        @click="handleRoomInfoClick(item)" 
+        @dblclick="handleRoomInfoDblClick(item)">
                 <td style="width:200px;">
                     {{ formatDate(item.createAt) }}
                 </td>
@@ -157,6 +158,7 @@ export default {
             isSearch: false,
             roomNameError: false,
             senderError: false,
+            isMobile: localStorage.getItem('isMobile') === 'true',
         }
     },
     created() {
@@ -353,7 +355,23 @@ export default {
             } else {
                 return datePart;
             }
-        }
+        },
+        handleRoomInfoClick(item) {
+            if (this.isMobile) {
+                this.handleEnter(item);
+            }
+        },
+        handleRoomInfoDblClick(item) {
+            if (!this.isMobile) {
+                this.handleEnter(item);
+            }
+        },
+        handleEnter(item) {
+            console.log("???")
+            this.handleEnterPop();
+            this.getRoomInfo(item.id, item.channelName);
+            this.enterRoom(item.id, item.channelName, item.isLock);
+        },
     },
     components: {
     },
@@ -481,7 +499,6 @@ li {
     .room-title {
         width:600px;
         max-width: 45%;
-        cursor:pointer;
     }
 }
 </style>
