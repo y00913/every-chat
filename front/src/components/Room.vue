@@ -81,26 +81,20 @@
             <h4>방이 없습니다.</h4>
         </div>
         <tr v-for="(item, idx) in roomList" :key="idx" class="room-list">
-            <div>
+            <div class="room-info">
                 <td style="width:200px;">
                     {{ formatDate(item.createAt) }}
                 </td>
-                <td style="width:600px;">
+                <td style="width:600px; cursor:pointer;"
+                @click="handleEnterPop(), getRoomInfo(item.id, item.channelName), enterRoom(item.id, item.channelName, item.isLock)"
+                >
+                    <a v-show="item.isLock">
+                        <img style="width:20px; height:20px; margin:-5px 3px -5px -5px;"
+                        src="@/assets/img/lock.png" />
+                    </a>
                     {{ item.channelName }}
                 </td>
-                <td style="width:20px;">
-                    <div v-show="item.isLock">
-                        <img style="width:20px; height:20px; margin:-5px;"
-                        src="@/assets/img/lock.png" />
-                    </div>
-                </td>
-                <td style="width:90px;">
-                    <button
-                        @click="handleEnterPop(), getRoomInfo(item.id, item.channelName), enterRoom(item.id, item.channelName, item.isLock)">
-                        입장
-                    </button>
-                </td>
-                <td style="width:90px;">
+                <td style="width:200px;">
                     <button @click="handleDeletePop(), getRoomInfo(item.id, item.channelName)">
                         삭제
                     </button>
@@ -399,6 +393,11 @@ li {
     display: flex;
     align-items: center;
     justify-content: center;
+    border-radius: 0.5em;
+}
+
+.room-list:hover {
+    background-color: rgba(226, 226, 226, 0.5);
 }
 
 .sender-button {

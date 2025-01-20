@@ -1,6 +1,6 @@
 .main-box {
     border-radius: 0.5em;
-    padding: 0 10px 0 10px;
+    padding: 7px 10px 5px 10px;
     border: 2px solid #b3b0b0;
     margin-top: 10px;
     margin-bottom: 15px;
@@ -17,7 +17,6 @@
     margin-bottom: 15px;
     max-width: 1000px;
     width: 90%;
-    /* height: 710px; */
 }
 
 .chat-date {

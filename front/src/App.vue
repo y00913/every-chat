@@ -37,12 +37,6 @@ export default {
   height: 100vh;
 }
 
-@media (max-width: 767px) {
-  #app {
-    height: auto;
-  }
-}
-
 @font-face {
   font-family: "mabi";
   src: url('./assets/font/Mabinogi_Classic_TTF.ttf') format('truetype')
@@ -71,13 +65,6 @@ button {
   outline: none;
   font-family: 'mabi';
   cursor: pointer;
-}
-
-@media (max-width: 767px) {
-  button {
-    padding: 4px 6px;
-    border-radius: 10px;
-  }
 }
 
 button:hover {
@@ -118,5 +105,17 @@ textarea::placeholder {
 
 button.textarea-button {
   border: none;
+}
+
+@media (max-width: 767px) {
+  button {
+    padding: 4px 6px;
+    border-radius: 10px;
+  }
+
+  #app {
+    height: auto;
+    min-height: 100vh;
+  }
 }
 </style>
