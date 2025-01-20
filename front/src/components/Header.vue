@@ -48,7 +48,8 @@ export default {
 
 <style scoped>
 header {
-    margin-bottom: 1vh;
+    padding-top: 5vh;
+    padding-bottom: 1vh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -56,6 +57,10 @@ header {
 }
 
 @media (max-width: 767px) {
+    header {
+        padding-top: 0;
+    }
+
     h1 {
         margin-bottom: 0;
     }
