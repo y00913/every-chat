@@ -18,6 +18,13 @@ footer {
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-top: 4vh;
+}
+
+@media (max-width: 767px) {
+  footer {
+    margin: 0px;
+  }
 }
 
 </style>

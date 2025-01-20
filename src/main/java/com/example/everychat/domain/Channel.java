@@ -1,17 +1,15 @@
 package com.example.everychat.domain;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.Where;
 
 import java.time.LocalDateTime;
 
 @Builder
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Where(clause = "delete_at IS NULL")
@@ -24,4 +22,7 @@ public class Channel {
     private Boolean isLock;
     private LocalDateTime createAt;
     private LocalDateTime deleteAt;
+
+    @Transient
+    private Integer memberCount;
 }

@@ -7,8 +7,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
 public class AesUtil {
-    private static String specName = "AES/CBC/PKCS5Padding";
-    private static String privateKey = "ahnyutaeprivatek";
+    private static final String specName = "AES/CBC/PKCS5Padding";
+    private static final String privateKey = "ahnyutaeprivatek";
 
     public static String encrypt(String plainText) throws Exception {
         SecretKeySpec secretKey = new SecretKeySpec(privateKey.getBytes("UTF-8"), "AES");

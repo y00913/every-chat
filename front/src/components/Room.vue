@@ -81,25 +81,30 @@
             <h4>방이 없습니다.</h4>
         </div>
         <tr v-for="(item, idx) in roomList" :key="idx" class="room-list">
-            <div class="room-info">
                 <td style="width:200px;">
                     {{ formatDate(item.createAt) }}
                 </td>
-                <td style="width:600px; cursor:pointer;"
-                @click="handleEnterPop(), getRoomInfo(item.id, item.channelName), enterRoom(item.id, item.channelName, item.isLock)"
-                >
+                <td class="room-title"
+                @click="handleEnterPop(), getRoomInfo(item.id, item.channelName), enterRoom(item.id, item.channelName, item.isLock)"> 
                     <a v-show="item.isLock">
                         <img style="width:20px; height:20px; margin:-5px 3px -5px -5px;"
                         src="@/assets/img/lock.png" />
                     </a>
-                    {{ item.channelName }}
+                    <a>
+                        {{ item.channelName }}
+                    </a>
                 </td>
-                <td style="width:200px;">
-                    <button @click="handleDeletePop(), getRoomInfo(item.id, item.channelName)">
+                <td style="width:100px;">
+                    {{ item.memberCount }} 명
+                </td>
+                <td style="width:100px;">
+                    <img style="width:20px; height:20px; margin:-5px 3px -5px -5px; cursor: pointer;"
+                    @click="handleDeletePop(), getRoomInfo(item.id, item.channelName)"
+                    src="@/assets/img/delete.png" />
+                    <!-- <button @click="handleDeletePop(), getRoomInfo(item.id, item.channelName)">
                         삭제
-                    </button>
+                    </button> -->
                 </td>
-            </div>
         </tr>
     </div>
 
@@ -454,6 +459,12 @@ li {
     height:25px;
 }
 
+.room-title {
+    width:600px;
+    cursor:pointer;
+}
+
+
 @media (max-width: 767px) {
     .div-left {
         width: 100px;
@@ -466,6 +477,12 @@ li {
     .input-search {
         width: 25vw;
         margin-right: 7px;
+    }
+
+    .room-title {
+        width:600px;
+        max-width: 45%;
+        cursor:pointer;
     }
 }
 </style>

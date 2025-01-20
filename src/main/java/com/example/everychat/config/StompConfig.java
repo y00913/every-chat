@@ -43,7 +43,7 @@ public class StompConfig implements WebSocketMessageBrokerConfigurer {
     @Value("${client.url}")
     private String clientUrl;
     private final ChatService chatService;
-    private static HashMap<String, String> sessions = new HashMap<>();
+    private static final HashMap<String, String> sessions = new HashMap<>();
 
     public StompConfig(@Lazy ChatService chatService) {
         this.chatService = chatService;
@@ -87,7 +87,7 @@ public class StompConfig implements WebSocketMessageBrokerConfigurer {
                     String channelId = channelPath.substring(channelPath.lastIndexOf("/")+1);
 
                     if(channelId != null) {
-                        chatService.addCount(channelId);
+                        chatService.incrementCount(channelId);
                         chatService.sendCount(channelId);
                         sessions.put(accessor.getSessionId(), channelId);
                     }

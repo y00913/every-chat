@@ -25,8 +25,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.Comparator;
-import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 @Primary
@@ -39,12 +40,19 @@ public class ChatServiceImpl implements ChatService {
     private final ChannelLockRepository channelLockRepository;
     private final SimpMessageSendingOperations simpMessageSendingOperations;
     private final HttpServletRequest request;
-    private static HashMap<String, Integer> roomCount = new HashMap<>();
+    private static final ConcurrentHashMap<String, Integer> memberCount = new ConcurrentHashMap<>();
 
     @Transactional(readOnly = true)
     @Override
     public Object getChannelList(int page) {
         Page<Channel> channelPage = channelRepository.findAllByOrderByCreateAtDesc(PageRequest.of(page, 10));
+
+        List<Channel> channels = channelPage.getContent();
+        channels.forEach(channel -> {
+            Integer memberCount = getCount(channel.getId());
+            channel.setMemberCount(memberCount != null ? memberCount : 0);
+        });
+
         PagingChannelDto pagingChannelDto = PagingChannelDto.builder()
                 .channelList(channelPage.getContent())
                 .pageNumber(channelPage.getNumber())
@@ -58,6 +66,13 @@ public class ChatServiceImpl implements ChatService {
     @Override
     public Object getChannelListByName(String searchName, int page) {
         Page<Channel> channelPage = channelRepository.findAllByChannelNameContainsOrderByCreateAtDesc(searchName, PageRequest.of(page, 10));
+
+        List<Channel> channels = channelPage.getContent();
+        channels.forEach(channel -> {
+            Integer memberCount = getCount(channel.getId());
+            channel.setMemberCount(memberCount != null ? memberCount : 0);
+        });
+
         PagingChannelDto pagingChannelDto = PagingChannelDto.builder()
                 .channelList(channelPage.getContent())
                 .pageNumber(channelPage.getNumber())
@@ -65,6 +80,10 @@ public class ChatServiceImpl implements ChatService {
                 .build();
 
         return pagingChannelDto;
+    }
+
+    private Integer getCount(String channelId) {
+        return memberCount.get(channelId);
     }
 
     @Transactional
@@ -164,16 +183,8 @@ public class ChatServiceImpl implements ChatService {
         Object passwordChecked = session.getAttribute(attributeName);
 
         if(passwordChecked == null) return false;
-        Boolean isPasswordChecked = Boolean.valueOf(passwordChecked.toString());
 
-//        log.info("password : {}",isPasswordChecked);
-
-        if (isPasswordChecked != null && isPasswordChecked) {
-            // session.removeAttribute(attributeName);
-
-            return true;
-        }
-        return false;
+        return Boolean.parseBoolean(passwordChecked.toString());
     }
 
     @Transactional
@@ -183,30 +194,20 @@ public class ChatServiceImpl implements ChatService {
 
         if(pw.equals(AesUtil.decrypt(channel.getPw()))) {
             channel.setDeleteAt(LocalDateTime.now());
-
-//            log.info("채널 삭제 : " + channelId);
             return true;
         } else {
-//            log.info("채널 삭제 실패");
             return false;
         }
     }
 
     @Override
-    public void addCount(String channelId) {
-        int next = 1;
-        if(roomCount.containsKey(channelId)) {
-            next = roomCount.get(channelId) + 1;
-            roomCount.replace(channelId, next);
-        } else {
-            roomCount.put(channelId, next);
-        }
+    public void incrementCount(String channelId) {
+        memberCount.merge(channelId, 1, Integer::sum);
     }
 
     @Override
     public void subtractCount(String channelId) {
-        int next = roomCount.get(channelId) - 1;
-        roomCount.replace(channelId, next);
+        memberCount.merge(channelId, 0, (oldValue, newValue) -> oldValue + newValue - 1);
     }
 
     @Override
@@ -214,7 +215,7 @@ public class ChatServiceImpl implements ChatService {
         Message message = Message.builder().id(UUID.randomUUID().toString())
                 .channelId(channelId)
                 .type("count")
-                .message(roomCount.get(channelId).toString())
+                .message(memberCount.get(channelId).toString())
                 .createAt(LocalDateTime.now())
                 .build();
         Thread.sleep(100);
