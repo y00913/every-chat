@@ -1,9 +1,9 @@
 <template>
   <Header></Header>
 
-  <body>
+  <main>
     <router-view />
-  </body>
+  </main>
 
   <Footer></Footer>
 </template>
@@ -48,7 +48,7 @@ export default {
   src: url('./assets/font/Mabinogi_Classic_TTF.ttf') format('truetype')
 }
 
-body {
+main {
   display: flex;
   flex-direction: column;
   justify-content: center;
