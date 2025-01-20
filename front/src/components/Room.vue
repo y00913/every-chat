@@ -80,12 +80,12 @@
         <div v-show="roomList.length == 0">
             <h4>방이 없습니다.</h4>
         </div>
-        <tr v-for="(item, idx) in roomList" :key="idx" class="room-list">
+        <tr v-for="(item, idx) in roomList" :key="idx" class="room-list"
+        @dblclick="handleEnterPop(), getRoomInfo(item.id, item.channelName), enterRoom(item.id, item.channelName, item.isLock)">
                 <td style="width:200px;">
                     {{ formatDate(item.createAt) }}
                 </td>
-                <td class="room-title"
-                @click="handleEnterPop(), getRoomInfo(item.id, item.channelName), enterRoom(item.id, item.channelName, item.isLock)"> 
+                <td class="room-title">
                     <a v-show="item.isLock">
                         <img style="width:20px; height:20px; margin:-5px 3px -5px -5px;"
                         src="@/assets/img/lock.png" />
@@ -461,7 +461,6 @@ li {
 
 .room-title {
     width:600px;
-    cursor:pointer;
 }
 
 
