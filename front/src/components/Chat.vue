@@ -426,7 +426,7 @@ button.textarea-button {
 
 @media (max-width: 767px) {
   .chat-list {
-    height: 65.5vh;
+    height: 71vh;
   }
 }
 
