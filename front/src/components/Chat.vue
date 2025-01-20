@@ -1,5 +1,4 @@
 <template>
-  <body>
     <div class="black-bg" v-show="popState ">
       <div class="white-bg">
         <form v-on:submit.prevent="handlePop">
@@ -92,7 +91,6 @@
         </form>
       </div>
     </div>
-  </body>
 </template>
   
 <script>

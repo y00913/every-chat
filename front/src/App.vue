@@ -59,6 +59,13 @@ main {
   width: 100%;
 }
 
+body {
+  text-align: center;
+  margin: 0;
+  background-color: #f8f9fa;
+  width: 100%;
+}
+
 button {
   color: #444444;
   background: #F3F3F3;
