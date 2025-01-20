@@ -53,17 +53,12 @@ main {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  text-align: center;
-  margin: 0;
-  background-color: #F8F9FA;
-  width: 100%;
 }
 
 body {
   text-align: center;
   margin: 0;
   background-color: #f8f9fa;
-  width: 100%;
 }
 
 button {
