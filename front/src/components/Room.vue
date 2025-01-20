@@ -65,7 +65,7 @@
             <td style="text-align: right;">
                 <div class="div-right">
                     <span @keyup.enter="getRoomByName(0)" class="span-search">
-                        <input :spellcheck="false" v-model="serachName" type="text" required class="input-search" v-show="isSearch" placeholder="제목 입력">
+                        <input :spellcheck="false" v-model="serachName" type="text" required class="input-search" v-show="isSearch" placeholder="제목 입력 후 엔터">
                         <img @click="handleSearchBar()" class="search-img" src="@/assets/img/search.png" />
                     </span>
                     <span class="span-add">
