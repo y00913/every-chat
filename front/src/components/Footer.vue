@@ -18,4 +18,10 @@ export default {
   font-weight: bold; 
   margin-top: 7vh;
 }
+
+@media (max-width: 767px) {
+  .footer {
+    margin-top: 1.5vh;
+  }
+}
 </style>
