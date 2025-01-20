@@ -1,6 +1,6 @@
 <template>
     <footer>
-        <p class="footer">
+        <p>
           made by <a style="color: #551A8B;">y00913</a>
         </p>
     </footer>
@@ -13,14 +13,11 @@ export default {
 </script>
 
 <style>
-.footer {
+footer {
   font-weight: bold; 
-  margin-top: 7vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-@media (max-width: 767px) {
-  .footer {
-    margin-top: 1.5vh;
-  }
-}
 </style>
