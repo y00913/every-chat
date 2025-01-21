@@ -352,12 +352,12 @@ export default {
 @import "../assets/css/WhiteBg.css";
 
 .previous-chatting {
-  margin: 20px;
+  margin: 15px;
   color: #acaaaa;
 }
 
 .recive-chatting {
-  margin: 20px;
+  margin: 15px;
 }
 
 .blue {
