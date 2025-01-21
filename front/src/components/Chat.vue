@@ -49,6 +49,9 @@
         </div>
 
         <div v-for="(item, idx) in previousList" :key="idx" class="previous-chatting" ref="previous-chatting">
+          <div v-show="idx === lastChat">
+            <hr style="width:700px; height: 0.5px; background: #acaaaa;">
+          </div>
           <div class="chat-date">
             {{ formatDate(item.createAt) }} 
           </div>
@@ -56,9 +59,6 @@
             {{ item.sender }} ({{ item.ip }})
             : 
             <a v-dompurify-html="formatMessage(item.message)" class="message-content"></a>
-          </div>
-          <div v-show="idx === lastChat">
-            <hr style="width:700px; height: 0.5px; background: #acaaaa;">
           </div>
         </div>
 
