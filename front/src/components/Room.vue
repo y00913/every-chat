@@ -372,7 +372,6 @@ export default {
             }
         },
         handleEnter(item) {
-            console.log("???")
             this.handleEnterPop();
             this.getRoomInfo(item.id, item.channelName);
             this.enterRoom(item.id, item.channelName, item.isLock);

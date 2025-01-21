@@ -110,7 +110,7 @@ export default {
       popState: true,
       messagePage: 0,
       isEnd: false,
-      channelName: this.$router.currentRoute.value.state.channelName || "방",
+      channelName: this.$router.currentRoute.value.state?.channelName || "채팅방",
       channelId: this.$route.params.channelId,
       pageSize: 0,
       member: [],
