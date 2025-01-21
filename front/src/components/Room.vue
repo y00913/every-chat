@@ -257,11 +257,7 @@ export default {
         },
         enterRoom(channelId, channelName, isLock) {
             if (!isLock) {
-                this.$router.push({ 
-                    name: 'Chat', 
-                    params: { channelId: channelId },
-                    state: { channelName: channelName }
-                });
+                this.$router.push({ name: 'Chat', params: { channelId: channelId, channelName: channelName } });
             }
         },
         async checkRoomPw() {
@@ -283,11 +279,7 @@ export default {
                 return;
             }
 
-            this.$router.push({ 
-                name: 'Chat', 
-                params: { channelId: this.roomId },
-                state: { channelName: this.channelName }
-            });
+            this.$router.push({ name: 'Chat', params: { channelId: this.roomId, channelName: this.roomName } });
         },
         handleEnterPop() {
             this.enterState = !this.enterState;
@@ -302,7 +294,7 @@ export default {
             this.duplicatedName = false;
         },
         async checkExistName() {
-            const response = await axios.get(this.url + "/api/channel?name=" + this.roomName);
+            const response = await axios.get(this.url + "/api/channel/name/" + this.roomName);
             return response.data.data;
         },
         handleNickname() {
@@ -372,6 +364,7 @@ export default {
             }
         },
         handleEnter(item) {
+            console.log("???")
             this.handleEnterPop();
             this.getRoomInfo(item.id, item.channelName);
             this.enterRoom(item.id, item.channelName, item.isLock);

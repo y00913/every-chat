@@ -110,7 +110,7 @@ export default {
       popState: true,
       messagePage: 0,
       isEnd: false,
-      channelName: this.$router.currentRoute.value.state?.channelName || "채팅방",
+      channelName: this.$route.params.channelName,
       channelId: this.$route.params.channelId,
       pageSize: 0,
       member: [],
@@ -256,7 +256,7 @@ export default {
       }
     },
     exitRoom() {
-      this.$router.push('/');
+      this.$router.go(-1);
     },
     formatDate(dateString) {
       const date = new Date(dateString);
