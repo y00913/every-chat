@@ -12,7 +12,7 @@ const router = createRouter({
             component: RoomPage 
         },
         { 
-            path: "/chat/:channelId", 
+            path: "/chat/:channelName/:channelId", 
             name: "Chat",
             component: ChatPage ,
             props: true,
