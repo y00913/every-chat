@@ -35,8 +35,17 @@
       <hr>
 
       <div class="scrollbar chat-list" ref="messages">
-        <div v-show="!isEnd">
-          <button @click="getMessage">지난 채팅 더보기</button>
+        <div v-for="(item, idx) in reciveList" :key="idx" class="recive-chatting">
+          <div :class="{ 'blue': item.type !== 'message' }">
+            <div class="chat-date">
+              {{ formatDate(item.createAt) }} 
+            </div>
+            {{ item.sender }}
+            <a :class="[item.type != 'message' ? 'blue' : 'grey']"> 
+              ({{ item.ip }})</a>
+            :
+            <a v-dompurify-html="formatMessage(item.message)" class="message-content"></a>
+          </div>
         </div>
 
         <div v-for="(item, idx) in previousList" :key="idx" class="previous-chatting" ref="previous-chatting">
@@ -53,18 +62,9 @@
           </div>
         </div>
 
-        <div v-for="(item, idx) in reciveList" :key="idx" class="recive-chatting">
-          <div :class="{ 'blue': item.type !== 'message' }">
-            <div class="chat-date">
-              {{ formatDate(item.createAt) }} 
-            </div>
-            {{ item.sender }}
-            <a :class="[item.type != 'message' ? 'blue' : 'grey']"> 
-              ({{ item.ip }})</a>
-            :
-            <a v-dompurify-html="formatMessage(item.message)" class="message-content"></a>
-          </div>
-        </div>
+        <div v-show="!isEnd">
+          <button @click="getMessage">지난 채팅 더보기</button>
+        </div>        
 
         <div v-show="!this.connected">
           연결이 해제되었습니다.
@@ -204,7 +204,7 @@ export default {
               this.roomCount = response.message;
             }
             else {
-              this.reciveList.push(response);
+              this.reciveList.unshift(response);
             }
           });
         },
@@ -245,7 +245,7 @@ export default {
     async getMessage() {
       const response = await axios.get(this.url + "/api/message/" + this.channelId + "/" + this.messagePage);
 
-      this.previousList.unshift(...response.data.data.messageList);
+      this.previousList.push(...response.data.data.messageList);
       this.messagePage++;
       this.lastChat = response.data.data.messageList.length - 1;
 
@@ -324,11 +324,8 @@ export default {
       handler() {
         this.$nextTick(() => {
           let messages = this.$refs.messages;
-          const isAtBottom = messages.scrollTop + messages.clientHeight >= messages.scrollHeight - 10;
 
-          if (isAtBottom) {
-            messages.scrollTo({ top: messages.scrollHeight, behavior: 'smooth' });
-          }
+          messages.scrollTo({ top: messages.scrollHeight, behavior: 'smooth' });
         })
       },
 
@@ -375,6 +372,8 @@ export default {
   max-width: 1000px;
   width: 100%;
   height: 55vh;
+  display: flex;
+  flex-direction: column-reverse;
 }
 
 .chat-div {
