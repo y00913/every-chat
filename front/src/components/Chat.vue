@@ -110,7 +110,7 @@ export default {
       popState: true,
       messagePage: 0,
       isEnd: false,
-      channelName: this.$route.params.channelName,
+      channelName: this.$router.currentRoute.value.state.channelName,
       channelId: this.$route.params.channelId,
       pageSize: 0,
       member: [],

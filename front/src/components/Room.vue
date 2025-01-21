@@ -257,7 +257,11 @@ export default {
         },
         enterRoom(channelId, channelName, isLock) {
             if (!isLock) {
-                this.$router.push({ name: 'Chat', params: { channelId: channelId, channelName: channelName } });
+                this.$router.push({ 
+                    name: 'Chat', 
+                    params: { channelId: channelId } 
+                    state: { channelName: channelName }
+                });
             }
         },
         async checkRoomPw() {
