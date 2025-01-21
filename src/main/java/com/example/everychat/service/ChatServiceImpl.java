@@ -142,7 +142,7 @@ public class ChatServiceImpl implements ChatService {
     @Transactional(readOnly = true)
     @Override
     public Object getMessagePaging(String channelId, int page){
-        Page<Message> messagePage = messageRepository.findAllByChannelIdOrderByCreateAtDesc(channelId, PageRequest.of(page, 10));
+        Page<Message> messagePage = messageRepository.findAllByChannelIdOrderByCreateAtDesc(channelId, PageRequest.of(page, 20));
         messagePage.stream().forEach(message -> {
             String ip = message.getIp();
             message.setIp(ip.substring(0, ip.indexOf('.', 5)));
