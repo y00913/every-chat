@@ -102,9 +102,6 @@
                     <img style="width:20px; height:20px; margin:-5px 3px -5px -5px; cursor: pointer;"
                     @click="handleDeletePop(), getRoomInfo(item.id, item.channelName)"
                     src="@/assets/img/delete.png" />
-                    <!-- <button @click="handleDeletePop(), getRoomInfo(item.id, item.channelName)">
-                        삭제
-                    </button> -->
                 </td>
         </tr>
     </div>
