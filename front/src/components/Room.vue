@@ -259,7 +259,7 @@ export default {
             if (!isLock) {
                 this.$router.push({ 
                     name: 'Chat', 
-                    params: { channelId: channelId } 
+                    params: { channelId: channelId },
                     state: { channelName: channelName }
                 });
             }
@@ -283,7 +283,11 @@ export default {
                 return;
             }
 
-            this.$router.push({ name: 'Chat', params: { channelId: this.roomId, channelName: this.roomName } });
+            this.$router.push({ 
+                name: 'Chat', 
+                params: { channelId: this.roomId },
+                state: { channelName: channelName }
+            });
         },
         handleEnterPop() {
             this.enterState = !this.enterState;
@@ -298,7 +302,7 @@ export default {
             this.duplicatedName = false;
         },
         async checkExistName() {
-            const response = await axios.get(this.url + "/api/channel/name/" + this.roomName);
+            const response = await axios.get(this.url + "/api/channel?name=" + this.roomName);
             return response.data.data;
         },
         handleNickname() {
