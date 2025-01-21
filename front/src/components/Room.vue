@@ -108,16 +108,18 @@
 
     <div style="height:45px;">
         <tr style="width:1000px;">
-            <td style="width:200px;">
+            <td class="previous-button">
                 <button v-show="!(pageNum == 0) && !(roomList.length == 0)"
                     @click="search ? getRoomByName(pageNum - 1) : getRoom(pageNum - 1)">이전</button>
             </td>
-            <td style="width:50px;">
-                <p style="margin-top: 15px;">
-                    {{ pageNum + 1 }} / {{ pageSize }}
+            <td v-for="idx in visiblePages" :key="idx" style="width:50px;">
+                <p style="margin-top: 15px; cursor: pointer;" 
+                    :style="{ color: pageNum + 1 !== idx ? 'rgba(0, 0, 0, 0.5)' : 'black' }"
+                    @click="search ? getRoomByName(idx - 1) : getRoom(idx - 1)">
+                    {{ idx }}
                 </p>
             </td>
-            <td style="width:200px">
+            <td class="next-button">
                 <button v-show="!(pageNum == pageSize - 1) && !(roomList.length == 0)"
                     @click="search ? getRoomByName(pageNum + 1) : getRoom(pageNum + 1)">다음</button>
             </td>
@@ -135,7 +137,8 @@ export default {
             url: process.env.VUE_APP_SERVER_URL,
             roomList: [],
             pageNum: Number(localStorage.getItem('pageNum')) || 0,
-            pageSize: 5,
+            pageSize: 10,
+            maxPage: 5,
             createState: false,
             deleteState: false,
             roomName: "",
@@ -370,6 +373,13 @@ export default {
             this.enterRoom(item.id, item.channelName, item.isLock);
         },
     },
+    computed: {
+        visiblePages() {
+            const start = Math.floor(this.pageNum / this.maxPage) * this.maxPage + 1;
+            const end = Math.min(start + this.maxPage - 1, this.pageSize);
+            return Array.from({ length: end - start + 1 }, (_, i) => start + i);
+        },
+    },
     components: {
     },
     mounted() {
@@ -478,6 +488,13 @@ li {
     width:600px;
 }
 
+.previous-button {
+    width: 200px;
+}
+
+.next-button {
+    width: 200px;
+}
 
 @media (max-width: 767px) {
     .div-left {
@@ -496,6 +513,14 @@ li {
     .room-title {
         width:600px;
         max-width: 45%;
+    }
+
+    .previous-button {
+        width: 50px;
+    }
+
+    .next-button {
+        width: 50px;
     }
 }
 </style>

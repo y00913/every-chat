@@ -49,9 +49,6 @@
         </div>
 
         <div v-for="(item, idx) in previousList" :key="idx" class="previous-chatting" ref="previous-chatting">
-          <!-- <div v-show="idx === lastChat">
-            <hr style="width:700px; height: 0.5px; background: #acaaaa;">
-          </div> -->
           <div class="chat-date">
             {{ formatDate(item.createAt) }} 
           </div>
@@ -245,7 +242,7 @@ export default {
     async getMessage() {
       const response = await axios.get(this.url + "/api/message/" + this.channelId + "/" + this.messagePage);
 
-      this.previousList.push(...response.data.data.messageList);
+      this.previousList.push(...response.data.data.messageList.reverse());
       this.messagePage++;
       this.lastChat = response.data.data.messageList.length - 1;
 
@@ -319,19 +316,6 @@ export default {
       e.target.focus();
     },
   },
-  watch: {
-    reciveList: {
-      handler() {
-        this.$nextTick(() => {
-          let messages = this.$refs.messages;
-
-          messages.scrollTo({ top: messages.scrollHeight, behavior: 'smooth' });
-        })
-      },
-
-      deep: true
-    },
-  },
   mounted() {
     this.isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
     window.addEventListener('beforeunload', this.sendLeave);
@@ -352,12 +336,12 @@ export default {
 @import "../assets/css/WhiteBg.css";
 
 .previous-chatting {
-  margin: 15px;
+  margin: 12px;
   color: #acaaaa;
 }
 
 .recive-chatting {
-  margin: 15px;
+  margin: 12px;
 }
 
 .blue {
@@ -412,7 +396,8 @@ button.textarea-button {
 }
 
 .chat-img {
-  max-width: 400px;
+  max-width: 100%;
+  width: 400px;
   height: auto;
 }
 
