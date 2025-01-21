@@ -232,7 +232,6 @@ export default {
         const response = await axios.get(this.url + "/api/channel/lock/" + this.channelId);
         if (!response.data.data) {
           alert('비밀번호를 입력해주세요.');
-          // window.location.href = "https://everychat.kro.kr";
           window.location.href = process.env.VUE_APP_CLIENT_URL;
           return false;
         }
@@ -325,8 +324,11 @@ export default {
       handler() {
         this.$nextTick(() => {
           let messages = this.$refs.messages;
+          const isAtBottom = messages.scrollTop + messages.clientHeight >= messages.scrollHeight - 10;
 
-          messages.scrollTo({ top: messages.scrollHeight, behavior: 'smooth' });
+          if (isAtBottom) {
+            messages.scrollTo({ top: messages.scrollHeight, behavior: 'smooth' });
+          }
         })
       },
 
