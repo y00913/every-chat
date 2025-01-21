@@ -286,7 +286,7 @@ export default {
             this.$router.push({ 
                 name: 'Chat', 
                 params: { channelId: this.roomId },
-                state: { channelName: channelName }
+                state: { channelName: this.channelName }
             });
         },
         handleEnterPop() {
