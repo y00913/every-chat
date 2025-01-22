@@ -282,13 +282,13 @@ export default {
     formatMessage(message) {
       let formattedMessage = message.replace(/\n/g, '<br>');
 
-      const imageRegex = /(https?:\/\/[^\s?]+(?:\.(?:png|jpg|jpeg|gif)))(?:\?[^ ]*)?/gi;
+      const imageRegex = /(https?:\/\/[^\s]+?\.(?:png|jpg|jpeg|gif)(?:[^\s]*)?)/gi;
 
       formattedMessage = formattedMessage.replace(imageRegex, (url) => {
+        const decodedUrl = decodeURIComponent(url);
         return `
-          <br>
           <img 
-            src="${url}" 
+            src="${decodedUrl}" 
             alt="Image" 
             class="chat-img" 
           />`;
@@ -300,7 +300,6 @@ export default {
       formattedMessage = formattedMessage.replace(youtubeRegex, (url, id1, id2) => {
         const videoId = id1 || id2;
         return `
-          <br>
           <iframe 
             src="https://www.youtube.com/embed/${videoId}" 
             frameborder="0" 
@@ -393,25 +392,36 @@ button.textarea-button {
 
 .message-content {
   white-space: pre-wrap;
+  display: flex;
+  justify-content: center;
 }
 
 .chat-img {
   width: auto;
   height: auto;
-  max-width: 400px;
-  max-height: 400px;
+  max-width: 200px;
+  max-height: 200px;
 }
 
 .youtube-iframe {
   width: 100%;
   height: auto;
   aspect-ratio: 16 / 9;
-  max-width: 500px;
+  max-width: 450px;
 }
 
 @media (max-width: 767px) {
   .chat-list {
     height: 71vh;
+  }
+  
+  .chat-img {
+    max-width: 100px;
+    max-height: 100px;
+  }
+
+  .youtube-iframe {
+    max-width: 250px;
   }
 }
 
