@@ -282,7 +282,7 @@ export default {
     formatMessage(message) {
       let formattedMessage = message.replace(/\n/g, '<br>');
 
-      const imageRegex = /(https?:\/\/.*\.(?:png|jpg|jpeg|gif))/gi;
+      const imageRegex = /(https?:\/\/[^\s?]+(?:\.(?:png|jpg|jpeg|gif)))/gi;
 
       formattedMessage = formattedMessage.replace(imageRegex, (url) => {
         return `
@@ -396,9 +396,10 @@ button.textarea-button {
 }
 
 .chat-img {
-  max-width: 100%;
-  width: 400px;
+  width: auto;
   height: auto;
+  max-width: 400px;
+  max-height: 400px;
 }
 
 .youtube-iframe {
