@@ -41,7 +41,8 @@ export default {
 #app {
   font-family: 'mabi';
   width: 100vw;
-  height: 100vh;
+  height: auto;
+  min-height: 100vh;
 }
 
 @font-face {
@@ -118,11 +119,6 @@ button.textarea-button {
   button {
     padding: 4px 6px;
     border-radius: 10px;
-  }
-
-  #app {
-    height: auto;
-    min-height: 100vh;
   }
 }
 </style>

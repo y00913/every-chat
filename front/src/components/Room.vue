@@ -367,7 +367,6 @@ export default {
             }
         },
         handleEnter(item) {
-            console.log("???")
             this.handleEnterPop();
             this.getRoomInfo(item.id, item.channelName);
             this.enterRoom(item.id, item.channelName, item.isLock);
@@ -375,6 +374,9 @@ export default {
     },
     computed: {
         visiblePages() {
+            if (this.pageSize === 0) {
+                return [];
+            }
             const start = Math.floor(this.pageNum / this.maxPage) * this.maxPage + 1;
             const end = Math.min(start + this.maxPage - 1, this.pageSize);
             return Array.from({ length: end - start + 1 }, (_, i) => start + i);
