@@ -282,7 +282,7 @@ export default {
     formatMessage(message) {
       let formattedMessage = message.replace(/\n/g, '<br>');
 
-      const imageRegex = /(https?:\/\/[^\s?]+(?:\.(?:png|jpg|jpeg|gif)))(?:\?[^ ]*)?/gi;
+      const imageRegex = /(https?:\/\/.*\.(?:png|jpg|jpeg|gif))/gi;
 
       formattedMessage = formattedMessage.replace(imageRegex, (url) => {
         return `
