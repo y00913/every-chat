@@ -287,6 +287,7 @@ export default {
       formattedMessage = formattedMessage.replace(imageRegex, (url) => {
         const decodedUrl = decodeURIComponent(url);
         return `
+          <br>
           <img 
             src="${decodedUrl}" 
             alt="Image" 
@@ -300,6 +301,7 @@ export default {
       formattedMessage = formattedMessage.replace(youtubeRegex, (url, id1, id2) => {
         const videoId = id1 || id2;
         return `
+          <br>
           <iframe 
             src="https://www.youtube.com/embed/${videoId}" 
             frameborder="0" 
@@ -392,8 +394,6 @@ button.textarea-button {
 
 .message-content {
   white-space: pre-wrap;
-  display: flex;
-  justify-content: center;
 }
 
 .chat-img {
