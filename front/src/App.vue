@@ -43,6 +43,9 @@ export default {
   width: 100vw;
   height: auto;
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 @font-face {

@@ -2,8 +2,7 @@
     border-radius: 0.5em;
     padding: 7px 10px 5px 10px;
     border: 2px solid #b3b0b0;
-    margin-top: 10px;
-    margin-bottom: 15px;
+    margin: 10px 0 15px 0;
     max-width: 1000px;
     width: 90%;
     height: 604px;
@@ -13,8 +12,7 @@
     border-radius: 0.5em;
     padding: 10px;
     border: 2px solid #b3b0b0;
-    margin-top: 10px;
-    margin-bottom: 15px;
+    margin-top: 10px 0 15px 0;
     max-width: 1000px;
     width: 90%;
 }
@@ -40,4 +38,10 @@
 .scrollbar::-webkit-scrollbar-track {
     background: #ddd;
     border-radius: 20px;
+}
+
+@media (max-width: 767px) {
+    .main-box {
+        margin: 10px 0 0 0;
+    }
 }

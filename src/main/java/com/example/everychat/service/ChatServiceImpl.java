@@ -45,27 +45,23 @@ public class ChatServiceImpl implements ChatService {
     @Transactional(readOnly = true)
     @Override
     public Object getChannelList(int page) {
-        Page<Channel> channelPage = channelRepository.findAllByOrderByCreateAtDesc(PageRequest.of(page, 10));
-
-        List<Channel> channels = channelPage.getContent();
-        channels.forEach(channel -> {
-            Integer memberCount = getCount(channel.getId());
-            channel.setMemberCount(memberCount != null ? memberCount : 0);
-        });
-
-        PagingChannelDto pagingChannelDto = PagingChannelDto.builder()
-                .channelList(channelPage.getContent())
-                .pageNumber(channelPage.getNumber())
-                .pageSize(channelPage.getTotalPages())
-                .build();
-
-        return pagingChannelDto;
+        return fetchFilteredChannelList(null, page);
     }
 
     @Transactional(readOnly = true)
     @Override
     public Object getChannelListByName(String searchName, int page) {
-        Page<Channel> channelPage = channelRepository.findAllByChannelNameContainsOrderByCreateAtDesc(searchName, PageRequest.of(page, 10));
+        return fetchFilteredChannelList(searchName, page);
+    }
+
+    private Object fetchFilteredChannelList(String searchName, int page) {
+        Page<Channel> channelPage;
+
+        if (searchName == null || searchName.isEmpty()) {
+            channelPage = channelRepository.findAllByOrderByCreateAtDesc(PageRequest.of(page, 10));
+        } else {
+            channelPage = channelRepository.findAllByChannelNameContainsOrderByCreateAtDesc(searchName, PageRequest.of(page, 10));
+        }
 
         List<Channel> channels = channelPage.getContent();
         channels.forEach(channel -> {
@@ -73,13 +69,12 @@ public class ChatServiceImpl implements ChatService {
             channel.setMemberCount(memberCount != null ? memberCount : 0);
         });
 
-        PagingChannelDto pagingChannelDto = PagingChannelDto.builder()
+        // PagingChannelDto 빌드
+        return PagingChannelDto.builder()
                 .channelList(channelPage.getContent())
                 .pageNumber(channelPage.getNumber())
                 .pageSize(channelPage.getTotalPages())
                 .build();
-
-        return pagingChannelDto;
     }
 
     private Integer getCount(String channelId) {

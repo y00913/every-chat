@@ -285,11 +285,10 @@ export default {
       const imageRegex = /(https?:\/\/[^\s]+?\.(?:png|jpg|jpeg|gif)(?:[^\s]*)?)/gi;
 
       formattedMessage = formattedMessage.replace(imageRegex, (url) => {
-        const decodedUrl = decodeURIComponent(url);
         return `
           <br>
           <img 
-            src="${decodedUrl}" 
+            src="${url}" 
             alt="Image" 
             class="chat-img" 
           />`;
