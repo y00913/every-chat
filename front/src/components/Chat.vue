@@ -115,6 +115,7 @@ export default {
       connected: true,
       lastChat: 0,
       isConnecting: false,
+      isLeave: false,
       retryCount: 0,
       maxRetries: 5,
       isMobile: false,
@@ -172,9 +173,11 @@ export default {
         };
         this.stompClient.send("/pub/chat", JSON.stringify(msg), {})
       }
+
+      this.isLeave = true
     },
     connect() {
-      if (this.isConnecting) {
+      if (this.isConnecting || this.isLeave) {
         return;
       }
 
