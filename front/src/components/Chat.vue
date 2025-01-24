@@ -392,7 +392,7 @@ button.textarea-button {
 }
 
 .message-content {
-  white-space: pre-wrap;
+  word-wrap: break-word;
 }
 
 .chat-img {
