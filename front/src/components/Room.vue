@@ -65,11 +65,11 @@
             <td style="text-align: right;">
                 <div class="div-right">
                     <span @keyup.enter="getRoomByName(0)" class="span-search">
-                        <input :spellcheck="false" v-model="serachName" type="text" required class="input-search" v-show="isSearch" placeholder="제목 입력 후 엔터">
-                        <img @click="handleSearchBar()" class="search-img" src="@/assets/img/search.png" />
+                        <input :spellcheck="false" v-model="searchName" type="text" required class="input-search" v-show="isSearch" placeholder="제목 입력 후 엔터">
+                        <img @click="handleSearchBar()" class="search-img" src="@/assets/img/search.png"  alt="search"/>
                     </span>
                     <span class="span-add">
-                        <img @click="handleCreatePop()" class="add-img" src="@/assets/img/add_chat.png" />
+                        <img @click="handleCreatePop()" class="add-img" src="@/assets/img/add_chat.png"  alt="add"/>
                     </span>
                 </div>
             </td>
@@ -77,7 +77,7 @@
     </table>
 
     <div class="main-box">
-        <div v-show="roomList.length == 0">
+        <div v-show="roomList.length === 0">
             <h4>방이 없습니다.</h4>
         </div>
         <tr v-for="(item, idx) in roomList" :key="idx" class="room-list"
@@ -89,7 +89,7 @@
                 <td class="room-title">
                     <a v-show="item.isLock">
                         <img style="width:20px; height:20px; margin:-5px 3px -5px -5px;"
-                        src="@/assets/img/lock.png" />
+                        src="@/assets/img/lock.png"  alt="lock"/>
                     </a>
                     <a>
                         {{ item.channelName }}
@@ -101,15 +101,15 @@
                 <td style="width:100px;">
                     <img style="width:20px; height:20px; margin:-5px 3px -5px -5px; cursor: pointer;"
                     @click="handleDeletePop(), getRoomInfo(item.id, item.channelName)"
-                    src="@/assets/img/delete.png" />
+                    src="@/assets/img/delete.png"  alt="delete"/>
                 </td>
         </tr>
     </div>
 
-    <div style="height:6.5vh;">
+    <table style="height:6.5vh;">
         <tr style="width:1000px;">
             <td class="previous-button">
-                <button v-show="!(pageNum == 0) && !(roomList.length == 0)"
+                <button v-show="!(pageNum === 0) && !(roomList.length === 0)"
                     @click="search ? getRoomByName(pageNum - 1) : getRoom(pageNum - 1)">&lt;</button>
             </td>
             <td v-for="idx in visiblePages" :key="idx" style="width:50px;">
@@ -120,11 +120,11 @@
                 </p>
             </td>
             <td class="next-button">
-                <button v-show="!(pageNum == pageSize - 1) && !(roomList.length == 0)"
+                <button v-show="!(pageNum === pageSize - 1) && !(roomList.length === 0)"
                     @click="search ? getRoomByName(pageNum + 1) : getRoom(pageNum + 1)">></button>
             </td>
         </tr>
-    </div>
+    </table>
 </template>
 
 <script>
@@ -150,7 +150,7 @@ export default {
             enterState: false,
             enterFail: false,
             search: false,
-            serachName: "",
+            searchName: "",
             duplicatedName: false,
             sender: localStorage.getItem('sender'),
             showSaveMessage: false,
@@ -174,24 +174,24 @@ export default {
             this.roomList = [];
             this.roomList.push(...response.data.data.channelList);
 
-            if (this.roomList.length == 0) this.pageNum = -1;
+            if (this.roomList.length === 0) this.pageNum = -1;
         },
         async getRoomByName(pageNumber) {
-            if (this.serachName == "") {
-                this.getRoom(0);
+            if (this.searchName === "") {
+                await this.getRoom(0);
                 this.search = false;
                 return;
             }
 
             this.pageNum = pageNumber;
-            const response = await axios.get(this.url + "/api/channel/" + this.serachName + "/" + pageNumber);
+            const response = await axios.get(this.url + "/api/channel/" + this.searchName + "/" + pageNumber);
             this.pageSize = response.data.data.pageSize;
 
             this.search = true;
             this.roomList = [];
             this.roomList.push(...response.data.data.channelList);
 
-            if (this.roomList.length == 0) this.pageNum = -1;
+            if (this.roomList.length === 0) this.pageNum = -1;
         },
         handleCreatePop() {
             this.createState = !this.createState;
@@ -199,9 +199,9 @@ export default {
             this.initData();
         },
         async createRoom() {
-            if (this.roomName == "") return;
-            if (this.pw == "") return;
-            if (this.isLock && this.lockPw == "") return;
+            if (this.roomName === "") return;
+            if (this.pw === "") return;
+            if (this.isLock && this.lockPw === "") return;
 
             this.duplicatedName = await this.checkExistName();
             if (this.duplicatedName) {
@@ -224,13 +224,13 @@ export default {
 
             if(this.isLock) {
                 this.roomId = data.id;
-                this.checkRoomPw();
+                await this.checkRoomPw();
             } else {
                 this.enterRoom(data.id, data.channelName, false);
             }
         },
         async deleteRoom() {
-            if (this.pw == "") return;
+            if (this.pw === "") return;
 
             const response = await axios.delete(this.url + "/api/channel",
                 {
@@ -240,7 +240,7 @@ export default {
                     }
                 });
 
-            if (response.data.message == '비밀번호가 틀렸습니다.') {
+            if (response.data.message === '비밀번호가 틀렸습니다.') {
                 this.deleteFail = true;
                 this.pw = "";
                 return;
@@ -264,7 +264,7 @@ export default {
             }
         },
         async checkRoomPw() {
-            if (this.lockPw == "") return;
+            if (this.lockPw === "") return;
 
             const response = await axios.get(this.url + "/api/channel/lock",
                 {
@@ -338,9 +338,11 @@ export default {
             this.isSearch = !this.isSearch
         },
         handleBeforeUnload() {
-            if (performance.navigation.type !== performance.navigation.TYPE_RELOAD) {
-                this.resetPageNum();
-            }
+          const [navigationEntry] = performance.getEntriesByType("navigation");
+
+          if (navigationEntry.type !== "reload" && this.$route.name !== "Chat") {
+            this.resetPageNum();
+          }
         },
         resetPageNum() {
             localStorage.setItem('pageNum', 0);
@@ -407,19 +409,6 @@ li {
     position: fixed;
 }
 
-.page-count {
-    left: 50%;
-    transform: translate(-60%, 0);
-}
-
-.previous-page {
-    left: 45%;
-}
-
-.next-page {
-    right: 45%;
-}
-
 .room-list {
     height: 60px;
     display: flex;
@@ -435,7 +424,7 @@ li {
 .sender-button {
     width: 40px;
     height: 30px;
-    padding: 0px;
+    padding: 0;
     border: none;
 }
 
@@ -452,7 +441,7 @@ li {
 .div-right {
     display: flex;
     align-items: center;
-    justify-content: end;
+    justify-content: flex-end;
 }
 
 .span-search {

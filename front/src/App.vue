@@ -120,7 +120,7 @@ button.textarea-button {
 
 @media (max-width: 767px) {
   button {
-    padding: 4px 6px;
+    padding: 4px 6px 2px 6px;
     border-radius: 10px;
   }
 }

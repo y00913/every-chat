@@ -1,5 +1,5 @@
 <template>
-    <div class="black-bg" v-show="popState ">
+    <div class="black-bg" v-show="senderState">
       <div class="white-bg">
         <form v-on:submit.prevent="handlePop">
           <p>닉네임을 입력해주세요.</p>
@@ -11,7 +11,7 @@
     </div>
 
     <div class="chat-box">
-      <div>
+      <table>
         <tr>
           <td style="width:200px;">
             <button @click="exitRoom">나가기</button>
@@ -24,24 +24,29 @@
           <td>
 
           </td>
-          <td style="width:200px;">
+          <td v-show="!isMobile" style="width:200px;">
             <div>
               인원 수 : {{ roomCount }}
             </div>
           </td>
+          <td v-show="isMobile" style="width:200px;">
+            <div>
+              {{ roomCount }} 명
+            </div>
+          </td>
         </tr>
-      </div>
+      </table>
 
       <hr>
 
       <div class="scrollbar chat-list" ref="messages">
-        <div v-for="(item, idx) in reciveList" :key="idx" class="recive-chatting">
-          <div :class="{ 'blue': item.type !== 'message' }">
-            <div class="chat-date">
+        <div v-for="(item, idx) in receiveList" :key="idx" class="receive-chatting">
+          <div :class="{ 'blue': item.type === 'enter', 'red': item.type === 'leave' }">
+          <div class="chat-date">
               {{ formatDate(item.createAt) }} 
             </div>
             {{ item.sender }}
-            <a :class="[item.type != 'message' ? 'blue' : 'grey']"> 
+            <a :class="[item.type === 'enter' ? 'blue' : item.type === 'leave' ? 'red' : 'grey']">
               ({{ item.ip }})</a>
             :
             <a v-dompurify-html="formatMessage(item.message)" class="message-content"></a>
@@ -63,7 +68,7 @@
           <button @click="getMessage">지난 채팅 더보기</button>
         </div>        
 
-        <div v-show="!this.connected">
+        <div v-show="!this.connected" style="color: red;">
           연결이 해제되었습니다.
         </div>
       </div>
@@ -100,11 +105,11 @@ export default {
   data() {
     return {
       url: process.env.VUE_APP_SERVER_URL,
-      sender: localStorage.getItem('sender'),
+      sender: localStorage.getItem('sender') || "",
       message: "",
-      reciveList: [],
+      receiveList: [],
       previousList: [],
-      popState: true,
+      senderState: false,
       messagePage: 0,
       isEnd: false,
       channelName: this.$route.params.channelName,
@@ -121,15 +126,19 @@ export default {
       isMobile: false,
     }
   },
-  created() { 
+  async created() {
     const isVerified = this.checkLockVerify();
     if (!isVerified) return;
-    this.getMessage();
-    this.connect();
+
+    this.senderState = !this.sender;
+
+    await this.getMessage();
+    await this.connect();
+    this.sendEnter()
   },
   methods: {
     // eslint-disable-next-line
-    sendMessage(e) {
+    sendMessage() {
       if(!this.message || this.message.trim() === "") return;
 
       this.send();
@@ -176,56 +185,66 @@ export default {
 
       this.isLeave = true
     },
-    connect() {
+    async connect() {
       if (this.isConnecting || this.isLeave) {
         return;
       }
 
-      this.isConnecting = true;
-      const serverURL = this.url + "/ws";
-      let socket = new SockJS(serverURL);
-      var options = { debug: false, protocols: ['v11.stomp', 'v12.stomp'] };
-      this.stompClient = Stomp.over(socket, options);
+      return new Promise((resolve, reject) => {
+        try {
+          this.isConnecting = true;
 
-      this.stompClient.heartbeat.outgoing = 10000;
-      this.stompClient.heartbeat.incoming = 10000;
+          const serverURL = this.url + "/ws";
+          const socket = new SockJS(serverURL);
+          const options = { debug: false, protocols: ['v11.stomp', 'v12.stomp'] };
+          this.stompClient = Stomp.over(socket, options);
 
-      this.stompClient.connect(
-        {},
-        // eslint-disable-next-line
-        frame => {
-          this.retryCount = 0;
+          this.stompClient.heartbeat.outgoing = 10000;
+          this.stompClient.heartbeat.incoming = 10000;
+
+          this.stompClient.connect(
+              {},
+              () => {
+                this.retryCount = 0;
+                this.isConnecting = false;
+                this.connected = true;
+
+                this.stompClient.subscribe(`/topic/${this.channelId}`, (res) => {
+                  const response = JSON.parse(res.body);
+
+                  if (response.type === "count") {
+                    this.roomCount = response.message;
+                  } else {
+                    this.receiveList.unshift(response);
+                  }
+                });
+
+                resolve();
+              },
+              () => {
+                this.isConnecting = false;
+                this.connected = false;
+
+                if (this.retryCount < this.maxRetries) {
+                  this.retryCount++;
+
+                  setTimeout(async () => {
+                    await this.connect();
+                  }, 5000);
+                } else {
+                  reject(new Error("WebSocket 연결 실패"));
+                }
+              }
+          );
+        } catch (err) {
           this.isConnecting = false;
-
-          this.stompClient.subscribe("/topic/" + this.channelId, res => {
-            let response = JSON.parse(res.body);
-
-            if (response.type === "count") {
-              this.roomCount = response.message;
-            }
-            else {
-              this.reciveList.unshift(response);
-            }
-          });
-        },
-        // eslint-disable-next-line
-        error => {
-          this.isConnecting = false;
-
-          if (this.retryCount < this.maxRetries) {
-            this.retryCount++;
-            setTimeout(() => {
-              this.connect();
-            }, 5000);
-          } else {
-            this.connected = false;
-          }
-        },
-
-      );
+          console.error("WebSocket 연결 중 문제 발생:", err);
+          reject(err);
+        }
+      });
     },
     handlePop() {
-      this.popState = !this.popState;
+      this.senderState = !this.senderState;
     },
     async checkLockVerify() {
       try {
@@ -249,9 +268,8 @@ export default {
       this.messagePage++;
       this.lastChat = response.data.data.messageList.length - 1;
 
-      if (response.data.data.pageSize == this.messagePage || response.data.data.pageSize == 0) {
+      if (response.data.data.pageSize === this.messagePage || response.data.data.pageSize === 0) {
         this.isEnd = true;
-        return;
       }
     },
     exitRoom() {
@@ -268,8 +286,7 @@ export default {
       return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
     },
     checkSender() {
-      if(this.sender == null || this.sender == "") return false;
-      return true;
+      return !(this.sender == null || this.sender === "");
     },
     handleKeyDown(e) {
       if (this.mobile && e.key === 'Enter') {
@@ -343,7 +360,7 @@ export default {
   color: #acaaaa;
 }
 
-.recive-chatting {
+.receive-chatting {
   margin: 12px;
 }
 
@@ -351,8 +368,8 @@ export default {
   color: #4FADBD;
 }
 
-.grey {
-  color: #858484;
+.red {
+  color: #f87670;
 }
 
 .chat-list {
