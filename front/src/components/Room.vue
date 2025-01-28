@@ -134,7 +134,8 @@ export default {
     name: 'App',
     data() {
         return {
-            url: process.env.VUE_APP_SERVER_URL,
+            serverUrl: process.env.VUE_APP_SERVER_URL,
+            clientUrl: process.env.VUE_APP_CLIENT_URL,
             roomList: [],
             pageNum: Number(localStorage.getItem('pageNum')) || 0,
             pageSize: 10,
@@ -163,12 +164,13 @@ export default {
     },
     created() {
         this.getRoom(this.pageNum);
+        window.addEventListener("message", this.handleMessage);
     },
     methods: {
         async getRoom(pageNumber) {
             this.pageNum = pageNumber;
             localStorage.setItem('pageNum', pageNumber);
-            const response = await axios.get(this.url + "/api/channel/" + pageNumber);
+            const response = await axios.get(this.serverUrl + "/api/channel/" + pageNumber);
             this.pageSize = response.data.data.pageSize;
 
             this.roomList = [];
@@ -184,7 +186,7 @@ export default {
             }
 
             this.pageNum = pageNumber;
-            const response = await axios.get(this.url + "/api/channel/" + this.searchName + "/" + pageNumber);
+            const response = await axios.get(this.serverUrl + "/api/channel/" + this.searchName + "/" + pageNumber);
             this.pageSize = response.data.data.pageSize;
 
             this.search = true;
@@ -213,7 +215,7 @@ export default {
                 return;
             }
 
-            const response = await axios.post(this.url + "/api/channel", {
+            const response = await axios.post(this.serverUrl + "/api/channel", {
                 channelName: this.roomName,
                 pw: this.pw,
                 isLock: this.isLock,
@@ -232,7 +234,7 @@ export default {
         async deleteRoom() {
             if (this.pw === "") return;
 
-            const response = await axios.delete(this.url + "/api/channel",
+            const response = await axios.delete(this.serverUrl + "/api/channel",
                 {
                     headers: {
                         'channel-id': this.roomId,
@@ -266,7 +268,7 @@ export default {
         async checkRoomPw() {
             if (this.lockPw === "") return;
 
-            const response = await axios.get(this.url + "/api/channel/lock",
+            const response = await axios.get(this.serverUrl + "/api/channel/lock",
                 {
                     headers: {
                         'channel-id': this.roomId,
@@ -298,7 +300,7 @@ export default {
             this.duplicatedName = false;
         },
         async checkExistName() {
-            const response = await axios.get(this.url + "/api/channel/name/" + this.roomName);
+            const response = await axios.get(this.serverUrl + "/api/channel/name/" + this.roomName);
             return response.data.data;
         },
         handleNickname() {
@@ -384,7 +386,28 @@ export default {
           const windowName = this.roomName;
           const specs = "width=400,height=660,toolbar=no,location=no";
           window.open(url, windowName, specs);
-        }
+        },
+        handleMessage(event) {
+          if (event.origin !== this.clientUrl) return;
+          const message = event.data;
+
+          if (message.type === "updateChannelCount" && message.channelId) {
+            this.updateMemberCount(message.channelId, +1); // 입장 시
+          } else if (message.type === "leaveChannelCount" && message.channelId) {
+            this.updateMemberCount(message.channelId, -1); // 퇴장 시
+          }
+        },
+        updateMemberCount(channelId, change) {
+          const room = this.roomList.find((room) => room.id === channelId);
+
+          if (room) {
+            room.memberCount += change;
+
+            if (room.memberCount < 0) {
+              room.memberCount = 0;
+            }
+          }
+        },
     },
     computed: {
         visiblePages() {
@@ -403,6 +426,7 @@ export default {
     },
     beforeUnmount() {
         window.removeEventListener('beforeunload', this.handleBeforeUnload);
+        window.removeEventListener('message',this.handleMessage);
     },
     beforeRouteLeave() {
         this.handleBeforeUnload();

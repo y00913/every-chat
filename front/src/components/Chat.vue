@@ -104,7 +104,8 @@ export default {
   name: 'App',
   data() {
     return {
-      url: process.env.VUE_APP_SERVER_URL,
+      serverUrl: process.env.VUE_APP_SERVER_URL,
+      clientUrl: process.env.VUE_APP_CLIENT_URL,
       sender: localStorage.getItem('sender') || "",
       message: "",
       receiveList: [],
@@ -136,7 +137,7 @@ export default {
     await this.connect();
     this.sendEnter();
 
-    this.openerReload();
+    this.openerEnter();
   },
   methods: {
     // eslint-disable-next-line
@@ -185,6 +186,7 @@ export default {
         this.stompClient.send("/pub/chat", JSON.stringify(msg), {})
       }
 
+      this.openerLeave();
       this.isLeave = true
     },
     async connect() {
@@ -196,7 +198,7 @@ export default {
         try {
           this.isConnecting = true;
 
-          const serverURL = this.url + "/ws";
+          const serverURL = this.serverUrl + "/ws";
           const socket = new SockJS(serverURL);
           const options = { debug: false, protocols: ['v11.stomp', 'v12.stomp'] };
           this.stompClient = Stomp.over(socket, options);
@@ -250,7 +252,7 @@ export default {
     },
     async checkLockVerify() {
       try {
-        const response = await axios.get(this.url + "/api/channel/lock/" + this.channelId);
+        const response = await axios.get(this.serverUrl + "/api/channel/lock/" + this.channelId);
         if (!response.data.data) {
           alert('비밀번호를 입력해주세요.');
           window.close();
@@ -264,7 +266,7 @@ export default {
       }
     },
     async getMessage() {
-      const response = await axios.get(this.url + "/api/message/" + this.channelId + "/" + this.messagePage);
+      const response = await axios.get(this.serverUrl + "/api/message/" + this.channelId + "/" + this.messagePage);
 
       this.previousList.push(...response.data.data.messageList.reverse());
       this.messagePage++;
@@ -275,7 +277,6 @@ export default {
       }
     },
     exitRoom() {
-      this.openerReload();
       window.close();
     },
     formatDate(dateString) {
@@ -338,9 +339,22 @@ export default {
     keepFocus(e) {
       e.target.focus();
     },
-    openerReload(){
+    openerEnter(){
       if (window.opener) {
-        window.opener.location.reload();
+        const message = {
+          type: 'updateChannelCount',
+          channelId: this.channelId,
+        };
+        window.opener.postMessage(message, this.clientUrl);
+      }
+    },
+    openerLeave(){
+      if (window.opener) {
+        const message = {
+          type: "leaveChannelCount",
+          channelId: this.channelId,
+        };
+        window.opener.postMessage(message, this.clientUrl);
       }
     }
   },
