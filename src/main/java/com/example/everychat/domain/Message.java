@@ -2,6 +2,7 @@ package com.example.everychat.domain;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.Transient;
 import lombok.*;
 
 import java.time.LocalDateTime;

@@ -246,7 +246,7 @@ export default {
                 return;
             }
 
-            this.getRoom(0);
+            await this.getRoom(0);
             this.handleDeletePop();
         },
         handleDeletePop() {
@@ -258,9 +258,9 @@ export default {
             this.roomId = roomId;
             this.roomName = roomName;
         },
-        enterRoom(channelId, channelName, isLock) {
+        enterRoom(roomId, roomName, isLock) {
             if (!isLock) {
-                this.$router.push({ name: 'Chat', params: { channelId: channelId, channelName: channelName } });
+              this.openPopup(roomName, roomId)
             }
         },
         async checkRoomPw() {
@@ -282,10 +282,11 @@ export default {
                 return;
             }
 
-            this.$router.push({ name: 'Chat', params: { channelId: this.roomId, channelName: this.roomName } });
+            this.enterState = false;
+            this.openPopup(this.roomName, this.roomId)
         },
         handleEnterPop() {
-            this.enterState = !this.enterState;
+            this.enterState = false;
             this.enterFail = false;
             this.initData();
         },
@@ -371,8 +372,19 @@ export default {
         handleEnter(item) {
             this.handleEnterPop();
             this.getRoomInfo(item.id, item.channelName);
-            this.enterRoom(item.id, item.channelName, item.isLock);
+
+            if (item.isLock) {
+              this.enterState = true;
+            } else {
+              this.enterRoom(item.id, item.channelName, item.isLock);
+            }
         },
+        openPopup(roomName, roomId) {
+          const url = `${window.location.origin}/chat/${roomName}/${roomId}`;
+          const windowName = this.roomName;
+          const specs = "width=400,height=660,toolbar=no,location=no";
+          window.open(url, windowName, specs);
+        }
     },
     computed: {
         visiblePages() {

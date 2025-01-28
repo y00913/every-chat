@@ -1,11 +1,9 @@
 <template>
-  <Header></Header>
-
-  <main>
+  <Header v-if="showHeader" />
+  <main :class="{ 'chat-main': $route.name === 'Chat' }">
     <router-view />
   </main>
-
-  <Footer></Footer>
+  <Footer v-if="showFooter" />
 </template>
 
 <script>
@@ -33,6 +31,14 @@ export default {
   },
   mounted() {
     this.checkMobileView();
+  },
+  computed: {
+    showHeader() {
+      return this.$route.name !== 'Chat';
+    },
+    showFooter() {
+      return this.$route.name !== 'Chat';
+    },
   }
 }
 </script>
@@ -117,6 +123,11 @@ textarea::placeholder {
 button.textarea-button {
   border: none;
 }
+
+.chat-main {
+  height: 100vh;
+}
+
 
 @media (max-width: 767px) {
   button {

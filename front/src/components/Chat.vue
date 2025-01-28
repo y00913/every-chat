@@ -134,7 +134,9 @@ export default {
 
     await this.getMessage();
     await this.connect();
-    this.sendEnter()
+    this.sendEnter();
+
+    this.openerReload();
   },
   methods: {
     // eslint-disable-next-line
@@ -251,7 +253,7 @@ export default {
         const response = await axios.get(this.url + "/api/channel/lock/" + this.channelId);
         if (!response.data.data) {
           alert('비밀번호를 입력해주세요.');
-          window.location.href = process.env.VUE_APP_CLIENT_URL;
+          window.close();
           return false;
         }
         return true;
@@ -273,7 +275,8 @@ export default {
       }
     },
     exitRoom() {
-      this.$router.go(-1);
+      this.openerReload();
+      window.close();
     },
     formatDate(dateString) {
       const date = new Date(dateString);
@@ -335,6 +338,11 @@ export default {
     keepFocus(e) {
       e.target.focus();
     },
+    openerReload(){
+      if (window.opener) {
+        window.opener.location.reload();
+      }
+    }
   },
   mounted() {
     this.isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
@@ -375,7 +383,7 @@ export default {
 .chat-list {
   max-width: 1000px;
   width: 100%;
-  height: 55vh;
+  height: 84vh;
   display: flex;
   flex-direction: column-reverse;
 }
@@ -387,7 +395,7 @@ export default {
 }
 
 .chat-form {
-  width: 50vw;
+  width: 100vw;
   min-width: 300px;
   max-height: 600px;
 }
@@ -431,9 +439,9 @@ button.textarea-button {
 
 @media (max-width: 767px) {
   .chat-list {
-    height: 71vh;
+    height: 77vh;
   }
-  
+
   .chat-img {
     max-width: 100px;
     max-height: 100px;

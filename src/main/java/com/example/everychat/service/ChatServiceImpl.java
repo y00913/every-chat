@@ -12,6 +12,7 @@ import com.example.everychat.repository.ChannelRepository;
 import com.example.everychat.repository.MessageRepository;
 import com.example.everychat.util.AesUtil;
 import com.example.everychat.dto.ChannelDto;
+import com.example.everychat.util.ClientUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
@@ -69,7 +71,6 @@ public class ChatServiceImpl implements ChatService {
             channel.setMemberCount(memberCount != null ? memberCount : 0);
         });
 
-        // PagingChannelDto 빌드
         return PagingChannelDto.builder()
                 .channelList(channelPage.getContent())
                 .pageNumber(channelPage.getNumber())
@@ -142,12 +143,11 @@ public class ChatServiceImpl implements ChatService {
             String ip = message.getIp();
             message.setIp(ip.substring(0, ip.indexOf('.', 5)));
         });
-        PagingMessageDto pagingMessageDto = PagingMessageDto.builder()
+        return PagingMessageDto.builder()
                 .messageList(messagePage.getContent().stream().sorted(Comparator.comparing(Message::getCreateAt)).collect(Collectors.toList()))
                 .pageNumber(messagePage.getNumber())
                 .pageSize(messagePage.getTotalPages())
                 .build();
-        return pagingMessageDto;
     }
 
     @Transactional(readOnly = true)
