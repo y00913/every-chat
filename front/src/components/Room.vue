@@ -106,11 +106,11 @@
         </tr>
     </div>
 
-    <table style="height:6.5vh;">
+    <table style="height:6.5vh; user-select: none;">
         <tr style="width:1000px;">
             <td class="previous-button">
-                <button v-show="!(pageNum === 0) && !(roomList.length === 0)"
-                    @click="search ? getRoomByName(pageNum - 1) : getRoom(pageNum - 1)">&lt;</button>
+                <a v-show="!(pageNum === 0) && !(roomList.length === 0)" style="cursor: pointer;"
+                    @click="search ? getRoomByName(pageNum - 1) : getRoom(pageNum - 1)">이전</a>
             </td>
             <td v-for="idx in visiblePages" :key="idx" style="width:50px;">
                 <p style="margin-top: 15px; cursor: pointer;" 
@@ -120,8 +120,8 @@
                 </p>
             </td>
             <td class="next-button">
-                <button v-show="!(pageNum === pageSize - 1) && !(roomList.length === 0)"
-                    @click="search ? getRoomByName(pageNum + 1) : getRoom(pageNum + 1)">></button>
+                <a v-show="!(pageNum === pageSize - 1) && !(roomList.length === 0)" style="cursor: pointer;"
+                    @click="search ? getRoomByName(pageNum + 1) : getRoom(pageNum + 1)">다음</a>
             </td>
         </tr>
     </table>
