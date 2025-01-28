@@ -76,7 +76,7 @@ button {
   color: #444444;
   background: #F3F3F3;
   border: 2px #DADADA solid;
-  padding: 8px 20px;
+  padding: 8px 14px 6px 14px;
   border-radius: 1em;
   font-weight: bold;
   outline: none;
