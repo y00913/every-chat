@@ -189,6 +189,7 @@ public class ChatServiceImpl implements ChatService {
 
         if(pw.equals(AesUtil.decrypt(channel.getPw()))) {
             channel.setDeleteAt(LocalDateTime.now());
+            sendDelete(channelId);
             return true;
         } else {
             return false;
@@ -211,6 +212,17 @@ public class ChatServiceImpl implements ChatService {
                 .channelId(channelId)
                 .type("count")
                 .message(memberCount.get(channelId).toString())
+                .createAt(LocalDateTime.now())
+                .build();
+        Thread.sleep(100);
+        simpMessageSendingOperations.convertAndSend("/topic/" + channelId, message);
+    }
+
+    private void sendDelete(String channelId) throws InterruptedException {
+        Message message = Message.builder().id(UUID.randomUUID().toString())
+                .channelId(channelId)
+                .type("delete")
+                .message("channel delete")
                 .createAt(LocalDateTime.now())
                 .build();
         Thread.sleep(100);

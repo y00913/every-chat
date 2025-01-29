@@ -77,8 +77,8 @@ public class ChatController {
         return getResponseMessage(StatusEnum.OK, "비밀번호 세션 확인 유무", check);
     }
 
-    @GetMapping("/channel")
-    public Object checkExistName(@RequestParam String name) {
+    @GetMapping("/channel/name/{name}")
+    public Object checkExistName(@PathVariable String name) {
         Object data = chatService.checkExistName(name);
 
         return getResponseMessage(StatusEnum.OK, "방 이름 존재 유무", data);

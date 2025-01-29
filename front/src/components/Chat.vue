@@ -39,7 +39,7 @@
 
       <hr>
 
-      <div class="scrollbar chat-list" ref="messages">
+      <div v-show="!isDelete" class="scrollbar chat-list" ref="messages">
         <div v-for="(item, idx) in receiveList" :key="idx" class="receive-chatting">
           <div :class="{ 'blue': item.type === 'enter', 'red': item.type === 'leave' }">
           <div class="chat-date">
@@ -73,6 +73,10 @@
         </div>
       </div>
 
+      <div v-show="isDelete" class="chat-list" style="color: red;">
+        방이 삭제되었습니다.
+      </div>
+
       <hr>
 
       <div class="chat-div">
@@ -85,10 +89,12 @@
               placeholder="메시지 입력" 
               rows="1" 
               @keydown="handleKeyDown" 
-              @blur="keepFocus" 
+              @blur="keepFocus"
+              :disabled="isDelete"
+              autofocus
               required>
             </textarea>
-            <button type="submit" class="textarea-button">입력</button>
+            <button type="submit" class="textarea-button" :disabled="isDelete">입력</button>
           </div>
         </form>
       </div>
@@ -125,6 +131,7 @@ export default {
       retryCount: 0,
       maxRetries: 5,
       isMobile: false,
+      isDelete: false,
     }
   },
   async created() {
@@ -218,6 +225,8 @@ export default {
 
                   if (response.type === "count") {
                     this.roomCount = response.message;
+                  } else if (response.type === "delete") {
+                    this.isDelete = true;
                   } else {
                     this.receiveList.unshift(response);
                   }
@@ -326,8 +335,7 @@ export default {
         return `
           <br>
           <iframe 
-            src="https://www.youtube.com/embed/${videoId}" 
-            frameborder="0" 
+            src="https://www.youtube.com/embed/${videoId}"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
             allowfullscreen
             class="youtube-iframe">
@@ -449,6 +457,7 @@ button.textarea-button {
   height: auto;
   aspect-ratio: 16 / 9;
   max-width: 450px;
+  border: none;
 }
 
 @media (max-width: 767px) {

@@ -230,6 +230,8 @@ export default {
             } else {
                 this.enterRoom(data.id, data.channelName, false);
             }
+            this.handleCreatePop()
+            window.location.reload();
         },
         async deleteRoom() {
             if (this.pw === "") return;
