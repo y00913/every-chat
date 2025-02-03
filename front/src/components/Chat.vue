@@ -135,7 +135,7 @@ export default {
     }
   },
   async created() {
-    const isVerified = this.checkLockVerify();
+    const isVerified = await this.checkLockVerify();
     if (!isVerified) return;
 
     this.senderState = !this.sender;
@@ -264,7 +264,7 @@ export default {
         const response = await axios.get(this.serverUrl + "/api/channel/lock/" + this.channelId);
         if (!response.data.data) {
           alert('비밀번호를 입력해주세요.');
-          window.close();
+          this.windowClose();
           return false;
         }
         return true;
@@ -286,7 +286,7 @@ export default {
       }
     },
     exitRoom() {
-      window.close();
+      this.windowClose();
     },
     formatDate(dateString) {
       const date = new Date(dateString);
@@ -363,6 +363,13 @@ export default {
           channelId: this.channelId,
         };
         window.opener.postMessage(message, this.clientUrl);
+      }
+    },
+    windowClose(){
+      if (window.opener) {
+        window.close();
+      } else {
+        this.$router.go(-1);
       }
     }
   },
