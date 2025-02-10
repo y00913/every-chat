@@ -3,7 +3,12 @@
       <div class="white-bg">
         <form v-on:submit.prevent="handlePop">
           <p>닉네임을 입력해주세요.</p>
-          <input :spellcheck="false" v-model="sender" type="text" autofocus placeholder="닉네임" required>
+          <input 
+            :spellcheck="false"
+            v-model="sender" type="text" 
+            :autofocus="sender == ''"
+            placeholder="닉네임" 
+            required>
           <p></p>
           <button @click="sendEnter" v-on:keyup.enter="submit">확인</button>
         </form>
@@ -91,7 +96,7 @@
               @keydown="handleKeyDown" 
               @blur="keepFocus"
               :disabled="isDelete"
-              autofocus
+              :autofocus="sender !== ''"
               required>
             </textarea>
             <button type="submit" class="textarea-button" :disabled="isDelete">입력</button>
