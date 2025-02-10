@@ -47,31 +47,38 @@
       <div v-show="!isDelete" class="scrollbar chat-list" ref="messages">
         <div v-for="(item, idx) in receiveList" :key="idx" class="receive-chatting">
           <div :class="{ 'blue': item.type === 'enter', 'red': item.type === 'leave' }">
-          <div class="chat-date">
+            <div class="chat-date">
               {{ formatDate(item.createAt) }} 
             </div>
-            {{ item.sender }}
-            <a :class="[item.type === 'enter' ? 'blue' : item.type === 'leave' ? 'red' : 'grey']">
-              ({{ item.ip }})</a>
-            :
-            <a v-dompurify-html="formatMessage(item.message)" class="message-content"></a>
+
+            <div>
+              <a>{{ item.sender }}</a>
+              <a :class="[item.type === 'enter' ? 'blue' : item.type === 'leave' ? 'red' : 'grey']">
+                ({{ item.ip }})</a>
+              :
+              <a v-dompurify-html="formatMessage(item.message)" class="message-content"></a>
+            </div>
           </div>
         </div>
 
-        <div v-for="(item, idx) in previousList" :key="idx" class="previous-chatting" ref="previous-chatting">
-          <div class="chat-date">
-            {{ formatDate(item.createAt) }} 
-          </div>
+        <div v-for="(item, idx) in previousList" :key="idx" class="receive-chatting" ref="previous-chatting">
           <div>
-            {{ item.sender }} ({{ item.ip }})
-            : 
-            <a v-dompurify-html="formatMessage(item.message)" class="message-content"></a>
+            <div class="chat-date">
+              {{ formatDate(item.createAt) }}
+            </div>
+
+            <div>
+              <a>{{ item.sender }}</a>
+              <a>({{ item.ip }})</a>
+              :
+              <a v-dompurify-html="formatMessage(item.message)" class="message-content"></a>
+            </div>
           </div>
         </div>
 
         <div v-show="!isEnd">
           <button @click="getMessage">지난 채팅 더보기</button>
-        </div>        
+        </div>
 
         <div v-show="!this.connected" style="color: red;">
           연결이 해제되었습니다.
@@ -137,6 +144,7 @@ export default {
       maxRetries: 5,
       isMobile: false,
       isDelete: false,
+      ip: "",
     }
   },
   async created() {
@@ -376,7 +384,7 @@ export default {
       } else {
         this.$router.go(-1);
       }
-    }
+    },
   },
   mounted() {
     this.isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
@@ -397,13 +405,27 @@ export default {
 @import "../assets/css/BlackBg.css";
 @import "../assets/css/WhiteBg.css";
 
-.previous-chatting {
-  margin: 12px;
-  color: #acaaaa;
+.receive-chatting {
+  display: flex;
+  justify-content: flex-start; /* 왼쪽 정렬 */
+  margin: 12px 12px 10px;
 }
 
-.receive-chatting {
-  margin: 12px;
+.receive-chatting > div {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* 내부 요소도 왼쪽 정렬 */
+  padding: 10px;
+  background-color: #ffffff;
+  border-radius: 10px; /* 타원형 효과 */
+  max-width: 100%;
+  word-break: break-word; /* 긴 단어 줄바꿈 */
+}
+
+.chat-date {
+  font-size: 12px;
+  color: #666;
+  margin-bottom: 5px;
 }
 
 .blue {
@@ -455,6 +477,7 @@ button.textarea-button {
 
 .message-content {
   word-wrap: break-word;
+  white-space: pre-wrap;
 }
 
 .chat-img {
