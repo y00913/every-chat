@@ -12,7 +12,6 @@ import com.example.everychat.repository.ChannelRepository;
 import com.example.everychat.repository.MessageRepository;
 import com.example.everychat.util.AesUtil;
 import com.example.everychat.dto.ChannelDto;
-import com.example.everychat.util.ClientUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -24,10 +23,10 @@ import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
@@ -95,7 +94,7 @@ public class ChatServiceImpl implements ChatService {
 
         channelRepository.save(channel);
 
-        if(channel.getIsLock()){
+        if (channel.getIsLock()) {
             ChannelLock channelLock = ChannelLock.builder()
                     .channelId(channel.getId())
                     .lockPw(AesUtil.encrypt(channelDto.getLockPw()))
@@ -110,18 +109,19 @@ public class ChatServiceImpl implements ChatService {
     @Transactional
     @Override
     public void sendMessage(MessageDto messageDto) {
-        if(messageDto.getType().equals(MessageTypeEnum.MESSAGE.getLabel())) {
+        if (messageDto.getType().equals(MessageTypeEnum.MESSAGE.getLabel())) {
             Message message = Message.builder().id(UUID.randomUUID().toString())
-                .channelId(messageDto.getChannelId())
-                .type(messageDto.getType())
-                .sender(messageDto.getSender())
-                .message(messageDto.getMessage())
-                .ip(messageDto.getIp())
-                .createAt(messageDto.getCreateAt())
-                .build();
+                    .channelId(messageDto.getChannelId())
+                    .type(messageDto.getType())
+                    .sender(messageDto.getSender())
+                    .message(messageDto.getMessage())
+                    .ip(messageDto.getIp())
+                    .uuid(messageDto.getUuid())
+                    .createAt(messageDto.getCreateAt())
+                    .build();
 
             messageRepository.save(message);
-        } else if(messageDto.getType().equals(MessageTypeEnum.ENTER.getLabel())) {
+        } else if (messageDto.getType().equals(MessageTypeEnum.ENTER.getLabel())) {
 //            log.info("channelId : {}", messageDto.getChannelId());
 //            log.info("enter : {}", messageDto.getSender());
         } else {
@@ -137,7 +137,7 @@ public class ChatServiceImpl implements ChatService {
 
     @Transactional(readOnly = true)
     @Override
-    public Object getMessagePaging(String channelId, int page){
+    public Object getMessagePaging(String channelId, int page) {
         Page<Message> messagePage = messageRepository.findAllByChannelIdOrderByCreateAtDesc(channelId, PageRequest.of(page, 20));
         messagePage.stream().forEach(message -> {
             String ip = message.getIp();
@@ -155,7 +155,7 @@ public class ChatServiceImpl implements ChatService {
     public boolean checkLockPw(String channelId, String lockPw) throws Exception {
         ChannelLock channelLock = channelLockRepository.findById(channelId).orElseThrow(() -> new IllegalArgumentException("channelLock doesn't exist"));
 
-        if(lockPw.equals(AesUtil.decrypt(channelLock.getLockPw()))) {
+        if (lockPw.equals(AesUtil.decrypt(channelLock.getLockPw()))) {
             HttpSession session = request.getSession();
 
             String attributeName = "channelLockSuccess_" + channelId;
@@ -170,14 +170,14 @@ public class ChatServiceImpl implements ChatService {
     public boolean checkLockVerify(String channelId) {
         Channel channel = channelRepository.findById(channelId).orElseThrow(() -> new IllegalArgumentException("channel doesn't exist"));
 
-        if(!channel.getIsLock()) return true;
+        if (!channel.getIsLock()) return true;
 
         HttpSession session = request.getSession();
 
         String attributeName = "channelLockSuccess_" + channelId;
         Object passwordChecked = session.getAttribute(attributeName);
 
-        if(passwordChecked == null) return false;
+        if (passwordChecked == null) return false;
 
         return Boolean.parseBoolean(passwordChecked.toString());
     }
@@ -187,7 +187,7 @@ public class ChatServiceImpl implements ChatService {
     public boolean deleteRoom(String channelId, String pw) throws Exception {
         Channel channel = channelRepository.findById(channelId).orElseThrow(() -> new IllegalArgumentException("channel doesn't exist"));
 
-        if(pw.equals(AesUtil.decrypt(channel.getPw()))) {
+        if (pw.equals(AesUtil.decrypt(channel.getPw()))) {
             channel.setDeleteAt(LocalDateTime.now());
             sendDelete(channelId);
             return true;
@@ -232,6 +232,12 @@ public class ChatServiceImpl implements ChatService {
     @Transactional(readOnly = true)
     public boolean checkExistName(String name) {
         return channelRepository.existsByChannelName(name);
+    }
+
+    @Override
+    public String getUuid(String ip) {
+        UUID uuid = UUID.nameUUIDFromBytes(ip.getBytes(StandardCharsets.UTF_8));
+        return uuid.toString();
     }
 
 }

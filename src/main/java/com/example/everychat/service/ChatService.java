@@ -17,5 +17,6 @@ public interface ChatService {
     void subtractCount(String channelId);
     void sendCount(String channelId) throws InterruptedException;
     boolean checkExistName(String name);
+    String getUuid(String ip);
 
 }

@@ -21,5 +21,6 @@ public class Message {
     private String channelId;
     private String message;
     private String ip;
+    private String uuid;
     private LocalDateTime createAt;
 }
