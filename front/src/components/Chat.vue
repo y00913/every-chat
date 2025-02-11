@@ -51,7 +51,7 @@
             class="chatting"
             :class="{'my-chatting': item.uuid === uuid, 'receive-chatting': item.uuid !== uuid}"
         >
-          <div :class="{ 'blue': item.type === 'enter', 'red': item.type === 'leave' }">
+          <div>
             <div v-if="item.uuid !== uuid  && item.uuid !== receiveList[idx + 1]?.uuid" class="chatting-sender">
               <a> {{ item.sender }} </a>
               &nbsp;
@@ -64,7 +64,7 @@
               <div class="chat-date">
                 {{ formatDate(item.createAt) }}
               </div>
-              <a v-dompurify-html="formatMessage(item.message)" class="message-content"></a>
+              <a v-dompurify-html="formatMessage(item.message)" class="message-content" :class="{ 'blue': item.type === 'enter', 'red': item.type === 'leave' }"></a>
             </div>
           </div>
         </div>
