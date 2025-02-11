@@ -45,32 +45,50 @@
       <hr>
 
       <div v-show="!isDelete" class="scrollbar chat-list" ref="messages">
-        <div v-for="(item, idx) in receiveList" :key="idx" class="receive-chatting">
+        <div
+            v-for="(item, idx) in receiveList"
+            :key="idx"
+            class="chatting"
+            :class="{'my-chatting': item.uuid === uuid, 'receive-chatting': item.uuid !== uuid}"
+        >
           <div :class="{ 'blue': item.type === 'enter', 'red': item.type === 'leave' }">
-            <div class="chat-date">
-              {{ formatDate(item.createAt) }} 
+            <div v-if="item.uuid !== uuid  && item.uuid !== receiveList[idx + 1]?.uuid" class="chatting-sender">
+              <a> {{ item.sender }} </a>
+              &nbsp;
+              <a style="font-size: 12px;">({{ item.ip }})</a>
             </div>
-
-            <div>
-              <a>{{ item.sender }}</a>
-              <a :class="[item.type === 'enter' ? 'blue' : item.type === 'leave' ? 'red' : 'grey']">
-                ({{ item.ip }})</a>
-              :
+            <div
+                class="chatting-content"
+                :class="{'my-chatting-content': item.uuid === uuid,'receive-chatting-content': item.uuid !== uuid}"
+            >
+              <div class="chat-date">
+                {{ formatDate(item.createAt) }}
+              </div>
               <a v-dompurify-html="formatMessage(item.message)" class="message-content"></a>
             </div>
           </div>
         </div>
 
-        <div v-for="(item, idx) in previousList" :key="idx" class="receive-chatting" ref="previous-chatting">
+        <div
+            v-for="(item, idx) in previousList"
+            :key="idx"
+            class="chatting"
+            :class="{'my-chatting': item.uuid === uuid, 'receive-chatting': item.uuid !== uuid}"
+            ref="previous-chatting"
+        >
           <div>
-            <div class="chat-date">
-              {{ formatDate(item.createAt) }}
+            <div v-if="item.uuid !== uuid && item.uuid !== previousList[idx + 1]?.uuid" class="chatting-sender">
+              <a> {{ item.sender }} </a>
+              &nbsp;
+              <a style="font-size: 12px;"> ({{ item.ip }}) </a>
             </div>
-
-            <div>
-              <a>{{ item.sender }}</a>
-              <a>({{ item.ip }})</a>
-              :
+            <div
+                class="chatting-content"
+                :class="{'my-chatting-content': item.uuid === uuid,'receive-chatting-content': item.uuid !== uuid}"
+            >
+              <div class="chat-date">
+                {{ formatDate(item.createAt) }}
+              </div>
               <a v-dompurify-html="formatMessage(item.message)" class="message-content"></a>
             </div>
           </div>
@@ -144,7 +162,7 @@ export default {
       maxRetries: 5,
       isMobile: false,
       isDelete: false,
-      ip: "",
+      uuid: "",
     }
   },
   async created() {
@@ -153,6 +171,7 @@ export default {
 
     this.senderState = !this.sender;
 
+    await this.getIp();
     await this.getMessage();
     await this.connect();
     this.sendEnter();
@@ -174,6 +193,7 @@ export default {
           type: "message",
           sender: this.sender,
           message: this.message,
+          uuid: this.uuid
         };
         this.stompClient.send("/pub/chat", JSON.stringify(msg), {})
       }
@@ -189,6 +209,7 @@ export default {
           type: "enter",
           sender: this.sender,
           message: "채팅방에 입장하였습니다.",
+          uuid: this.uuid
         };
         this.stompClient.send("/pub/chat", JSON.stringify(msg), {})
       }
@@ -202,6 +223,7 @@ export default {
           type: "leave",
           sender: this.sender,
           message: "채팅방에서 퇴장하였습니다.",
+          uuid: this.uuid
         };
         this.stompClient.send("/pub/chat", JSON.stringify(msg), {})
       }
@@ -385,6 +407,10 @@ export default {
         this.$router.go(-1);
       }
     },
+    async getIp(){
+      const response = await axios.get(this.serverUrl + "/api/uuid");
+      this.uuid = response.data.data;
+    }
   },
   mounted() {
     this.isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
@@ -399,27 +425,50 @@ export default {
   }
 }
 </script>
-  
+
 <style>
 @import "../assets/css/MainBox.css";
 @import "../assets/css/BlackBg.css";
 @import "../assets/css/WhiteBg.css";
 
-.receive-chatting {
+.chatting-sender {
   display: flex;
-  justify-content: flex-start; /* 왼쪽 정렬 */
-  margin: 12px 12px 10px;
+  padding: 10px 4px 4px 4px;
+  align-items: baseline;
 }
 
-.receive-chatting > div {
+.chatting {
+  display: flex;
+  margin: 12px 12px 2px;
+}
+
+.chatting .chatting-content {
   display: flex;
   flex-direction: column;
-  align-items: flex-start; /* 내부 요소도 왼쪽 정렬 */
   padding: 10px;
-  background-color: #ffffff;
-  border-radius: 10px; /* 타원형 효과 */
+  border-radius: 10px;
   max-width: 100%;
-  word-break: break-word; /* 긴 단어 줄바꿈 */
+  word-break: break-word;
+}
+
+.receive-chatting {
+  justify-content: flex-start;
+}
+
+.receive-chatting .receive-chatting-content {
+  align-items: flex-start;
+  background-color: #f8f9fa;
+}
+
+.my-chatting {
+  display: flex;
+  justify-content: flex-end;
+  margin: 12px 12px 0;
+}
+
+.my-chatting .my-chatting-content {
+  align-items: flex-end;
+  background-color: #f8f9fa;
 }
 
 .chat-date {

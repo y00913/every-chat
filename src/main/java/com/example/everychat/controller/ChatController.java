@@ -4,6 +4,8 @@ import com.example.everychat.dto.MessageDto;
 import com.example.everychat.enums.StatusEnum;
 import com.example.everychat.service.ChatService;
 import com.example.everychat.dto.ChannelDto;
+import com.example.everychat.util.ClientUtil;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -82,6 +84,13 @@ public class ChatController {
         Object data = chatService.checkExistName(name);
 
         return getResponseMessage(StatusEnum.OK, "방 이름 존재 유무", data);
+    }
+
+    @GetMapping("/uuid")
+    public Object getUuid(HttpServletRequest request) {
+        String ip = ClientUtil.getIp(request);
+        String uuid = chatService.getUuid(ip);
+        return getResponseMessage(StatusEnum.OK, "클라이언트 uuid", uuid);
     }
 
 }
