@@ -46,9 +46,9 @@ export default {
 <style>
 #app {
   font-family: 'mabi';
-  width: 100vw;
+  width: 100dvw;
   height: auto;
-  min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   flex-direction: column;
   justify-content: center;
