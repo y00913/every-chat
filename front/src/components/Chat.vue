@@ -121,7 +121,6 @@
               @keydown="handleKeyDown" 
               @blur="keepFocus"
               :disabled="isDelete"
-              :autofocus="sender !== ''"
               required>
             </textarea>
             <button type="submit" class="textarea-button" :disabled="isDelete">입력</button>

@@ -87,13 +87,16 @@
                     {{ formatDate(item.createAt) }}
                 </td>
                 <td class="room-title">
-                    <a v-show="item.isLock">
-                        <img style="width:20px; height:20px; margin:-5px 3px -5px -5px;"
-                        src="@/assets/img/lock.png"  alt="lock"/>
-                    </a>
                     <a>
                         {{ item.channelName }}
                     </a>
+                    <a v-if="item.hasNewChat" class="new-chatting">
+                      NEW
+                    </a>
+                    <span v-show="item.isLock">
+                      <img style="width:20px; height:20px; margin:-5px -5px -5px 3px;"
+                           src="@/assets/img/lock.png"  alt="lock"/>
+                    </span>
                 </td>
                 <td style="width:100px;">
                     {{ item.memberCount }} 명
@@ -523,6 +526,13 @@ li {
 
 .next-button {
     width: 200px;
+}
+
+.new-chatting {
+  padding: 0px;
+  font-size: 15px;
+  font-weight: bold;
+  color: red;
 }
 
 @media (max-width: 767px) {

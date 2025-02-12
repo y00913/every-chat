@@ -25,4 +25,7 @@ public class Channel {
 
     @Transient
     private Integer memberCount;
+
+    @Transient
+    private Boolean hasNewChat;
 }

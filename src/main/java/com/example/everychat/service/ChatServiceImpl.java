@@ -68,6 +68,7 @@ public class ChatServiceImpl implements ChatService {
         channels.forEach(channel -> {
             Integer memberCount = getCount(channel.getId());
             channel.setMemberCount(memberCount != null ? memberCount : 0);
+            channel.setHasNewChat(hasNewChat(channel.getId()));
         });
 
         return PagingChannelDto.builder()
@@ -79,6 +80,10 @@ public class ChatServiceImpl implements ChatService {
 
     private Integer getCount(String channelId) {
         return memberCount.get(channelId);
+    }
+
+    private Boolean hasNewChat(String channelId) {
+        return messageRepository.existsRecentChat(channelId);
     }
 
     @Transactional

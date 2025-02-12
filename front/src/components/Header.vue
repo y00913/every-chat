@@ -58,7 +58,7 @@ header {
 @media (max-width: 767px) {
     header {
         padding: 0 0 3.3vh 0;
-        font-size: 1.1em;
+        font-size: 0.9em;
     }
 
     h1 {
