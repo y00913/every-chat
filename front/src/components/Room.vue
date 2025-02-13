@@ -163,6 +163,7 @@ export default {
             roomNameError: false,
             senderError: false,
             isMobile: localStorage.getItem('isMobile') === 'true',
+            categoryId: 1
         }
     },
     created() {
@@ -173,7 +174,7 @@ export default {
         async getRoom(pageNumber) {
             this.pageNum = pageNumber;
             localStorage.setItem('pageNum', pageNumber);
-            const response = await axios.get(this.serverUrl + "/api/channel/" + pageNumber);
+            const response = await axios.get(this.serverUrl + "/api/channel/" + this.categoryId + "/" + pageNumber);
             this.pageSize = response.data.data.pageSize;
 
             this.roomList = [];
@@ -189,7 +190,7 @@ export default {
             }
 
             this.pageNum = pageNumber;
-            const response = await axios.get(this.serverUrl + "/api/channel/" + this.searchName + "/" + pageNumber);
+            const response = await axios.get(this.serverUrl + "/api/channel/" + this.categoryId + "/" + this.searchName + "/" + pageNumber);
             this.pageSize = response.data.data.pageSize;
 
             this.search = true;

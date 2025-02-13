@@ -20,6 +20,7 @@ public class Channel {
     private String ip;
     private String pw;
     private Boolean isLock;
+    private Long categoryId;
     private LocalDateTime createAt;
     private LocalDateTime deleteAt;
 

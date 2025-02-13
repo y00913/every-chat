@@ -29,14 +29,14 @@ public class ChatController {
         chatService.sendMessage(messageDto);
     }
 
-    @GetMapping("/channel/{page}")
-    public Object getChannelList(@PathVariable int page){
+    @GetMapping("/channel/{categoryId}/{page}")
+    public Object getChannelList(@PathVariable Long categoryId, @PathVariable int page){
         Object data = chatService.getChannelList(page);
         return getResponseMessage(StatusEnum.OK, "채널 리스트", data);
     }
 
-    @GetMapping("/channel/{searchName}/{page}")
-    public Object getChannelListByName(@PathVariable String searchName, @PathVariable int page) {
+    @GetMapping("/channel/{categoryId}/{searchName}/{page}")
+    public Object getChannelListByName(@PathVariable Long categoryId, @PathVariable String searchName, @PathVariable int page) {
         Object data = chatService.getChannelListByName(searchName, page);
         return getResponseMessage(StatusEnum.OK, "채널 검색 리스트", data);
     }
